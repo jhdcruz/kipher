@@ -12,7 +12,7 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * Encryption and Decryption with AES/GCM/NoPadding
  */
-open class AESGCMEncryption : EncryptionInterface {
+open class AesGcmEncryption : EncryptionInterface {
     private val secureRandom = SecureRandom()
 
     /**

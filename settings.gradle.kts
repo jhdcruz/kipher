@@ -1,3 +1,1 @@
-
-rootProject.name = "AESGCMEncryption"
-
+rootProject.name = "aes-gcm-encryption"
