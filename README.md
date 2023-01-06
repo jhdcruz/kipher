@@ -4,15 +4,22 @@ A simple library helper for encrypting and decrypting data in Java/Kotlin.
 
 **Features:**
 
-- AES/GCM/NoPadding
+- AES/GCM/NoPadding `AesGcmEncryption`
 
 ## Docs
 
-Docs are generated using [Dokka](https://github.com/Kotlin/dokka) and can be found [here]().
+Docs are generated using [Dokka](https://github.com/Kotlin/dokka) and can be
+found [here](https://jhdcruz.github.io/enkryption/).
 
 ## Usage
 
-TODO
+> WIP
+
+The library is usually separated into 3 methods; and should be relatively straightforward to use.
+
+- `encrypt()`
+- `decrypt()`
+- `generateKey()`
 
 ## License
 
