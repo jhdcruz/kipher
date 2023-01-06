@@ -1,30 +1,39 @@
 package aes
 
 import interfaces.AesEncryptionInterface
-
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
 import java.security.SecureRandom
 import java.security.spec.AlgorithmParameterSpec
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
+
+// Constants
+private const val ALGORITHM = "AES"
+private const val GCM_IV_LENGTH = 12
+private const val GCM_KEY_LENGTH = 16
+private const val AES_KEY_SIZE = 128
+private const val AES_MODE = "AES/GCM/NoPadding"
+
 /**
- * Encryption and Decryption with AES/GCM/NoPadding
+ * Encryption and Decryption with AES (Advanced Encryption Standard)
+ * with Galois/Counter Mode (GCM)
  */
 class AesGcmEncryption : AesEncryptionInterface {
     private val secureRandom = SecureRandom()
 
     /**
      * This generates a random byte array of 16 bytes
-     * Specifically used for generating a random key for AES encryption
+     * Specifically used for generating a random key
      *
      * @return random 16 byte array
      */
-    override fun generateSecretKey(): ByteArray {
-        val key = ByteArray(GCM_TAG_LENGTH)
+    override fun generateIv(): ByteArray {
+        val key = ByteArray(GCM_KEY_LENGTH)
         secureRandom.nextBytes(key)
 
         return key
@@ -45,13 +54,13 @@ class AesGcmEncryption : AesEncryptionInterface {
 
             val cipher = Cipher.getInstance(AES_MODE)
             val parameterSpec = GCMParameterSpec(AES_KEY_SIZE, iv)
-            val secretKeySpec = SecretKeySpec(secretKey, ALGORITHM)
+            val keySpec = SecretKeySpec(secretKey, ALGORITHM)
 
-            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, parameterSpec)
-
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
             val cipherText = cipher.doFinal(plaintext.toByteArray(StandardCharsets.UTF_8))
-            val byteBuffer = ByteBuffer.allocate(iv.size + cipherText.size)
 
+            // concatenate iv and cipher text
+            val byteBuffer = ByteBuffer.allocate(iv.size + cipherText.size)
             byteBuffer.put(iv)
             byteBuffer.put(cipherText)
             byteBuffer.array()
@@ -73,7 +82,9 @@ class AesGcmEncryption : AesEncryptionInterface {
 
             // use first 12 bytes for iv
             val gcmIv: AlgorithmParameterSpec = GCMParameterSpec(AES_KEY_SIZE, cipherText, 0, GCM_IV_LENGTH)
-            cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(secretKey, ALGORITHM), gcmIv)
+            val keySpec = SecretKeySpec(secretKey, ALGORITHM)
+
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
 
             // Use everything from 12 bytes on as ciphertext
             val plainText = cipher.doFinal(cipherText, GCM_IV_LENGTH, cipherText.size - GCM_IV_LENGTH)
@@ -82,14 +93,5 @@ class AesGcmEncryption : AesEncryptionInterface {
         } catch (e: GeneralSecurityException) {
             throw RuntimeException(e)
         }
-    }
-
-    companion object {
-        private const val GCM_IV_LENGTH = 12
-        private const val GCM_TAG_LENGTH = 16
-
-        private const val ALGORITHM = "AES"
-        private const val AES_KEY_SIZE = 256
-        private const val AES_MODE = "AES/GCM/NoPadding"
     }
 }
