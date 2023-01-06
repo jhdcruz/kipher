@@ -40,7 +40,7 @@ tasks.javadoc {
 
 publishing {
     publications {
-        create<MavenPublication>("mavenJava") {
+        create<MavenPublication>("maven") {
             afterEvaluate {
                 artifactId = tasks.jar.get().archiveBaseName.get()
             }
@@ -87,11 +87,16 @@ publishing {
 
     repositories {
         maven {
-            url = uri("${buildDir}/publishing-repository")
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/jhdcruz/AESGCMEncryption")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
     }
 }
 
 signing {
-    sign(publishing.publications["mavenJava"])
+    sign(publishing.publications["maven"])
 }
