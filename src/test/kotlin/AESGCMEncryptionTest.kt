@@ -5,7 +5,7 @@ internal class AESGCMEncryptionTest {
     @Test
     fun `test key bytes generation`() {
         val aesgcmEncryption = AESGCMEncryption()
-        val keyBytes = aesgcmEncryption.generateKeyBytes()
+        val keyBytes = aesgcmEncryption.generateSecretKey()
 
         assertEquals(16, keyBytes.size)
     }
@@ -13,7 +13,7 @@ internal class AESGCMEncryptionTest {
     @Test
     fun `test encryption`() {
         val aesgcmEncryption = AESGCMEncryption()
-        val secretKey = aesgcmEncryption.generateKeyBytes()
+        val secretKey = aesgcmEncryption.generateSecretKey()
 
         val message = "admin"
         val cipherText = aesgcmEncryption.encrypt(message, secretKey)
@@ -24,7 +24,7 @@ internal class AESGCMEncryptionTest {
     @Test
     fun `test decryption`() {
         val aesgcmEncryption = AESGCMEncryption()
-        val secretKey = aesgcmEncryption.generateKeyBytes()
+        val secretKey = aesgcmEncryption.generateSecretKey()
 
         val message = "admin"
         val cipherText = aesgcmEncryption.encrypt(message, secretKey)

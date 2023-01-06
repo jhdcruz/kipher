@@ -21,7 +21,7 @@ open class AESGCMEncryption : EncryptionInterface {
      *
      * @return random 16 byte array
      */
-    override fun generateKeyBytes(): ByteArray {
+    override fun generateSecretKey(): ByteArray {
         val key = ByteArray(16)
         secureRandom.nextBytes(key)
 
@@ -37,12 +37,12 @@ open class AESGCMEncryption : EncryptionInterface {
     @Throws(RuntimeException::class)
     override fun encrypt(plaintext: String, secretKey: ByteArray): ByteArray {
         return try {
-            // NEVER REUSE THIS IV WITH SAME KEY
+            // never reuse This iv with same key
             val iv = ByteArray(GCM_IV_LENGTH)
             secureRandom.nextBytes(iv)
 
             val cipher = Cipher.getInstance(ALGORITHM)
-            val parameterSpec = GCMParameterSpec(128, iv) //128 bit auth tag length
+            val parameterSpec = GCMParameterSpec(128, iv)
             cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(secretKey, "AES"), parameterSpec)
 
             val cipherText = cipher.doFinal(plaintext.toByteArray(StandardCharsets.UTF_8))
