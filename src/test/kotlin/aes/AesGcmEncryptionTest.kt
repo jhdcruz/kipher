@@ -1,6 +1,7 @@
 package aes
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -45,5 +46,30 @@ internal class AesGcmEncryptionTest {
         val decrypted = aesGcmEncryption.decrypt(cipherText, metadata, secretKey)
 
         assertEquals(message, String(decrypted, Charsets.UTF_8))
+    }
+
+    @Test
+    fun `test invalid secret key on encryption`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val message = "admin"
+
+        assertThrows<RuntimeException> {
+            aesGcmEncryption.encrypt(message, "invalid-secret-key".encodeToByteArray())
+        }
+
+    }
+
+    @Test
+    fun `test invalid secret key on decryption`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val secretKey = aesGcmEncryption.generateKey()
+
+        val message = "admin"
+        val cipherText = aesGcmEncryption.encrypt(message, secretKey)
+
+        assertThrows<RuntimeException> {
+            aesGcmEncryption.decrypt(cipherText, "invalid-secret-key".encodeToByteArray())
+        }
+
     }
 }
