@@ -4,6 +4,13 @@ on:
   push:
     branches:
       - main
+  tags-ignore:
+    - '*'
+  paths-ignore:
+    - '*.md'
+    - '*.txt'
+    - '.gitignore'
+    - '.editorconfig'
 
 jobs:
   build:
