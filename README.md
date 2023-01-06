@@ -1,66 +1,25 @@
-# aes-gcm-encryption
+# Enkryption
 
-A simple library for encrypting and decrypting data using AES/GCM/NoPadding.
+A simple library helper for encrypting and decrypting data in Java/Kotlin.
+
+**Features:**
+
+- AES/GCM/NoPadding
+
+## Docs
+
+Docs are generated using [Dokka](https://github.com/Kotlin/dokka) and can be found [here]().
 
 ## Usage
 
-Using the library is as simple as importing (.jar) and instantiating it.
+TODO
 
-The library only has 3 methods:
+## License
 
-- `encrypt` - Encrypts a string
-- `decrypt` - Decrypts a string
-- `generateSecretKey` - Generates a secret key (for decryption)
-
-> **Java/JVM 17+ is required to use this library.**
-
-### Encrypting
-
-- Java:
-
-  ```java
-  // ...
-  String data = "sample data";
-  bytes[] secretKey = encryptionUtils.generateSecretKey();
-  
-  bytes[] encryptedData = new EncryptionUtils.encrypt(data, secretKey)
-  ```
-
-- Kotlin:
-
-  ```kotlin
-  // ...
-  val data = "sample data"
-  val secretKey = encryptionUtils.generateSecretKey()
-  
-  val encryptedData = encryptionUtils.encrypt(data, secretKey)
-  ```
-
-### Decrypting
-
-- Java:
-
-  ```java
-  // ...
-  bytes[] secretKey = resultSet.getBytes("secret_key");
-  bytes[] passwordHash = resultSet.getBytes("password");
-  
-  String decryptedPass = new EncryptionUtils.decrypt(passwordHash, secretKey);
-  // ...
-  ```
-
-- Kotlin:
-
-  ```kotlin
-  // ...
-  val secretKey: ByteArray = resultSet.getBytes("secret_key")
-  val passwordHash: ByteArray = resultSet.getBytes("password")
-  
-  val decryptedPass = encryptionUtils.decrypt(passwordHash, secretKey)
-  // ...
-  ```
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details
 
 ## Acknowledgements
 
 - [Java Authenticated Encryption with AES and GCM by *Patrick
-  Favre-Bulle*](https://gist.github.com/patrickfav/6e28d4eb4bf500f7ee8012c4a0cf7bbf)
+  Favre-Bulle*](https://gist.github.com/patrickfav/7e28d4eb4bf500f7ee8012c4a0cf7bbf)
+- [Security Best Practices: Symmetric Encryption with AES in Java and Android](https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9)
