@@ -12,6 +12,8 @@ The library only has 3 methods:
 - `decrypt` - Decrypts a string
 - `generateSecretKey` - Generates a secret key (for decryption)
 
+> **Java 17+ is required to use this library.**
+
 ### Encrypting
 
 - Java:
@@ -61,4 +63,4 @@ The library only has 3 methods:
 ## Acknowledgements
 
 - [Java Authenticated Encryption with AES and GCM by *Patrick
-Favre-Bulle*](https://gist.github.com/patrickfav/6e28d4eb4bf500f7ee8012c4a0cf7bbf)
+  Favre-Bulle*](https://gist.github.com/patrickfav/6e28d4eb4bf500f7ee8012c4a0cf7bbf)
