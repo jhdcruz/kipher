@@ -23,20 +23,23 @@ jobs:
           settings-path: ${{ github.workspace }}
 
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: build
 
       - name: Create release
         uses: softprops/action-gh-release@master
         if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: build/libs/*.jar
+          name: ${{ github.ref }}
+          generate_release_notes: true
 
-      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
-      # the publishing section of your build.gradle
       - name: Publish to GitHub Packages
-        uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: publish
         env:
           USERNAME: ${{ github.actor }}
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
