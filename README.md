@@ -1,10 +1,10 @@
-# AESGCMEncryption
+# aes-gcm-encryption
 
 A simple library for encrypting and decrypting data using AES/GCM/NoPadding.
 
 ## Usage
 
-Using the library is as simple as importing and instantiating it.
+Using the library is as simple as importing (.jar) and instantiating it.
 
 The library only has 3 methods:
 
@@ -12,7 +12,7 @@ The library only has 3 methods:
 - `decrypt` - Decrypts a string
 - `generateSecretKey` - Generates a secret key (for decryption)
 
-> **Java 17+ is required to use this library.**
+> **Java/JVM 17+ is required to use this library.**
 
 ### Encrypting
 
