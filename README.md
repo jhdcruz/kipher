@@ -36,7 +36,7 @@ The library only has 3 methods:
   val encryptedData = encryptionUtils.encrypt(data, secretKey)
   ```
 
-## Decrypting
+### Decrypting
 
 - Java:
 
