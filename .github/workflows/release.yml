@@ -33,12 +33,3 @@ jobs:
         with:
           files: build/libs/*.jar
           generate_release_notes: true
-
-      - name: Publish to GitHub Packages
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: publish
-        env:
-          USERNAME: ${{ github.actor }}
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

@@ -8,7 +8,7 @@ plugins {
     signing
 }
 
-group = "io.jhdcruz"
+group = "io.github.jhdcruz"
 version = "1.0.0"
 
 java {
@@ -57,7 +57,7 @@ publishing {
             }
 
             pom {
-                name.set("AES-GCM Encryption")
+                name.set(project.group.toString() + ":" + artifactId)
                 description.set("A simple library for encrypting and decrypting data using AES/GCM/NoPadding.")
                 url.set("https://github.com/jhdcruz/aes-gcm-encryption")
 
@@ -110,8 +110,6 @@ publishing {
 }
 
 signing {
-    setRequired(
-        useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSWORD"))
-    )
+    useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSWORD"))
     sign(publishing.publications["maven"])
 }
