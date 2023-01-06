@@ -27,7 +27,7 @@ jobs:
       - name: Set up Java JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
-          java-version: [ ${ matrix.java } ]
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
