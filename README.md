@@ -2,14 +2,14 @@
 
 A simple library helper for encrypting and decrypting data in Java/Kotlin.
 
+**Features:**
+
+- AES/GCM/NoPadding > `AesGcmEncryption()`
+
 > **Disclaimer:**
 >
 > I am not a security expert/guru, this library is primarily made for convenience and productivity.
-> If you found a security issue, please see [](./SECURITY.md).
-
-**Features:**
-
-- AES/GCM/NoPadding (`AesGcmEncryption()`)
+> If you found a security issue, please see [reporting a security issue](./SECURITY.md).
 
 ## Usage
 
