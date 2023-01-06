@@ -39,4 +39,5 @@ jobs:
       - name: Upload coverage reports (codecov)
         uses: codecov/codecov-action@v3
         with:
+          token: ${{ secrets.CODECOV_TOKEN }}
           files: build/reports/kover/xml/report.xml
