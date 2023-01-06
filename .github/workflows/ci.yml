@@ -4,41 +4,42 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'src/*'
     tags-ignore:
       - '*'
-    paths-ignore:
-      - '*.md'
-      - '*.txt'
-      - '.gitignore'
-      - '.editorconfig'
+  pull_request:
+    types: [ opened, synchronize, reopened ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ '8', '11', '17' ]
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 17
+        with:
+          fetch-depth: 0
+
+      - name: Set up Java JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: [ ${ { matrix.java } } ]
           distribution: 'temurin'
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Build with Gradle
+      - name: Build with Analyze
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build koverReport
+          arguments: build koverReport sonarqube --info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-      - name: Upload build reports
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-reports
-          path: build/reports/
-
-      - name: Upload coverage reports
+      - name: Upload coverage reports (codecov)
         uses: codecov/codecov-action@v3
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
           files: build/reports/kover/xml/report.xml

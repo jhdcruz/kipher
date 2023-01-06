@@ -2,6 +2,7 @@ plugins {
     kotlin("jvm") version "1.8.0"
     id("org.jetbrains.dokka") version "1.7.20"
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.sonarqube") version "3.5.0.2730"
     `java-library`
     `maven-publish`
     signing
@@ -34,6 +35,14 @@ tasks.test {
 tasks.javadoc {
     if (JavaVersion.current().isJava9Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "jhdcruz_enkryption")
+        property("sonar.organization", "jhdcruz")
+        property("sonar.host.url", "https://sonarcloud.io")
     }
 }
 
