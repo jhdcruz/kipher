@@ -29,7 +29,7 @@ jobs:
       - name: Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build --scan
+          arguments: build koverReport
 
       - name: Upload build reports
         uses: actions/upload-artifact@v3
@@ -37,3 +37,7 @@ jobs:
           name: build-reports
           path: build/reports/
 
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v2
+        with:
+          files: build/reports/test/report.xml
