@@ -1,9 +1,9 @@
 package interfaces
 
 internal interface AesEncryptionInterface {
-    fun generateIv(): ByteArray
+    fun generateKey(): ByteArray
 
-    fun encrypt(plaintext: String, secretKey: ByteArray): ByteArray
+    fun encrypt(data: String, key: ByteArray): ByteArray
 
-    fun decrypt(cipherText: ByteArray, secretKey: ByteArray): String
+    fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray
 }
