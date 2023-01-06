@@ -2,14 +2,24 @@ package aes
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 internal class AesGcmEncryptionTest {
     @Test
-    fun `test key bytes generation`() {
+    fun `test key generation`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val keyBytes = aesGcmEncryption.generateKey()
+        val key = aesGcmEncryption.generateKey()
 
-        assertEquals(16, keyBytes.size)
+        assertEquals(16, key.size)
+    }
+
+    @Test
+    fun `test key randomization`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val firstKey = aesGcmEncryption.generateKey()
+        val secondKey = aesGcmEncryption.generateKey()
+
+        assertNotEquals(firstKey, secondKey)
     }
 
     @Test
@@ -19,18 +29,20 @@ internal class AesGcmEncryptionTest {
 
         val message = "admin"
         val cipherText = aesGcmEncryption.encrypt(message, secretKey)
+        val decrypted = aesGcmEncryption.decrypt(cipherText, secretKey)
 
-        assertEquals(33, cipherText.size)
+        assertEquals(message, String(decrypted, Charsets.UTF_8))
     }
 
     @Test
-    fun `test decryption`() {
+    fun `test encryption with metadata`() {
         val aesGcmEncryption = AesGcmEncryption()
         val secretKey = aesGcmEncryption.generateKey()
 
         val message = "admin"
-        val cipherText = aesGcmEncryption.encrypt(message, secretKey)
-        val decrypted = aesGcmEncryption.decrypt(cipherText, secretKey)
+        val metadata = "metadata".encodeToByteArray()
+        val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
+        val decrypted = aesGcmEncryption.decrypt(cipherText, metadata, secretKey)
 
         assertEquals(message, String(decrypted, Charsets.UTF_8))
     }

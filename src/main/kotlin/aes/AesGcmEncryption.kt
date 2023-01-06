@@ -18,7 +18,10 @@ private const val AES_KEY_SIZE = 128
 private const val AES_MODE = "AES/GCM/NoPadding"
 
 /**
- * Encryption using AES/GCM/NoPadding
+ * Encryption using AES/GCM/NoPadding with optional metadata verification.
+ *
+ * To support most use-cases, all returned data are raw [ByteArray]s.
+ *
  */
 class AesGcmEncryption : AesEncryptionInterface {
     private val secureRandom = SecureRandom()
@@ -70,6 +73,43 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
+     * Encrypts the provided string and metadata.
+     *
+     * @param data data to encrypt
+     * @param metadata metadata to encrypt with
+     * @param key  secret key to encrypt with
+     * @return encrypted message
+     *
+     * @throws RuntimeException if encryption fails
+     */
+    @Throws(RuntimeException::class)
+    override fun encrypt(data: String, metadata: ByteArray, key: ByteArray): ByteArray {
+        return try {
+            // never reuse this iv with same key
+            val iv = ByteArray(GCM_IV_LENGTH)
+            secureRandom.nextBytes(iv)
+
+            val cipher = Cipher.getInstance(AES_MODE)
+            val parameterSpec = GCMParameterSpec(AES_KEY_SIZE, iv)
+            val keySpec = SecretKeySpec(key, ALGORITHM)
+
+            cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
+
+            // encrypt data along with the metadata
+            cipher.updateAAD(metadata)
+            val cipherText = cipher.doFinal(data.toByteArray(StandardCharsets.UTF_8))
+
+            // concatenate iv and cipher text
+            val byteBuffer = ByteBuffer.allocate(iv.size + cipherText.size)
+            byteBuffer.put(iv)
+            byteBuffer.put(cipherText)
+            byteBuffer.array()
+        } catch (e: GeneralSecurityException) {
+            throw RuntimeException(e)
+        }
+    }
+
+    /**
      * Decrypts encrypted message.
      *
      * @param encrypted message/data to be decrypted
@@ -91,7 +131,36 @@ class AesGcmEncryption : AesEncryptionInterface {
 
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
+        } catch (e: GeneralSecurityException) {
+            throw RuntimeException(e)
+        }
+    }
 
+    /**
+     * Decrypts encrypted message with integrity verification.
+     *
+     * @param encrypted message/data to be decrypted
+     * @param key       secret key used to encrypt
+     * @return original plaintext
+     *
+     * @throws RuntimeException if decryption fails, usually due to invalid/mismatched key
+     */
+    @Throws(RuntimeException::class)
+    override fun decrypt(encrypted: ByteArray, metadata: ByteArray, key: ByteArray): ByteArray {
+        return try {
+            val cipher = Cipher.getInstance(AES_MODE)
+
+            // use first 12 bytes for IV
+            val gcmIv: AlgorithmParameterSpec = GCMParameterSpec(AES_KEY_SIZE, encrypted, 0, GCM_IV_LENGTH)
+            val keySpec = SecretKeySpec(key, ALGORITHM)
+
+            cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+
+            // check if metadata is correct/matches
+            cipher.updateAAD(metadata)
+
+            // Use everything from 12 bytes on as ciphertext
+            cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
             throw RuntimeException(e)
         }
