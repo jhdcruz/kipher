@@ -1,10 +1,10 @@
 import kotlin.test.assertEquals
 import org.junit.jupiter.api.Test
 
-internal class AesGcmEncryptionTest {
+internal class GcmAesEncryptionTest {
     @Test
     fun `test key bytes generation`() {
-        val aesgcmEncryption = AesGcmEncryption()
+        val aesgcmEncryption = GcmAesEncryption()
         val keyBytes = aesgcmEncryption.generateSecretKey()
 
         assertEquals(16, keyBytes.size)
@@ -12,7 +12,7 @@ internal class AesGcmEncryptionTest {
 
     @Test
     fun `test encryption`() {
-        val aesgcmEncryption = AesGcmEncryption()
+        val aesgcmEncryption = GcmAesEncryption()
         val secretKey = aesgcmEncryption.generateSecretKey()
 
         val message = "admin"
@@ -23,7 +23,7 @@ internal class AesGcmEncryptionTest {
 
     @Test
     fun `test decryption`() {
-        val aesgcmEncryption = AesGcmEncryption()
+        val aesgcmEncryption = GcmAesEncryption()
         val secretKey = aesgcmEncryption.generateSecretKey()
 
         val message = "admin"

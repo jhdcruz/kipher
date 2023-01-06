@@ -57,19 +57,19 @@ publishing {
             }
 
             pom {
-                name.set(project.group.toString() + ":" + artifactId)
-                description.set("A simple library for encrypting and decrypting data using AES/GCM/NoPadding.")
-                url.set("https://github.com/jhdcruz/aes-gcm-encryption")
+                name.set("AES Encryption")
+                description.set("A simple library for encrypting and decrypting data using AES Algorithm.")
+                url.set("https://github.com/jhdcruz/aes-encryption")
 
                 issueManagement {
                     system.set("GitHub")
-                    url.set("https://github.com/Vampire/command-framework/issues")
+                    url.set("https://github.com/jhdcruz/aes-encryption/issues")
                 }
 
                 licenses {
                     license {
                         name.set("MIT License")
-                        url.set("https://github.com/jhdcruz/aes-gcm-encryption/blob/main/LICENSE.txt")
+                        url.set("https://github.com/jhdcruz/aes-encryption/blob/main/LICENSE.txt")
                     }
                 }
 
@@ -84,13 +84,13 @@ publishing {
                 }
 
                 distributionManagement {
-                    downloadUrl.set("https://github.com/jhdcrz/aes-gcm-encryption/releases")
+                    downloadUrl.set("https://github.com/jhdcrz/aes-encryption/releases")
                 }
 
                 scm {
-                    connection.set("scm:git:git@github.com:jhdcruz/aes-gcm-encryption.git")
-                    developerConnection.set("scm:git:git@github.com:jhdcruz/aes-gcm-encryption.git")
-                    url.set("https://github.com/jhdcruz/aes-gcm-encryption")
+                    connection.set("scm:git:git@github.com:jhdcruz/aes-encryption.git")
+                    developerConnection.set("scm:git:git@github.com:jhdcruz/aes-encryption.git")
+                    url.set("https://github.com/jhdcruz/aes-encryption")
                 }
             }
         }
@@ -99,7 +99,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/jhdcruz/aes-gcm-encryption")
+            url = uri("https://maven.pkg.github.com/jhdcruz/aes-encryption")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")
