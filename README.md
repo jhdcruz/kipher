@@ -42,6 +42,13 @@ class EncryptionTest {
 
 > Friendly documentation is still a work in progress...
 
+### Compatibility
+
+**This library can be used in both Java 8+ and Kotlin 1.7+ projects.**
+
+However, if you are currently developing in Java/JDK 8, you might need
+[Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
+
 ## Contributing
 
 If you want to contribute to this project, feel free to open an issue or a pull request.
