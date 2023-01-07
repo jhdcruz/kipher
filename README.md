@@ -1,8 +1,8 @@
 # Kipher
 
-A simple library helper for encrypting and decrypting data in Java/Kotlin.
+A simple library for data encryption in Java/Kotlin.
 
-**Features:**
+### Features:
 
 - AES
     - AES/GCM/NoPadding
@@ -13,15 +13,20 @@ helper for encrypting and decrypting data in a straightforward and hassle-free m
 
 See [Usage](#usage).
 
-> **Disclaimer:**
->
-> I am not a security expert/guru, this library is primarily made for convenience and productivity, while adhering
-> as much as possible to strong encryption methods. If you found a security issue,
-> please see [reporting a security issue](./SECURITY.md).
-
 ## Usage
 
-Visit the code documentation [here](https://jhdcruz.github.io/kipher/).
+Unfortunately, The library is not **yet** available in Maven Central.
+
+Here's how you can use it:
+
+- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest), and manually add it
+  to your
+  project. [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
+- You can use [JitPack](https://jitpack.io/) to add the library in your project.
+
+### Kotlin:
+
+Using the library in kotlin is as easy as importing it:
 
 ```kotlin
 import io.github.jhdcruz.kipher.aes.AesGcmEncryption
@@ -32,22 +37,56 @@ class EncryptionTest {
         val data = "sample data"
         val secretKey = encryptionUtils.generateSecretKey()
 
-        val encrypted = encryptionUtils.encrypt(data, secretKey)
-        val decrypted = encryptionUtils.decrypt(encrypted, secretKey)
-        
-        println(decrypted, Charsets.UTF_8) // output: "sample data"
+        val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
+        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
+
+        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
 }
 ```
 
+### Java
+
+Using the library in Java requires a few things that needs to be done first:
+
+1. [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/1.8.0) is required to be
+   added as a dependency.
+
+```java
+import io.github.jhdcruz.kipher.aes.AesGcmEncryption;
+
+class EncryptionTest {
+    public static void main(String[] args) {
+        AesGcmEncryption encryptionUtils = new AesGcmEncryption();
+
+        String data = "sample data";
+        SecretKey secretKey = encryptionUtils.generateSecretKey();
+
+        bytes[] encryptedData = encryptionUtils.encrypt(data, secretKey);
+        bytes[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
+
+        System.out.println(new String(decryptedPass, StandardCharsets.UTF_8)); // outputs "sample data"
+    }
+}
+```
+
+**Note:**
+
+It's very advisable to import only the encryption classes you need:
+
+```kotlin
+import io.github.jhdcruz.kipher.aes.AesGcmEncryption
+```
+
+Instead of doing:
+
+```kotlin
+import io.github.jhdcruz.kipher.*
+```
+
+> Visit the code documentation [here](https://jhdcruz.github.io/kipher/).
+>
 > Friendly documentation is still a work in progress...
-
-### Compatibility
-
-**This library can be used in both Java 8+ and Kotlin 1.7+ projects.**
-
-However, if you are currently developing in Java/JDK 8, you might need
-[Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
 
 ## Contributing
 
@@ -56,3 +95,9 @@ If you want to contribute to this project, feel free to open an issue or a pull 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details
+
+## Disclaimer
+
+I am not a security expert/guru, this library is primarily made for ease-of-use, while implementing strong encryption
+methods as much as possible out-of-the-box. If you found a security issue, please
+see [reporting a security issue](./SECURITY.md).
