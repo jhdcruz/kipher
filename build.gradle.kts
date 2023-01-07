@@ -1,10 +1,10 @@
 plugins {
     kotlin("jvm") version "1.8.0"
     id("org.jetbrains.dokka") version "1.7.20"
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
     id("org.sonarqube") version "3.5.0.2730"
     `java-library`
     `maven-publish`
+    jacoco
     signing
 }
 
@@ -30,6 +30,15 @@ kotlin {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+    }
 }
 
 tasks.javadoc {
