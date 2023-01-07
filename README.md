@@ -16,7 +16,8 @@ See [Usage](#usage).
 > **Disclaimer:**
 >
 > I am not a security expert/guru, this library is primarily made for convenience and productivity, while adhering
-> to strong encryption methods. If you found a security issue, please see [reporting a security issue](./SECURITY.md).
+> as much as possible to strong encryption methods. If you found a security issue,
+> please see [reporting a security issue](./SECURITY.md).
 
 ## Usage
 
@@ -31,8 +32,10 @@ class EncryptionTest {
         val data = "sample data"
         val secretKey = encryptionUtils.generateSecretKey()
 
-        val encryptedData = encryptionUtils.encrypt(data, secretKey)
-        val decryptedPass = encryptionUtils.decrypt(passwordHash, secretKey)
+        val encrypted = encryptionUtils.encrypt(data, secretKey)
+        val decrypted = encryptionUtils.decrypt(encrypted, secretKey)
+        
+        println(decrypted, Charsets.UTF_8) // output: "sample data"
     }
 }
 ```
