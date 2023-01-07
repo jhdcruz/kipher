@@ -5,6 +5,12 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+      - '**.json'
+      - '.gitignore'
+      - '.editorconfig'
   pull_request:
     types: [ opened, synchronize, reopened ]
 

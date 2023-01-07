@@ -7,6 +7,11 @@ on:
     paths-ignore:
       - ".github/*"
       - "./gradle/*"
+      - '**.md'
+      - '**.txt'
+      - '**.json'
+      - '.gitignore'
+      - '.editorconfig'
 
 permissions:
   contents: read
