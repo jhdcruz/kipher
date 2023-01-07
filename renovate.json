@@ -16,12 +16,11 @@
       "stabilityDays": 3,
       "automerge": true
     },
-      "commitMessagePrefix": "gradle:"
-    },
   ],
   "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
   },
   "dependencyDashboard": false
+  "commitMessagePrefix": "gradle:"
 }
