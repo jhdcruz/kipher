@@ -2,6 +2,9 @@
 
 A simple library helper for encrypting and decrypting data in Java/Kotlin.
 
+The goal of this library is to provide an abstraction layer for encrypting and decrypting data in Java/Kotlin. It is a
+helper for encrypting and decrypting data in a simple way.
+
 **Features:**
 
 - AES/GCM/NoPadding > `AesGcmEncryption()`
