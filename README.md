@@ -70,9 +70,15 @@ class EncryptionTest {
 }
 ```
 
-**Note:**
+#### Compatibility
 
-It's very advisable to import only the encryption classes you need:
+The library is compatible with Java 8+. **However**, if your project uses JDK 8, you might need
+[Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
+for the library to function properly.
+
+### Importing
+
+It is very advisable to import only the encryption class/es you need:
 
 ```kotlin
 import io.github.jhdcruz.kipher.aes.AesGcmEncryption
