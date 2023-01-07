@@ -1,6 +1,7 @@
 package interfaces
 
 internal interface AesEncryptionInterface {
+    fun generateIv(): ByteArray
     fun generateKey(): ByteArray
 
     fun encrypt(data: String, key: ByteArray): ByteArray

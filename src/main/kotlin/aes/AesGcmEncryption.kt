@@ -5,8 +5,8 @@ import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
 import java.security.SecureRandom
-import java.security.spec.AlgorithmParameterSpec
 import javax.crypto.Cipher
+import javax.crypto.KeyGenerator
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
@@ -14,29 +14,44 @@ import javax.crypto.spec.SecretKeySpec
 private const val ALGORITHM = "AES"
 private const val GCM_IV_LENGTH = 12
 private const val GCM_KEY_LENGTH = 16
-private const val AES_KEY_SIZE = 128
+private const val AES_KEY_SIZE = 256
 private const val AES_MODE = "AES/GCM/NoPadding"
 
 /**
  * Encryption using AES/GCM/NoPadding with optional metadata verification.
  *
- * To support most use-cases, all returned data are raw [ByteArray]s.
+ * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
  *
+ * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  */
 class AesGcmEncryption : AesEncryptionInterface {
     private val secureRandom = SecureRandom()
+    private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
+
+    init {
+        keyGenerator.init(AES_KEY_SIZE, secureRandom)
+    }
 
     /**
-     * This generates a random byte array of 16 bytes
-     * Specifically used for generating a random key
+     * Generate a random byte array of 12 bytes
+     * used for generating a random IV
      *
-     * @return random 16 byte array
+     * @return random 12 byte array
+     */
+    override fun generateIv(): ByteArray {
+        val iv = ByteArray(GCM_IV_LENGTH)
+        secureRandom.nextBytes(iv)
+
+        return iv
+    }
+
+    /**
+     * Generate a secret key
+     *
+     * @return secret key as [ByteArray]
      */
     override fun generateKey(): ByteArray {
-        val key = ByteArray(GCM_KEY_LENGTH)
-        secureRandom.nextBytes(key)
-
-        return key
+        return keyGenerator.generateKey().encoded
     }
 
     /**
@@ -51,12 +66,11 @@ class AesGcmEncryption : AesEncryptionInterface {
     @Throws(RuntimeException::class)
     override fun encrypt(data: String, key: ByteArray): ByteArray {
         return try {
-            // never reuse this iv with same key
-            val iv = ByteArray(GCM_IV_LENGTH)
-            secureRandom.nextBytes(iv)
+            // randomize iv for each encryption
+            val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(AES_KEY_SIZE, iv)
+            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * 8, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -85,12 +99,11 @@ class AesGcmEncryption : AesEncryptionInterface {
     @Throws(RuntimeException::class)
     override fun encrypt(data: String, metadata: ByteArray, key: ByteArray): ByteArray {
         return try {
-            // never reuse this iv with same key
-            val iv = ByteArray(GCM_IV_LENGTH)
-            secureRandom.nextBytes(iv)
+            // randomize iv for each encryption
+            val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(AES_KEY_SIZE, iv)
+            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * 8, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -124,7 +137,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for iv
-            val gcmIv: AlgorithmParameterSpec = GCMParameterSpec(AES_KEY_SIZE, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * 8, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
@@ -151,7 +164,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for IV
-            val gcmIv: AlgorithmParameterSpec = GCMParameterSpec(AES_KEY_SIZE, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * 8, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)

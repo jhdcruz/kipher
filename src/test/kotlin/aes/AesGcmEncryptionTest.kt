@@ -11,7 +11,7 @@ internal class AesGcmEncryptionTest {
         val aesGcmEncryption = AesGcmEncryption()
         val key = aesGcmEncryption.generateKey()
 
-        assertEquals(16, key.size)
+        assertEquals(32, key.size)
     }
 
     @Test
@@ -21,6 +21,23 @@ internal class AesGcmEncryptionTest {
         val secondKey = aesGcmEncryption.generateKey()
 
         assertNotEquals(firstKey, secondKey)
+    }
+
+    @Test
+    fun `test iv generation`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val iv = aesGcmEncryption.generateIv()
+
+        assertEquals(12, iv.size)
+    }
+
+    @Test
+    fun `test iv randomization`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val iv = aesGcmEncryption.generateIv()
+        val iv2 = aesGcmEncryption.generateIv()
+
+        assertNotEquals(iv, iv2)
     }
 
     @Test
@@ -49,7 +66,22 @@ internal class AesGcmEncryptionTest {
     }
 
     @Test
-    fun `test invalid secret key on encryption`() {
+    fun `test encryption with wrong metadata`() {
+        val aesGcmEncryption = AesGcmEncryption()
+        val secretKey = aesGcmEncryption.generateKey()
+
+        val message = "admin"
+        val metadata = "metadata".encodeToByteArray()
+        val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
+
+        assertThrows<RuntimeException> {
+            aesGcmEncryption.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
+        }
+
+    }
+
+    @Test
+    fun `test encryption with invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
         val message = "admin"
 
@@ -60,7 +92,7 @@ internal class AesGcmEncryptionTest {
     }
 
     @Test
-    fun `test invalid secret key on decryption`() {
+    fun `test decryption with invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
         val secretKey = aesGcmEncryption.generateKey()
 
