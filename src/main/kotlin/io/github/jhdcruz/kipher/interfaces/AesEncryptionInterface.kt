@@ -1,4 +1,4 @@
-package interfaces
+package io.github.jhdcruz.kipher.interfaces
 
 internal interface AesEncryptionInterface {
     fun generateIv(): ByteArray

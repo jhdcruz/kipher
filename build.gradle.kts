@@ -49,7 +49,7 @@ tasks.javadoc {
 
 sonarqube {
     properties {
-        property("sonar.projectKey", "jhdcruz_enkryption")
+        property("sonar.projectKey", "jhdcruz_kipher")
         property("sonar.organization", "jhdcruz")
         property("sonar.host.url", "https://sonarcloud.io")
     }
@@ -74,19 +74,19 @@ publishing {
             }
 
             pom {
-                name.set("Enkryption")
+                name.set("Kipher")
                 description.set("A simple library helper for encrypting and decrypting data.")
-                url.set("https://github.com/jhdcruz/enkryption")
+                url.set("https://github.com/jhdcruz/kipher")
 
                 issueManagement {
                     system.set("GitHub")
-                    url.set("https://github.com/jhdcruz/enkryption/issues")
+                    url.set("https://github.com/jhdcruz/kipher/issues")
                 }
 
                 licenses {
                     license {
                         name.set("MIT License")
-                        url.set("https://github.com/jhdcruz/enkryption/blob/main/LICENSE.txt")
+                        url.set("https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt")
                     }
                 }
 
@@ -101,13 +101,13 @@ publishing {
                 }
 
                 distributionManagement {
-                    downloadUrl.set("https://github.com/jhdcrz/enkryption/releases")
+                    downloadUrl.set("https://github.com/jhdcruz/kipher/releases")
                 }
 
                 scm {
-                    connection.set("scm:git:git@github.com:jhdcruz/enkryption.git")
-                    developerConnection.set("scm:git:git@github.com:jhdcruz/enkryption.git")
-                    url.set("https://github.com/jhdcruz/enkryption")
+                    connection.set("scm:git:git@github.com:jhdcruz/kipher.git")
+                    developerConnection.set("scm:git:git@github.com:jhdcruz/kipher.git")
+                    url.set("https://github.com/jhdcruz/kipher")
                 }
             }
         }
@@ -116,7 +116,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/jhdcruz/enkryption")
+            url = uri("https://maven.pkg.github.com/jhdcruz/kipher")
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
                 password = System.getenv("GITHUB_TOKEN")

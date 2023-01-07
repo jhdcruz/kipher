@@ -1,4 +1,4 @@
-package aes
+package io.github.jhdcruz.kipher.aes
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows

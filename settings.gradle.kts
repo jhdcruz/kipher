@@ -1,1 +1,1 @@
-rootProject.name = "enkryption"
+rootProject.name = "kipher"

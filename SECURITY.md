@@ -9,9 +9,9 @@ Otherwise, you are on your own.
 
 ## Reporting a Vulnerability
 
-Report a vulnerability by opening an [issue](https://github.com/jhdcruz/enkryption/issues/new/choose),
+Report a vulnerability by opening an [issue](https://github.com/jhdcruz/kipher/issues/new/choose),
 or, if you think the vulnerability is very sensitive, you
-can [submit a security advisory](https://github.com/jhdcruz/enkryption/security/advisories/new) in the security tab.
+can [submit a security advisory](https://github.com/jhdcruz/kipher/security/advisories/new) in the security tab.
 
 **Reporting a vulnerability should at least include the following:**
 

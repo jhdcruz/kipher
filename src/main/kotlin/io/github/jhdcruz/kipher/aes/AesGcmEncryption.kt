@@ -1,6 +1,6 @@
-package aes
+package io.github.jhdcruz.kipher.aes
 
-import interfaces.AesEncryptionInterface
+import io.github.jhdcruz.kipher.interfaces.AesEncryptionInterface
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
