@@ -1,0 +1,27 @@
+{
+  "extends": ["config:base"],
+  "baseBranches": ["main"],
+  "packageRules": [
+    {
+      "updateTypes": ["patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "updateTypes": ["major"],
+      "stabilityDays": 7,
+      "automerge": true
+    },
+    {
+      "updateTypes": ["minor"],
+      "stabilityDays": 3,
+      "automerge": true
+    },
+      "commitMessagePrefix": "gradle:"
+    },
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "dependencyDashboard": false
+}
