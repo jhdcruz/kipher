@@ -5,15 +5,12 @@ dokka = "1.7.20"
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 detekt-formatting = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 detekt-libraries = { id = "io.gitlab.arturbosch.detekt-libraries", version.ref = "detekt" }
 
 [libraries]
-kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
-kotlin-compiler = { module = "org.jetbrains.kotlin:kotlin-compiler-embeddable", version.ref = "kotlin" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-
 dokka = "org.jetbrains.dokka:dokka-gradle-plugin:1.7.20"
