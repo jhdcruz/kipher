@@ -37,7 +37,7 @@ allprojects {
         detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
     }
 
-    tasks.withType<Detekt> detekt@{
+    tasks.withType<Detekt> {
         reports {
             xml.required.set(true)
             html.required.set(true)
@@ -49,11 +49,11 @@ allprojects {
         finalizedBy(detektReportMergeSarif)
 
         detektReportMergeSarif.configure {
-            input.from(this@detekt.sarifReportFile)
+            input.from(this@withType.sarifReportFile)
         }
     }
 
-    tasks.withType<DetektCreateBaselineTask> detekt@{
+    tasks.withType<DetektCreateBaselineTask> {
         jvmTarget = "1.8"
     }
 }
