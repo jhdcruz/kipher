@@ -1,132 +1,58 @@
+import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
+import io.gitlab.arturbosch.detekt.extensions.DetektExtension
+import io.gitlab.arturbosch.detekt.report.ReportMergeTask
+
 plugins {
-    kotlin("jvm") version "1.8.0"
-    id("org.jetbrains.dokka") version "1.7.20"
-    id("org.sonarqube") version "3.5.0.2730"
-    `java-library`
-    `maven-publish`
-    jacoco
-    signing
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.dokka)
 }
 
-group = "io.github.jhdcruz"
-version = "0.1.0"
-
-java {
-    withJavadocJar()
-    withSourcesJar()
+val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
+    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.sarif"))
 }
 
-repositories {
-    mavenCentral()
+tasks.dokkaHtmlMultiModule.configure {
+    outputDirectory.set(buildDir.resolve("dokkaMultiModuleOutput"))
 }
 
-dependencies {
-    testImplementation(kotlin("test"))
-}
+allprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
 
-kotlin {
-    jvmToolchain(17)
-}
+    detekt {
+        source = objects.fileCollection().from(
+            DetektExtension.DEFAULT_SRC_DIR_JAVA,
+            DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
+            DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
+            DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN
+        )
 
-tasks.test {
-    useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)
-}
-
-tasks.jacocoTestReport {
-    dependsOn(tasks.test)
-
-    reports {
-        xml.required.set(true)
+        buildUponDefaultConfig = true
+        baseline = file("$rootDir/config/detekt/baseline.xml")
     }
-}
 
-tasks.javadoc {
-    if (JavaVersion.current().isJava9Compatible) {
-        (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
     }
-}
 
-sonarqube {
-    properties {
-        property("sonar.projectKey", "jhdcruz_kipher")
-        property("sonar.organization", "jhdcruz")
-        property("sonar.host.url", "https://sonarcloud.io")
-    }
-}
+    tasks.withType<Detekt> detekt@{
+        reports {
+            xml.required.set(true)
+            html.required.set(true)
+            sarif.required.set(true)
+        }
 
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            afterEvaluate {
-                artifactId = tasks.jar.get().archiveBaseName.get()
-            }
+        basePath = rootProject.projectDir.absolutePath
+        jvmTarget = "1.8"
+        finalizedBy(detektReportMergeSarif)
 
-            from(components["java"])
-
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionOf("runtimeClasspath")
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
-                }
-            }
-
-            pom {
-                name.set("Kipher")
-                description.set("A simple library helper for encrypting and decrypting data.")
-                url.set("https://github.com/jhdcruz/kipher")
-
-                issueManagement {
-                    system.set("GitHub")
-                    url.set("https://github.com/jhdcruz/kipher/issues")
-                }
-
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("jhdcruz")
-                        name.set("Joshua Hero Dela Cruz")
-                        email.set("jhdcrux@outlook.com")
-                        url.set("https://github.com/jhdcruz")
-                        timezone.set("Asia/Manila")
-                    }
-                }
-
-                distributionManagement {
-                    downloadUrl.set("https://github.com/jhdcruz/kipher/releases")
-                }
-
-                scm {
-                    connection.set("scm:git:git@github.com:jhdcruz/kipher.git")
-                    developerConnection.set("scm:git:git@github.com:jhdcruz/kipher.git")
-                    url.set("https://github.com/jhdcruz/kipher")
-                }
-            }
+        detektReportMergeSarif.configure {
+            input.from(this@detekt.sarifReportFile)
         }
     }
 
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/jhdcruz/kipher")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-
-            }
-        }
+    tasks.withType<DetektCreateBaselineTask> detekt@{
+        jvmTarget = "1.8"
     }
-}
-
-signing {
-    useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSWORD"))
-    sign(publishing.publications["maven"])
 }

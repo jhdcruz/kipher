@@ -1,6 +1,6 @@
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.interfaces.AesEncryptionInterface
+import io.github.jhdcruz.kipher.aes.interfaces.AesEncryptionInterface
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
@@ -14,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec
 private const val ALGORITHM = "AES"
 private const val GCM_IV_LENGTH = 12
 private const val GCM_KEY_LENGTH = 16
+private const val GCM_KEY_ROUND = 8
 private const val AES_KEY_SIZE = 256
 private const val AES_MODE = "AES/GCM/NoPadding"
 
@@ -70,7 +71,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * 8, iv)
+            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -82,7 +83,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw RuntimeException(e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -103,7 +104,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * 8, iv)
+            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -118,7 +119,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw RuntimeException(e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -137,7 +138,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for iv
-            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * 8, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
@@ -145,7 +146,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw RuntimeException(e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -164,7 +165,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for IV
-            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * 8, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
@@ -175,7 +176,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw RuntimeException(e)
+            throw AesEncryptionException(e)
         }
     }
 }

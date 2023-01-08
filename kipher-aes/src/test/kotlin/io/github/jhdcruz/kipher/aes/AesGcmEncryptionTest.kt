@@ -77,7 +77,6 @@ internal class AesGcmEncryptionTest {
         assertThrows<RuntimeException> {
             aesGcmEncryption.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
         }
-
     }
 
     @Test
@@ -88,7 +87,6 @@ internal class AesGcmEncryptionTest {
         assertThrows<RuntimeException> {
             aesGcmEncryption.encrypt(message, "invalid-secret-key".encodeToByteArray())
         }
-
     }
 
     @Test
@@ -102,6 +100,5 @@ internal class AesGcmEncryptionTest {
         assertThrows<RuntimeException> {
             aesGcmEncryption.decrypt(cipherText, "invalid-secret-key".encodeToByteArray())
         }
-
     }
 }

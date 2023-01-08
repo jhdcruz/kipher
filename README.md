@@ -45,7 +45,7 @@ class EncryptionTest {
 }
 ```
 
-### Java
+### Java:
 
 Using the library in Java requires a few things that needs to be done first:
 
@@ -90,7 +90,7 @@ Instead of doing:
 import io.github.jhdcruz.kipher.*
 ```
 
-> Visit the code documentation [here](https://jhdcruz.github.io/kipher/).
+> Visit the API documentation [here](https://jhdcruz.github.io/kipher/).
 >
 > Friendly documentation is still a work in progress...
 

@@ -46,12 +46,12 @@ jobs:
       - name: Dokka build
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: dokkaHtml
+          arguments: dokkaHtmlMultiModule
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './build/dokka/html'
+          path: './build/dokkaMultiModuleOutput'
 
       - name: Deploy to GitHub Pages
         id: deployment
