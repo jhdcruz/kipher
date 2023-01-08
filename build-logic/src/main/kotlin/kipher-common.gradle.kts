@@ -1,17 +1,23 @@
 plugins {
     kotlin("jvm")
+    jacoco
 }
 
 kotlin {
     jvmToolchain(8)
 }
 
-val skipTests: String = System.getProperty("skipTests", "false")
-tasks.withType<Test>().configureEach {
-    if (skipTests == "false") {
-        useJUnitPlatform()
-    } else {
-        logger.warn("Skipping tests for task '$name' as system property 'skipTests=$skipTests'")
+tasks.test {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
     }
 }
 

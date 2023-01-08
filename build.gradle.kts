@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
+    id("jacoco-report-aggregation")
 }
 
 val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
