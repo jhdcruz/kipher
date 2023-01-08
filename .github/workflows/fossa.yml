@@ -1,0 +1,39 @@
+name: fossa
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.gradle.kts'
+      - 'libs.versions.toml'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          server-id: github
+          settings-path: ${{ github.workspace }}
+
+      - name: Test with JDK 17
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: test build
+
+      - name: "FOSSA Scan"
+        uses: fossas/fossa-action@v1
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+
+      - name: "FOSSA Test"
+        uses: fossas/fossa-action@v1
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+          run-tests: true
