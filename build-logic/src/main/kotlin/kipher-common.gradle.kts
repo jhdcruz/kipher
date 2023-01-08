@@ -18,5 +18,3 @@ tasks.withType<Test>().configureEach {
 dependencies {
     testImplementation(kotlin("test"))
 }
-
-addAdditionalJdkVersionTests()

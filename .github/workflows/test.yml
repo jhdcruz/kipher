@@ -23,4 +23,4 @@ jobs:
       - name: Test with JDK ${{ matrix.java }}
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: testOnJdk${{ matrix.java }}
+          arguments: test
