@@ -1,4 +1,6 @@
 # Kipher
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjhdcruz%2Fkipher.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjhdcruz%2Fkipher?ref=badge_shield)
+
 
 A simple library for data encryption in Java/Kotlin.
 
@@ -101,6 +103,9 @@ If you want to contribute to this project, feel free to open an issue or a pull 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjhdcruz%2Fkipher.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjhdcruz%2Fkipher?ref=badge_large)
 
 ## Disclaimer
 
