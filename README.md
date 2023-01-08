@@ -10,12 +10,12 @@ A simple library for data encryption in Java/Kotlin.
     - AES/GCM/NoPadding
 - and more to be implemented...
 
-The goal of this library is to provide an abstraction layer for encrypting and decrypting data in Java/Kotlin. It is a
-helper for encrypting and decrypting data in a straightforward and hassle-free method.
-
-See [Usage](#usage).
+The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data 
+in a straightforward and hassle-free method.
 
 ## Usage
+
+> [API documentation](https://jhdcruz.github.io/kipher/)
 
 Unfortunately, The library is not **yet** available in Maven Central.
 
@@ -24,6 +24,7 @@ Here's how you can use it:
 - Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest), and manually add it
   to your
   project. [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
+
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
 
 ### Kotlin:
@@ -72,29 +73,11 @@ class EncryptionTest {
 }
 ```
 
-#### Compatibility
-
-The library is compatible with Java 8+. **However**, if your project uses JDK 8, you might need
-[Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
-for the library to function properly.
-
-### Importing
-
-It is very advisable to import only the encryption class/es you need:
-
-```kotlin
-import io.github.jhdcruz.kipher.aes.AesGcmEncryption
-```
-
-Instead of doing:
-
-```kotlin
-import io.github.jhdcruz.kipher.*
-```
-
-> Visit the API documentation [here](https://jhdcruz.github.io/kipher/).
+> **Note**
 >
-> Friendly documentation is still a work in progress...
+> If your project uses JDK 8, you might need
+> [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
+> for the library to function properly.
 
 ## Contributing
 
