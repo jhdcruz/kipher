@@ -2,6 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 @Suppress("DSL_SCOPE_VIOLATION") // https://github.com/gradle/gradle/issues/22797
 plugins {
@@ -49,6 +50,7 @@ allprojects {
         jvmTarget = "1.8"
         finalizedBy(detektReportMergeSarif)
 
+        // Merge detekt report into sarif file for CodeQL scanning
         detektReportMergeSarif.configure {
             input.from(this@withType.sarifReportFile)
         }
@@ -56,5 +58,10 @@ allprojects {
 
     tasks.withType<DetektCreateBaselineTask> {
         jvmTarget = "1.8"
+    }
+
+    // Experimental: use kotlin's K2 compiler
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.useK2 = true
     }
 }
