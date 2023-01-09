@@ -12,6 +12,7 @@ on:
       - '**.json'
       - '.gitignore'
       - '.editorconfig'
+      - ".whitesource"
 
 permissions:
   contents: read
