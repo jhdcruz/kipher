@@ -10,12 +10,12 @@ A simple library for data encryption in Java/Kotlin.
     - AES/GCM/NoPadding
 - and more to be implemented...
 
-The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data 
+The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
 in a straightforward and hassle-free method.
 
 ## Usage
 
-> [API documentation](https://jhdcruz.github.io/kipher/)
+> [API documentation](https://jhdcruz.github.io/kipher/) | Project Documentation<sup>(WIP)</sup>
 
 Unfortunately, The library is not **yet** available in Maven Central.
 
@@ -23,9 +23,12 @@ Here's how you can use it:
 
 - Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest), and manually add it
   to your
-  project. [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
+  project. ([Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans))
 
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
+
+- Using the package directly from GitHub
+  Packages. ([Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) | [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package))
 
 ### Kotlin:
 
