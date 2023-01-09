@@ -45,3 +45,8 @@ jobs:
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@main
+        with:
+          sarif_file: build/reports/detekt/merge.sarif
