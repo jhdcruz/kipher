@@ -1,0 +1,29 @@
+'Module | AES':
+  - kiper-aes/**/*
+
+'Module | RSA':
+  - kiper-rsa/**/*
+
+'Module | Build':
+  - kipher-build/**/*
+  - gradle/**/*
+  - ./**/*.gradle.kts
+
+Tests:
+  - ./**/*Test.kt
+
+Documentation:
+  - docs/**/*
+  - ./**/*.md
+
+Tooling | Internal:
+  - gradlew
+  - gradlew.bat
+  - .editorconfig
+
+Tooling | Extensions:
+  - renovate.json
+  - .whitesource
+
+Tooling | Workflow:
+  - .github/**/*
