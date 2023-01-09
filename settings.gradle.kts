@@ -4,7 +4,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    includeBuild("build-logic")
+    includeBuild("kipher-build")
 }
 
 dependencyResolutionManagement {
