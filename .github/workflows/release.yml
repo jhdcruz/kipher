@@ -36,7 +36,7 @@ jobs:
         id: tag_name
         shell: bash
         run: |
-          echo ::set-output name=current_version::${GITHUB_REF#refs/tags/v}
+          echo ::set-output name=current_version::${GITHUB_REF#refs/tags}
 
       - name: Get Changelog Entry
         id: changelog_reader
