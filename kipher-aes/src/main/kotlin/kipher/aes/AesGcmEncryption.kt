@@ -33,11 +33,9 @@ class AesGcmEncryption : AesEncryptionInterface {
         keyGenerator.init(AES_KEY_SIZE, secureRandom)
     }
 
-    /**
+    /*
      * Generate a random byte array of 12 bytes
      * used for generating a random IV
-     *
-     * @return random 12 byte array
      */
     private fun generateIv(): ByteArray {
         val iv = ByteArray(GCM_IV_LENGTH)
