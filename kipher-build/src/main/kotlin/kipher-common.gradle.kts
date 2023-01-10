@@ -15,6 +15,19 @@ tasks.test {
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
 
+    // exclude interfaces from test coverage
+    classDirectories.setFrom(
+        files(
+            classDirectories.files.map {
+                fileTree(it) {
+                    exclude(
+                        "./**/interfaces/**"
+                    )
+                }
+            }
+        )
+    )
+
     reports {
         xml.required.set(true)
         html.required.set(true)
