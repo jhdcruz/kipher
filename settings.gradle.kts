@@ -4,7 +4,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    includeBuild("kipher-build")
+    includeBuild("gradle-common")
 }
 
 dependencyResolutionManagement {
