@@ -4,8 +4,8 @@
 'Module | RSA':
   - kiper-rsa/**/*
 
-'Module | Build':
-  - kipher-build/**/*
+'Module | Gradle':
+  - gradle-common/**/*
   - gradle/**/*
   - ./**/*.gradle.kts
 
