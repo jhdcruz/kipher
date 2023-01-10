@@ -39,7 +39,7 @@ class AesGcmEncryption : AesEncryptionInterface {
      *
      * @return random 12 byte array
      */
-    override fun generateIv(): ByteArray {
+    private fun generateIv(): ByteArray {
         val iv = ByteArray(GCM_IV_LENGTH)
         secureRandom.nextBytes(iv)
 
