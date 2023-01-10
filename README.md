@@ -35,7 +35,7 @@ Here's how you can use it:
 Using the library in kotlin is as easy as importing it:
 
 ```kotlin
-import io.github.jhdcruz.kipher.aes.AesGcmEncryption
+import kipher.aes.AesGcmEncryption
 
 class EncryptionTest {
     fun main() {
@@ -59,7 +59,7 @@ Using the library in Java requires a few things that needs to be done first:
    added as a dependency.
 
 ```java
-import io.github.jhdcruz.kipher.aes.AesGcmEncryption;
+import kipher.aes.AesGcmEncryption;
 
 class EncryptionTest {
     public static void main(String[] args) {

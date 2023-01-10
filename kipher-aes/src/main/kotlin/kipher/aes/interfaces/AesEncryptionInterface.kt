@@ -1,4 +1,6 @@
-package io.github.jhdcruz.kipher.aes.interfaces
+@file:JvmSynthetic
+
+package kipher.aes.interfaces
 
 internal interface AesEncryptionInterface {
     fun generateKey(): ByteArray

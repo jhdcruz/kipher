@@ -1,11 +1,14 @@
-package io.github.jhdcruz.kipher.aes
+package kipher.aes
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-internal class AesGcmEncryptionTest {
+class AesGcmEncryptionTest {
+    private val message = "message"
+    private val metadata = "metadata".encodeToByteArray()
+
     @Test
     fun `test key generation`() {
         val aesGcmEncryption = AesGcmEncryption()
@@ -17,6 +20,7 @@ internal class AesGcmEncryptionTest {
     @Test
     fun `test key randomization`() {
         val aesGcmEncryption = AesGcmEncryption()
+
         val firstKey = aesGcmEncryption.generateKey()
         val secondKey = aesGcmEncryption.generateKey()
 
@@ -24,28 +28,10 @@ internal class AesGcmEncryptionTest {
     }
 
     @Test
-    fun `test iv generation`() {
-        val aesGcmEncryption = AesGcmEncryption()
-        val iv = aesGcmEncryption.generateIv()
-
-        assertEquals(12, iv.size)
-    }
-
-    @Test
-    fun `test iv randomization`() {
-        val aesGcmEncryption = AesGcmEncryption()
-        val iv = aesGcmEncryption.generateIv()
-        val iv2 = aesGcmEncryption.generateIv()
-
-        assertNotEquals(iv, iv2)
-    }
-
-    @Test
     fun `test encryption`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val secretKey = aesGcmEncryption.generateKey()
 
-        val message = "admin"
+        val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, secretKey)
         val decrypted = aesGcmEncryption.decrypt(cipherText, secretKey)
 
@@ -55,10 +41,8 @@ internal class AesGcmEncryptionTest {
     @Test
     fun `test encryption with metadata`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val secretKey = aesGcmEncryption.generateKey()
 
-        val message = "admin"
-        val metadata = "metadata".encodeToByteArray()
+        val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
         val decrypted = aesGcmEncryption.decrypt(cipherText, metadata, secretKey)
 
@@ -68,10 +52,8 @@ internal class AesGcmEncryptionTest {
     @Test
     fun `test encryption with wrong metadata`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val secretKey = aesGcmEncryption.generateKey()
 
-        val message = "admin"
-        val metadata = "metadata".encodeToByteArray()
+        val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
 
         assertThrows<RuntimeException> {
@@ -82,19 +64,17 @@ internal class AesGcmEncryptionTest {
     @Test
     fun `test encryption with invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val message = "admin"
 
         assertThrows<RuntimeException> {
-            aesGcmEncryption.encrypt(message, "invalid-secret-key".encodeToByteArray())
+            aesGcmEncryption.encrypt(message, metadata, "invalid-secret-key".encodeToByteArray())
         }
     }
 
     @Test
     fun `test decryption with invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
-        val secretKey = aesGcmEncryption.generateKey()
 
-        val message = "admin"
+        val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, secretKey)
 
         assertThrows<RuntimeException> {

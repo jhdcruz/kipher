@@ -1,6 +1,6 @@
-package io.github.jhdcruz.kipher.aes
+package kipher.aes
 
-import io.github.jhdcruz.kipher.aes.interfaces.AesEncryptionInterface
+import kipher.aes.interfaces.AesEncryptionInterface
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
@@ -19,7 +19,7 @@ private const val AES_KEY_SIZE = 256
 private const val AES_MODE = "AES/GCM/NoPadding"
 
 /**
- * Encryption using AES/GCM/NoPadding with optional metadata verification.
+ * Encryption using AES/GCM/NoPadding with optional metadata verification
  *
  * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
  *
@@ -88,7 +88,7 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Encrypts the provided string and metadata.
+     * Encrypts the provided string with metadata.
      *
      * @param data data to encrypt
      * @param metadata metadata to encrypt with
@@ -151,7 +151,7 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Decrypts encrypted message with integrity verification.
+     * Decrypts encrypted message with metadata verification.
      *
      * @param encrypted message/data to be decrypted
      * @param key       secret key used to encrypt
