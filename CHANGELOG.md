@@ -11,9 +11,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Project structure relayout (composite builds)
-- extract `test` action to separate workflow to reuse it in other workflows
-
 ### Removed
 
 ### Deprecated
@@ -23,6 +20,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.0.0] - 2023-01-10
+
+### Added
+
+- Add `@file:JvmSynthetic` to hide `internal` classes from Java
+
+### Changed
+
+- Project structure relayout (composite builds)
+- Throw custom exception instead of generic
+- **BREAKING CHANGE:** reduce package nesting to `kiper.{module}`
+
 
 ## [0.1.0] - 2023-01-07
 
