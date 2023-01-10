@@ -33,10 +33,6 @@ class AesGcmEncryption : AesEncryptionInterface {
         keyGenerator.init(AES_KEY_SIZE, secureRandom)
     }
 
-    /*
-     * Generate a random byte array of 12 bytes
-     * used for generating a random IV
-     */
     private fun generateIv(): ByteArray {
         val iv = ByteArray(GCM_IV_LENGTH)
         secureRandom.nextBytes(iv)
@@ -57,12 +53,12 @@ class AesGcmEncryption : AesEncryptionInterface {
      * Encrypts the provided string.
      *
      * @param data data to encrypt
-     * @param key  secret key to encrypt with
+     * @param key secret key to encrypt with
      * @return encrypted message
      *
-     * @throws RuntimeException if encryption fails
+     * @throws AesEncryptionException if encryption fails
      */
-    @Throws(RuntimeException::class)
+    @Throws(AesEncryptionException::class)
     override fun encrypt(data: String, key: ByteArray): ByteArray {
         return try {
             // randomize iv for each encryption
@@ -81,7 +77,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw AesEncryptionException("Error encrypting data:", e)
         }
     }
 
@@ -90,12 +86,12 @@ class AesGcmEncryption : AesEncryptionInterface {
      *
      * @param data data to encrypt
      * @param metadata metadata to encrypt with
-     * @param key  secret key to encrypt with
+     * @param key secret key to encrypt with
      * @return encrypted message
      *
-     * @throws RuntimeException if encryption fails
+     * @throws AesEncryptionException if encryption fails
      */
-    @Throws(RuntimeException::class)
+    @Throws(AesEncryptionException::class)
     override fun encrypt(data: String, metadata: ByteArray, key: ByteArray): ByteArray {
         return try {
             // randomize iv for each encryption
@@ -117,7 +113,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw AesEncryptionException("Error encrypting data:", e)
         }
     }
 
@@ -125,12 +121,12 @@ class AesGcmEncryption : AesEncryptionInterface {
      * Decrypts encrypted message.
      *
      * @param encrypted message/data to be decrypted
-     * @param key       secret key used to encrypt
+     * @param key secret key used to encrypt
      * @return original plaintext
      *
-     * @throws RuntimeException if decryption fails, usually due to invalid/mismatched key
+     * @throws AesEncryptionException if decryption fails, usually due to invalid/mismatched key
      */
-    @Throws(RuntimeException::class)
+    @Throws(AesEncryptionException::class)
     override fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray {
         return try {
             val cipher = Cipher.getInstance(AES_MODE)
@@ -144,7 +140,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw AesEncryptionException("Error decrypting data: ", e)
         }
     }
 
@@ -152,12 +148,13 @@ class AesGcmEncryption : AesEncryptionInterface {
      * Decrypts encrypted message with metadata verification.
      *
      * @param encrypted message/data to be decrypted
-     * @param key       secret key used to encrypt
+     * @param metadata metadata to verify
+     * @param key secret key used to encrypt
      * @return original plaintext
      *
-     * @throws RuntimeException if decryption fails, usually due to invalid/mismatched key
+     * @throws AesEncryptionException if decryption fails, usually due to invalid/mismatched key
      */
-    @Throws(RuntimeException::class)
+    @Throws(AesEncryptionException::class)
     override fun decrypt(encrypted: ByteArray, metadata: ByteArray, key: ByteArray): ByteArray {
         return try {
             val cipher = Cipher.getInstance(AES_MODE)
@@ -174,7 +171,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw AesEncryptionException("Error decrypting data: ", e)
         }
     }
 }
