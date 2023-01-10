@@ -56,7 +56,8 @@ jobs:
           body: ${{ steps.changelog_reader.outputs.changes }}
           prerelease: ${{ steps.changelog_reader.outputs.status == 'prerelease' }}
           draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
-          artifacts: ../**/build/libs/*.jar
+          artifacts: |
+            kipher-aes/build/libs/*.jar
 
       - name: Publish package
         uses: gradle/gradle-build-action@v2
