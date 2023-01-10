@@ -5,7 +5,7 @@ import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
-class AesGcmEncryptionTest {
+internal class AesGcmEncryptionTest {
     private val message = "message"
     private val metadata = "metadata".encodeToByteArray()
 
