@@ -10,6 +10,8 @@ repositories {
 
 dependencies {
     implementation(project(":kipher-aes"))
+
+    api(project(":kipher-aes"))
 }
 
 reporting {
