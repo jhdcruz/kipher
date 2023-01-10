@@ -56,7 +56,7 @@ class AesGcmEncryptionTest {
         val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
 
-        assertThrows<RuntimeException> {
+        assertThrows<AesEncryptionException> {
             aesGcmEncryption.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
         }
     }
@@ -65,7 +65,7 @@ class AesGcmEncryptionTest {
     fun `test encryption with invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
 
-        assertThrows<RuntimeException> {
+        assertThrows<AesEncryptionException> {
             aesGcmEncryption.encrypt(message, metadata, "invalid-secret-key".encodeToByteArray())
         }
     }
@@ -77,7 +77,7 @@ class AesGcmEncryptionTest {
         val secretKey = aesGcmEncryption.generateKey()
         val cipherText = aesGcmEncryption.encrypt(message, secretKey)
 
-        assertThrows<RuntimeException> {
+        assertThrows<AesEncryptionException> {
             aesGcmEncryption.decrypt(cipherText, "invalid-secret-key".encodeToByteArray())
         }
     }
