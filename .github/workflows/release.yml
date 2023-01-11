@@ -5,6 +5,9 @@ on:
     tags:
       - '*'
 
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+
 jobs:
   build:
     runs-on: ubuntu-latest

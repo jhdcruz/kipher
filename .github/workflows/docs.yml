@@ -6,6 +6,9 @@ on:
     tags:
       - '*'
 
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+
 permissions:
   contents: read
   pages: write
