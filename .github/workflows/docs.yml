@@ -3,16 +3,8 @@ name: docs
 on:
   workflow_dispatch:
   push:
-    branches: [ "main" ]
-    paths-ignore:
-      - ".github/*"
-      - "./gradle/*"
-      - '**.md'
-      - '**.txt'
-      - '**.json'
-      - '.gitignore'
-      - '.editorconfig'
-      - ".whitesource"
+    tags:
+      - '*'
 
 permissions:
   contents: read
