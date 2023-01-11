@@ -2,6 +2,7 @@ package kipher.aes
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import java.security.InvalidParameterException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -62,11 +63,38 @@ internal class AesGcmEncryptionTest {
     }
 
     @Test
-    fun `test encryption with invalid secret key`() {
+    fun `test encryption with metadata using invalid secret key`() {
         val aesGcmEncryption = AesGcmEncryption()
 
         assertThrows<AesEncryptionException> {
             aesGcmEncryption.encrypt(message, metadata, "invalid-secret-key".encodeToByteArray())
+        }
+    }
+
+    @Test
+    fun `test encryption with invalid secret key`() {
+        val aesGcmEncryption = AesGcmEncryption()
+
+        assertThrows<AesEncryptionException> {
+            aesGcmEncryption.encrypt(message, "invalid-secret-key".encodeToByteArray())
+        }
+    }
+
+    @Test
+    fun `test encryption with custom key size`() {
+        val aesGcmEncryption = AesGcmEncryption(192)
+
+        val secretKey = aesGcmEncryption.generateKey()
+        val cipherText = aesGcmEncryption.encrypt(message, metadata, secretKey)
+        val decrypted = aesGcmEncryption.decrypt(cipherText, metadata, secretKey)
+
+        assertEquals(message, String(decrypted, Charsets.UTF_8))
+    }
+
+    @Test
+    fun `test encryption with invalid custom key size`() {
+        assertThrows<InvalidParameterException> {
+            AesGcmEncryption(123)
         }
     }
 

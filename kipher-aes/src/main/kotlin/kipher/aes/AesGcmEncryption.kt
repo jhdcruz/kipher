@@ -4,6 +4,7 @@ import kipher.aes.interfaces.AesEncryptionInterface
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
+import java.security.InvalidParameterException
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -13,24 +14,30 @@ import javax.crypto.spec.SecretKeySpec
 // Constants
 private const val ALGORITHM = "AES"
 private const val AES_MODE = "AES/GCM/NoPadding"
-private const val AES_KEY_SIZE = 256
 private const val GCM_TAG_LENGTH = 128
 private const val GCM_IV_LENGTH = 12
 
+private var defaultKeySize = 256
+
 /**
- * Encryption using AES/GCM/NoPadding with optional metadata verification
- * using 256-bit secret keys.
+ * Encryption using AES/GCM/NoPadding with optional metadata verification.
  *
  * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
  *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
+ *
+ * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
-class AesGcmEncryption : AesEncryptionInterface {
+class AesGcmEncryption(keySize: Int = defaultKeySize) : AesEncryptionInterface {
     private val secureRandom = SecureRandom()
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
 
     init {
-        keyGenerator.init(AES_KEY_SIZE, secureRandom)
+        try {
+            keyGenerator.init(keySize, secureRandom)
+        } catch (e: GeneralSecurityException) {
+            throw InvalidParameterException(e.message)
+        }
     }
 
     private fun generateIv(): ByteArray {
@@ -71,7 +78,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException("Error encrypting data:", e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -102,7 +109,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException("Error encrypting data:", e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -125,7 +132,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException("Error decrypting data: ", e)
+            throw AesEncryptionException(e)
         }
     }
 
@@ -151,7 +158,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             // Use everything from 12 bytes on as ciphertext
             cipher.doFinal(encrypted, GCM_IV_LENGTH, encrypted.size - GCM_IV_LENGTH)
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException("Error decrypting data: ", e)
+            throw AesEncryptionException(e)
         }
     }
 }
