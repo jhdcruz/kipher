@@ -35,8 +35,7 @@ jobs:
       - name: Get version from tag
         id: tag_name
         shell: bash
-        run: |
-          echo ::set-output name=current_version::${GITHUB_REF#refs/tags/v}
+        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
 
       - name: Get Changelog Entry
         id: changelog_reader
