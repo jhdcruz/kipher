@@ -41,22 +41,16 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Generate a secret key
-     *
-     * @return secret key as [ByteArray]
+     * Generate a secret key as [ByteArray].
      */
     override fun generateKey(): ByteArray {
         return keyGenerator.generateKey().encoded
     }
 
     /**
-     * Encrypts the provided string.
+     * Encrypts the provided [data] using the provided [key].
      *
-     * @param data data to encrypt
-     * @param key secret key to encrypt with
-     * @return encrypted message
-     *
-     * @throws AesEncryptionException if encryption fails
+     * @throws AesEncryptionException
      */
     @Throws(AesEncryptionException::class)
     override fun encrypt(data: String, key: ByteArray): ByteArray {
@@ -82,14 +76,9 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Encrypts the provided string with metadata.
+     * Encrypts the provided [data] along with [metadata] using [key].
      *
-     * @param data data to encrypt
-     * @param metadata metadata to encrypt with
-     * @param key secret key to encrypt with
-     * @return encrypted message
-     *
-     * @throws AesEncryptionException if encryption fails
+     * @throws AesEncryptionException
      */
     @Throws(AesEncryptionException::class)
     override fun encrypt(data: String, metadata: ByteArray, key: ByteArray): ByteArray {
@@ -118,13 +107,9 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Decrypts encrypted message.
+     * Decrypts [encrypted] data using [key].
      *
-     * @param encrypted message/data to be decrypted
-     * @param key secret key used to encrypt
-     * @return original plaintext
-     *
-     * @throws AesEncryptionException if decryption fails, usually due to invalid/mismatched key
+     * @throws AesEncryptionException
      */
     @Throws(AesEncryptionException::class)
     override fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray {
@@ -145,14 +130,9 @@ class AesGcmEncryption : AesEncryptionInterface {
     }
 
     /**
-     * Decrypts encrypted message with metadata verification.
+     * Decrypts [encrypted] data with [metadata] verification using [key].
      *
-     * @param encrypted message/data to be decrypted
-     * @param metadata metadata to verify
-     * @param key secret key used to encrypt
-     * @return original plaintext
-     *
-     * @throws AesEncryptionException if decryption fails, usually due to invalid/mismatched key
+     * @throws AesEncryptionException
      */
     @Throws(AesEncryptionException::class)
     override fun decrypt(encrypted: ByteArray, metadata: ByteArray, key: ByteArray): ByteArray {
