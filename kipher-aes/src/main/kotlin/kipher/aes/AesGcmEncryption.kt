@@ -12,14 +12,14 @@ import javax.crypto.spec.SecretKeySpec
 
 // Constants
 private const val ALGORITHM = "AES"
-private const val GCM_IV_LENGTH = 12
-private const val GCM_KEY_LENGTH = 16
-private const val GCM_KEY_ROUND = 8
-private const val AES_KEY_SIZE = 256
 private const val AES_MODE = "AES/GCM/NoPadding"
+private const val AES_KEY_SIZE = 256
+private const val GCM_TAG_LENGTH = 128
+private const val GCM_IV_LENGTH = 12
 
 /**
  * Encryption using AES/GCM/NoPadding with optional metadata verification
+ * using 256-bit secret keys.
  *
  * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
  *
@@ -65,7 +65,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, iv)
+            val parameterSpec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -98,7 +98,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val iv = generateIv()
 
             val cipher = Cipher.getInstance(AES_MODE)
-            val parameterSpec = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, iv)
+            val parameterSpec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -132,7 +132,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for iv
-            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
@@ -160,7 +160,7 @@ class AesGcmEncryption : AesEncryptionInterface {
             val cipher = Cipher.getInstance(AES_MODE)
 
             // use first 12 bytes for IV
-            val gcmIv = GCMParameterSpec(GCM_KEY_LENGTH * GCM_KEY_ROUND, encrypted, 0, GCM_IV_LENGTH)
+            val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, GCM_IV_LENGTH)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
