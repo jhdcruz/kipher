@@ -9,10 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- AES/GCM: Custom key size support `AesGcmEncryption(x)` where `x` is the valid key size in bits.
-    - Valid key sizes: `128`, `192`, `256`.
-    - Custom key sizes are **optional**, and will default to `256` if not specified.
-
 ### Changed
 
 ### Removed
@@ -24,6 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.1.0] - 2023-01-11
+
+### Added
+
+- AES/GCM: Custom key size support `AesGcmEncryption(x)` where `x` is the valid key size in bits.
+    - Valid key sizes: `128`, `192`, `256`.
+    - Custom key sizes are **optional**, and will default to `256` if not specified.
 
 ## [1.0.0] - 2023-01-11
 
