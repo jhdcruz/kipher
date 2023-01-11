@@ -10,7 +10,8 @@ on:
       - '**.txt'
       - '**.json'
       - '.gitignore'
-      - '.editorconfig'
+    tags-ignore:
+      - '*'
   pull_request:
     types: [ opened ]
 
