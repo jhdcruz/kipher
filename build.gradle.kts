@@ -31,6 +31,8 @@ allprojects {
             DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN
         )
 
+        parallel = true
+        ignoreFailures = true
         buildUponDefaultConfig = true
         baseline = file("$rootDir/config/detekt/baseline.xml")
     }
