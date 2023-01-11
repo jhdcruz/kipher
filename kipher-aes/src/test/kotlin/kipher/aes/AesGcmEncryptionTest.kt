@@ -2,13 +2,13 @@ package kipher.aes
 
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import java.security.InvalidParameterException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 internal class AesGcmEncryptionTest {
     private val message = "message"
     private val metadata = "metadata".encodeToByteArray()
+    private val invalidKey = "invalid-key".encodeToByteArray()
 
     @Test
     fun `test key generation`() {
@@ -67,7 +67,7 @@ internal class AesGcmEncryptionTest {
         val aesGcmEncryption = AesGcmEncryption()
 
         assertThrows<AesEncryptionException> {
-            aesGcmEncryption.encrypt(message, metadata, "invalid-secret-key".encodeToByteArray())
+            aesGcmEncryption.encrypt(message, metadata, invalidKey)
         }
     }
 
@@ -76,7 +76,7 @@ internal class AesGcmEncryptionTest {
         val aesGcmEncryption = AesGcmEncryption()
 
         assertThrows<AesEncryptionException> {
-            aesGcmEncryption.encrypt(message, "invalid-secret-key".encodeToByteArray())
+            aesGcmEncryption.encrypt(message, invalidKey)
         }
     }
 
@@ -93,8 +93,8 @@ internal class AesGcmEncryptionTest {
 
     @Test
     fun `test encryption with invalid custom key size`() {
-        assertThrows<InvalidParameterException> {
-            AesGcmEncryption(123)
+        assertThrows<AesEncryptionException> {
+            AesGcmEncryption(123).generateKey()
         }
     }
 
@@ -106,7 +106,7 @@ internal class AesGcmEncryptionTest {
         val cipherText = aesGcmEncryption.encrypt(message, secretKey)
 
         assertThrows<AesEncryptionException> {
-            aesGcmEncryption.decrypt(cipherText, "invalid-secret-key".encodeToByteArray())
+            aesGcmEncryption.decrypt(cipherText, invalidKey)
         }
     }
 }

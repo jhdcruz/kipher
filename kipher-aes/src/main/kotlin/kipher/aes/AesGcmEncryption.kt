@@ -17,8 +17,6 @@ private const val AES_MODE = "AES/GCM/NoPadding"
 private const val GCM_TAG_LENGTH = 128
 private const val GCM_IV_LENGTH = 12
 
-private var defaultKeySize = 256
-
 /**
  * Encryption using AES/GCM/NoPadding with optional metadata verification.
  *
@@ -28,15 +26,15 @@ private var defaultKeySize = 256
  *
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
-class AesGcmEncryption(keySize: Int = defaultKeySize) : AesEncryptionInterface {
+class AesGcmEncryption(keySize: Int = 256) : AesEncryptionInterface {
     private val secureRandom = SecureRandom()
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
 
     init {
         try {
             keyGenerator.init(keySize, secureRandom)
-        } catch (e: GeneralSecurityException) {
-            throw InvalidParameterException(e.message)
+        } catch (e: InvalidParameterException) {
+            throw AesEncryptionException(e)
         }
     }
 
