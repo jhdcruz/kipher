@@ -1,10 +1,10 @@
-name: test
+name: tests
 
 on:
   workflow_call:
 
 jobs:
-  test:
+  unit:
     runs-on: ubuntu-latest
     strategy:
       matrix:
