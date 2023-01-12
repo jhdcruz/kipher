@@ -1,6 +1,6 @@
 @file:JvmSynthetic
 
-package kipher.aes.interfaces
+package kipher.aes.internal
 
 internal interface AesEncryptionInterface {
     fun generateKey(): ByteArray
