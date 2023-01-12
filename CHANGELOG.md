@@ -9,13 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Introduce `AesEncryption()` to support other AES encryption modes:
+    - `AES/CBC/PKCS5Padding`
+    - `AES/CTR/NoPadding`
+    - `"AES/CFB/NoPadding`
+    - `AES/OFB/NoPadding`
+
 ### Changed
 
+- `AesGcmEncryption()` was renamed to `AesEncryption()`
+
 ### Removed
+
+- BREAKING CHANGE: `AesGcmEncryption()` is no longer available. Use `AesEncryption()` instead.
 
 ### Deprecated
-
-### Removed
 
 ### Fixed
 

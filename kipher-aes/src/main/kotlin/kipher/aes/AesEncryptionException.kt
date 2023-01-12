@@ -3,9 +3,11 @@
 package kipher.aes
 
 /**
- * Throw exception caused by [cause].
+ * Throw custom exception caused by [cause].
  *
- * @constructor creates a new [RuntimeException] with the given message and cause
- *
+ * @constructor creates a new [RuntimeException] with the entire exception
  */
-class AesEncryptionException(cause: Throwable?) : RuntimeException(cause)
+class AesEncryptionException : RuntimeException {
+    constructor(e: Throwable?) : super(e)
+    constructor(message: String) : super(message)
+}
