@@ -13,6 +13,12 @@ A simple library for data encryption in Java/Kotlin.
 The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
 in a straightforward and hassle-free method.
 
+> **Warning**
+>
+> `Kipher` is still in early development, lots of breaking changes **will** occur.
+>
+> Pin to a specific version to avoid breaking changes, and avoid updating without looking at changelogs for now.
+
 ## Usage
 
 > [API documentation](https://jhdcruz.github.io/kipher/) | Project Documentation<sup>(WIP)</sup>
