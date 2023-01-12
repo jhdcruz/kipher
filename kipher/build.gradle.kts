@@ -9,11 +9,10 @@ repositories {
 }
 
 dependencies {
-    implementation(project(":kipher-aes"))
-
-    api(project(":kipher-aes"))
+    api(projects.kipherAes)
 }
 
+@Suppress("UnstableApiUsage")
 reporting {
     reports {
         creating(JacocoCoverageReport::class) {
