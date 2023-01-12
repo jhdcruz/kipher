@@ -38,7 +38,8 @@ class AesGcmEncryption(keySize: Int = 256) : AesEncryptionInterface {
         }
     }
 
-    private fun generateIv(): ByteArray {
+    /** Generate a pseudo-random IV. */
+    override fun generateIv(): ByteArray {
         val iv = ByteArray(GCM_IV_LENGTH)
         secureRandom.nextBytes(iv)
 

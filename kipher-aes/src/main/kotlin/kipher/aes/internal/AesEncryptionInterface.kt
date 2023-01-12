@@ -4,6 +4,7 @@ package kipher.aes.internal
 
 internal interface AesEncryptionInterface {
     fun generateKey(): ByteArray
+    fun generateIv(): ByteArray
 
     fun encrypt(data: String, key: ByteArray): ByteArray
     fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray
