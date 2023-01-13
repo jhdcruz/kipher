@@ -60,7 +60,6 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
         }
 
         secureRandom.nextBytes(iv)
-
         return iv
     }
 
@@ -122,13 +121,8 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 val cipher = Cipher.getInstance(transformation)
                 val keySpec = SecretKeySpec(key, ALGORITHM)
 
-                // Only GCM has a specific method compared to other modes
-                if (transformation == AesModes.GCM.mode) {
-                    val parameterSpec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
-                    cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
-                } else {
-                    cipher.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv))
-                }
+                val parameterSpec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
+                cipher.init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
 
                 // encrypt data along with the metadata
                 cipher.updateAAD(metadata)
@@ -191,13 +185,9 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 val cipher = Cipher.getInstance(transformation)
                 val keySpec = SecretKeySpec(key, ALGORITHM)
 
-                if (transformation == AesModes.GCM.mode) {
-                    // use first 12 bytes for iv
-                    val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, ivLength)
-                    cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
-                } else {
-                    cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(encrypted, 0, ivLength))
-                }
+                // use first 12 bytes for iv
+                val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, ivLength)
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
 
                 // check if metadata is correct/matches
                 cipher.updateAAD(metadata)
