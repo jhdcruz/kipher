@@ -1,6 +1,7 @@
 package kipher.aes
 
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
 
 internal class AesEncryptionModesTest {
@@ -48,5 +49,15 @@ internal class AesEncryptionModesTest {
         val decrypted = aesEncryption.decrypt(cipherText, secretKey)
 
         assertEquals(message, String(decrypted, Charsets.UTF_8))
+    }
+
+    @Test
+    fun `test encryption using mode that does not support metadata`() {
+        val aesEncryption = AesEncryption(256, AesModes.OFB)
+        val secretKey = aesEncryption.generateKey()
+
+        assertThrows<AesEncryptionException> {
+            aesEncryption.encrypt(message, "metadata".encodeToByteArray(), secretKey)
+        }
     }
 }
