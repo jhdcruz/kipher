@@ -4,12 +4,13 @@ plugins {
     id("jacoco-report-aggregation")
 }
 
-repositories {
-    mavenCentral()
+val kipher: Configuration by configurations.creating {
+    isCanBeConsumed = true
+    isCanBeResolved = false
 }
 
 dependencies {
-    api(projects.kipherAes)
+    kipher(projects.kipherAes)
 }
 
 @Suppress("UnstableApiUsage")
