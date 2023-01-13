@@ -1,8 +1,10 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
+    id("org.jetbrains.dokka")
     `java-library`
     `maven-publish`
     signing
-    id("org.jetbrains.dokka")
 }
 
 java {
@@ -10,7 +12,7 @@ java {
     withJavadocJar()
 }
 
-tasks.dokkaJavadoc.configure {
+tasks.named<DokkaTask>("dokkaHtml") {
     outputDirectory.set(buildDir.resolve("javadoc"))
 }
 

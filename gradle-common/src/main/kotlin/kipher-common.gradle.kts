@@ -3,16 +3,19 @@ plugins {
     jacoco
 }
 
+dependencies {
+    testImplementation(kotlin("test"))
+}
+
 kotlin {
     jvmToolchain(8)
 }
 
-tasks.test {
+tasks.named<Test>("test") {
     useJUnitPlatform()
-    finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.jacocoTestReport {
+tasks.named<JacocoReport>("jacocoTestReport") {
     dependsOn(tasks.test)
 
     // exclude interfaces from test coverage
@@ -21,19 +24,15 @@ tasks.jacocoTestReport {
             classDirectories.files.map {
                 fileTree(it) {
                     exclude(
-                        "./**/**/interfaces/**"
+                        "./**/**/interfaces/**",
                     )
                 }
-            }
-        )
+            },
+        ),
     )
 
     reports {
         xml.required.set(true)
         html.required.set(true)
     }
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
 }
