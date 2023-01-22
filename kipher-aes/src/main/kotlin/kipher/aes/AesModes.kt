@@ -1,6 +1,6 @@
 package kipher.aes
 
-/** AES encryption mode. */
+/** AES encryption [mode]s. */
 enum class AesModes(val mode: String) {
     /** `AES/GCM/NoPadding` */
     GCM("AES/GCM/NoPadding"),
