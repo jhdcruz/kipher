@@ -53,8 +53,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@main
         with:
           sarif_file: build/reports/detekt/merge.sarif
-
-      - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2022.3.0
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
