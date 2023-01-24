@@ -1,11 +1,8 @@
 @file:JvmSynthetic
 
-package kipher.aes.internal
+package kipher.aes
 
 internal interface AesEncryptionInterface {
-    /** Generate a pseudo-random IV. */
-    fun generateIv(): ByteArray
-
     /** Generate a secret key as [ByteArray]. */
     fun generateKey(): ByteArray
 

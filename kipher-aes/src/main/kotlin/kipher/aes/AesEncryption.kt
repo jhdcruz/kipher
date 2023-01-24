@@ -1,6 +1,5 @@
 package kipher.aes
 
-import kipher.aes.internal.AesEncryptionInterface
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
@@ -50,8 +49,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
         }
     }
 
-    /** Generate a pseudo-random IV. */
-    override fun generateIv(): ByteArray {
+    private fun generateIv(): ByteArray {
         // other modes uses 16 iv size while GCM uses 12
         val iv = if (transformation != AesModes.GCM.mode) {
             ByteArray(IV_LENGTH)
