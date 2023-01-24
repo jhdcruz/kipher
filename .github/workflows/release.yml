@@ -6,7 +6,7 @@ on:
       - '*'
 
 env:
-  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
 
 jobs:
   build:
@@ -53,7 +53,7 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           allowUpdates: true
-          tag: v${{ steps.tag_name.outputs.current_version }}
+          tag: ${{ steps.tag_name.outputs.current_version }}
           name: v${{ steps.changelog_reader.outputs.version }}
           body: ${{ steps.changelog_reader.outputs.changes }}
           prerelease: ${{ steps.changelog_reader.outputs.status == 'prerelease' }}

@@ -15,7 +15,7 @@ on:
       - '*'
 
 env:
-  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
 
 jobs:
   test:
