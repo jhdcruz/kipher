@@ -60,4 +60,17 @@ internal class AesEncryptionModesTest {
             aesEncryption.encrypt(message, "metadata".encodeToByteArray(), secretKey)
         }
     }
+
+    @Test
+    fun `test decryption using mode that does not support metadata`() {
+        val aesEncryption = AesEncryption(256, AesModes.OFB)
+        val secretKey = aesEncryption.generateKey()
+
+        val cipherText = aesEncryption.encrypt(message, secretKey)
+        val decrypted = aesEncryption.decrypt(cipherText, secretKey)
+
+        assertThrows<AesEncryptionException> {
+            aesEncryption.decrypt(decrypted, "metadata".encodeToByteArray(), secretKey)
+        }
+    }
 }
