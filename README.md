@@ -8,6 +8,10 @@ A simple library for data encryption in Java/Kotlin.
 
 - AES
     - AES/GCM/NoPadding
+    - AES/CTR/NoPadding
+    - AES/CFB/NoPadding
+    - AES/OFB/NoPadding
+    - AES/CBC/PKCS5Padding
 - and more to be implemented...
 
 The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
@@ -41,11 +45,11 @@ Here's how you can use it:
 Using the library in kotlin is as easy as importing it:
 
 ```kotlin
-import kipher.aes.AesGcmEncryption
+import kipher.aes.AesEncryption
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = AesGcmEncryption()
+        val encryptionUtils = AesEncryption()
         val data = "sample data"
         val secretKey = encryptionUtils.generateSecretKey()
 
@@ -65,19 +69,39 @@ Using the library in Java requires a few things that needs to be done first:
    added as a dependency.
 
 ```java
-import kipher.aes.AesGcmEncryption;
+import kipher.aes.AesEncryption;
 
 class EncryptionTest {
     public static void main(String[] args) {
-        AesGcmEncryption encryptionUtils = new AesGcmEncryption();
+        AesGcmEncryption encryptionUtils = new AesEncryption();
 
         String data = "sample data";
         SecretKey secretKey = encryptionUtils.generateSecretKey();
 
-        bytes[] encryptedData = encryptionUtils.encrypt(data, secretKey);
-        bytes[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
+        byte[] encryptedData = encryptionUtils.encrypt(data, secretKey);
+        byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
 
         System.out.println(new String(decryptedPass, StandardCharsets.UTF_8)); // outputs "sample data"
+    }
+}
+```
+
+### Using different modes
+
+```kotlin
+import kipher.aes.AesEncryption
+import kipher.aes.AesModes
+
+class EncryptionTest {
+    fun main() {
+        val encryptionUtils = AesEncryption(256, AesModes.CBC)
+        val data = "sample data"
+        val secretKey = encryptionUtils.generateSecretKey()
+
+        val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
+        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
+
+        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
 }
 ```
