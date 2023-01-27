@@ -70,4 +70,5 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
   docs:
+    needs: build
     uses: ./.github/workflows/docs.yml
