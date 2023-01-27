@@ -1,7 +1,8 @@
+plugins {
+    id("kipher-module")
+    id("kipher-publish")
+}
+
 dependencies {
     implementation(projects.kipherCommon)
-}
-plugins {
-    id("kipher-common")
-    id("kipher-publish")
 }

@@ -34,3 +34,4 @@ rootProject.name = "kipher-root"
 include("kipher")
 include("kipher-common")
 include("kipher-aes")
+include("kipher-rsa")

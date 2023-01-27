@@ -1,3 +1,3 @@
 plugins {
-    id("kipher-common")
+    id("kipher-module")
 }
