@@ -1,5 +1,6 @@
 package kipher.aes
 
+import kipher.common.KipherException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -56,7 +57,7 @@ internal class AesEncryptionModesTest {
         val aesEncryption = AesEncryption(256, AesModes.OFB)
         val secretKey = aesEncryption.generateKey()
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.encrypt(message, "metadata".encodeToByteArray(), secretKey)
         }
     }
@@ -69,7 +70,7 @@ internal class AesEncryptionModesTest {
         val cipherText = aesEncryption.encrypt(message, secretKey)
         val decrypted = aesEncryption.decrypt(cipherText, secretKey)
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.decrypt(decrypted, "metadata".encodeToByteArray(), secretKey)
         }
     }

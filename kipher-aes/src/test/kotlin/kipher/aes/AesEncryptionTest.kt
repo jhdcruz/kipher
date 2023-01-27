@@ -1,5 +1,6 @@
 package kipher.aes
 
+import kipher.common.KipherException
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
@@ -57,7 +58,7 @@ internal class AesEncryptionTest {
         val secretKey = aesEncryption.generateKey()
         val cipherText = aesEncryption.encrypt(message, metadata, secretKey)
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
         }
     }
@@ -66,7 +67,7 @@ internal class AesEncryptionTest {
     fun `test encryption with metadata using invalid secret key`() {
         val aesEncryption = AesEncryption()
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.encrypt(message, metadata, invalidKey)
         }
     }
@@ -75,7 +76,7 @@ internal class AesEncryptionTest {
     fun `test encryption with invalid secret key`() {
         val aesEncryption = AesEncryption()
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.encrypt(message, invalidKey)
         }
     }
@@ -93,7 +94,7 @@ internal class AesEncryptionTest {
 
     @Test
     fun `test encryption with invalid custom key size`() {
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             AesEncryption(123).generateKey()
         }
     }
@@ -105,7 +106,7 @@ internal class AesEncryptionTest {
         val secretKey = aesEncryption.generateKey()
         val cipherText = aesEncryption.encrypt(message, secretKey)
 
-        assertThrows<AesEncryptionException> {
+        assertThrows<KipherException> {
             aesEncryption.decrypt(cipherText, invalidKey)
         }
     }

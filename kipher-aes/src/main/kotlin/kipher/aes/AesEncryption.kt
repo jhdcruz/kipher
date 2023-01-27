@@ -1,5 +1,6 @@
 package kipher.aes
 
+import kipher.common.KipherException
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.security.GeneralSecurityException
@@ -45,7 +46,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 else -> IV_LENGTH
             }
         } catch (e: InvalidParameterException) {
-            throw AesEncryptionException(e)
+            throw KipherException(e)
         }
     }
 
@@ -69,9 +70,9 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
     /**
      * Encrypts the provided [data] using the provided [key].
      *
-     * @throws AesEncryptionException
+     * @throws KipherException
      */
-    @Throws(AesEncryptionException::class)
+    @Throws(KipherException::class)
     override fun encrypt(data: String, key: ByteArray): ByteArray {
         return try {
             // randomize iv for each encryption
@@ -96,7 +97,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
             byteBuffer.put(cipherText)
             byteBuffer.array()
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw KipherException(e)
         }
     }
 
@@ -105,12 +106,12 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
      *
      * Only supports [AesModes.GCM].
      *
-     * @throws AesEncryptionException
+     * @throws KipherException
      */
-    @Throws(AesEncryptionException::class)
+    @Throws(KipherException::class)
     override fun encrypt(data: String, metadata: ByteArray, key: ByteArray): ByteArray {
         if (transformation != AesModes.GCM.mode) {
-            throw AesEncryptionException("Metadata is only supported in GCM mode.")
+            throw KipherException("Metadata is only supported in GCM mode.")
         } else {
             return try {
                 // randomize iv for each encryption
@@ -132,7 +133,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 byteBuffer.put(cipherText)
                 byteBuffer.array()
             } catch (e: GeneralSecurityException) {
-                throw AesEncryptionException(e)
+                throw KipherException(e)
             }
         }
     }
@@ -140,9 +141,9 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
     /**
      * Decrypts [encrypted] data using [key].
      *
-     * @throws AesEncryptionException
+     * @throws KipherException
      */
-    @Throws(AesEncryptionException::class)
+    @Throws(KipherException::class)
     override fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray {
         return try {
             val cipher = Cipher.getInstance(transformation)
@@ -163,7 +164,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 encrypted.size - ivLength
             )
         } catch (e: GeneralSecurityException) {
-            throw AesEncryptionException(e)
+            throw KipherException(e)
         }
     }
 
@@ -172,12 +173,12 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
      *
      * Only supports [AesModes.GCM].
      *
-     * @throws AesEncryptionException
+     * @throws KipherException
      */
-    @Throws(AesEncryptionException::class)
+    @Throws(KipherException::class)
     override fun decrypt(encrypted: ByteArray, metadata: ByteArray, key: ByteArray): ByteArray {
         if (transformation != AesModes.GCM.mode) {
-            throw AesEncryptionException("Metadata is only supported in GCM mode.")
+            throw KipherException("Metadata is only supported in GCM mode.")
         } else {
             return try {
                 val cipher = Cipher.getInstance(transformation)
@@ -197,7 +198,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                     encrypted.size - ivLength
                 )
             } catch (e: GeneralSecurityException) {
-                throw AesEncryptionException(e)
+                throw KipherException(e)
             }
         }
     }

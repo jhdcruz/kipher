@@ -32,4 +32,5 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "kipher-root"
 
 include("kipher")
+include("kipher-common")
 include("kipher-aes")
