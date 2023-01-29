@@ -44,6 +44,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          post-annotations: true
+
       - name: Submit coverage report
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         env:
