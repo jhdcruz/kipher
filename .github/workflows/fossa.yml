@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - '**.gradle.kts'
-      - 'libs.versions.toml'
+      - "**.gradle.kts"
+      - "libs.versions.toml"
 
 jobs:
   scan:
@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: 17
-          distribution: 'temurin'
+          distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
 

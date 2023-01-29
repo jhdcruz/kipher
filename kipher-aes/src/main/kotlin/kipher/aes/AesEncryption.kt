@@ -161,7 +161,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
             cipher.doFinal(
                 encrypted,
                 ivLength,
-                encrypted.size - ivLength
+                encrypted.size - ivLength,
             )
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
@@ -195,7 +195,7 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
                 cipher.doFinal(
                     encrypted,
                     ivLength,
-                    encrypted.size - ivLength
+                    encrypted.size - ivLength,
                 )
             } catch (e: GeneralSecurityException) {
                 throw KipherException(e)

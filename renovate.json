@@ -1,30 +1,18 @@
 {
-    "extends": [
-        "config:base"
-    ],
-    "baseBranches": [
-        "main"
-    ],
+    "extends": ["config:base"],
+    "baseBranches": ["main"],
     "packageRules": [
         {
-            "updateTypes": [
-                "patch",
-                "pin",
-                "digest"
-            ],
+            "updateTypes": ["patch", "pin", "digest"],
             "automerge": true
         },
         {
-            "updateTypes": [
-                "major"
-            ],
+            "updateTypes": ["major"],
             "stabilityDays": 7,
             "automerge": true
         },
         {
-            "updateTypes": [
-                "minor"
-            ],
+            "updateTypes": ["minor"],
             "stabilityDays": 3,
             "automerge": true
         }

@@ -2,11 +2,10 @@ name: stale
 
 on:
   schedule:
-    - cron: '0 0 1 * *' # Runs at 00:00 UTC on the 1st of every month.
+    - cron: "0 0 1 * *" # Runs at 00:00 UTC on the 1st of every month.
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
     permissions:
       issues: write
@@ -16,7 +15,7 @@ jobs:
       - uses: actions/stale@v7
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          stale-issue-message: 'No activity recorded for quite some time now. Closing the issue.'
-          stale-pr-message: 'No activity recorded for quite some time now. Closing the issue.'
-          stale-issue-label: 'Stale'
-          stale-pr-label: 'Stale'
+          stale-issue-message: "No activity recorded for quite some time now. Closing the issue."
+          stale-pr-message: "No activity recorded for quite some time now. Closing the issue."
+          stale-issue-label: "Stale"
+          stale-pr-label: "Stale"

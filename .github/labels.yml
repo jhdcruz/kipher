@@ -1,10 +1,10 @@
-'Module | AES':
+"Module | AES":
   - kiper-aes/**/*
 
-'Module | RSA':
+"Module | RSA":
   - kiper-rsa/**/*
 
-'Module | Gradle':
+"Module | Gradle":
   - gradle-common/**/*
   - gradle/**/*
   - ./**/*.gradle.kts
