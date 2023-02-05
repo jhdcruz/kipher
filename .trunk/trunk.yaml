@@ -15,7 +15,8 @@ lint:
         - git-diff-check
         - actionlint@1.6.23
         - shellcheck@0.9.0
-        - detekt@1.22.0
+        - detekt-gradle@SYSTEM
+    direct_configs: ["lib/detekt.yaml"]
     ignore:
         - linters: [ ALL ]
           paths:
