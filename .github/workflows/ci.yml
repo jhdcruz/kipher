@@ -16,6 +16,7 @@ on:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  JDK_VERSION: 19
 
 jobs:
   test:
@@ -29,10 +30,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v3
         with:
-          java-version: "17"
+          java-version: ${{ env.JDK_VERSION }}
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}

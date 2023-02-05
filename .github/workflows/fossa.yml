@@ -8,21 +8,25 @@ on:
       - "**.gradle.kts"
       - "libs.versions.toml"
 
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  JDK_VERSION: 19
+
 jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: ${{ env.JDK_VERSION }}
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
 
-      - name: Test with JDK 17
+      - name: Test with JDK ${{ env.JDK_VERSION }}
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test build
