@@ -1,8 +1,11 @@
-name: labeler
-on: [pull_request]
+name: triage
+on:
+  workflow_run:
+    workflows: ["Pull Request"]
+    types: [completed]
 
 jobs:
-  labeler:
+  label:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -14,3 +17,17 @@ jobs:
           configuration-path: .github/labels.yml
           sync-labels: true
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
+
+  check:
+    name: Trunk Check Annotate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trunk Check
+        uses: trunk-io/trunk-action@v1
+        with:
+          post-annotations: true
+          trunk-token: ${{ secrets.TRUNK_TOKEN }}

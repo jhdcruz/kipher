@@ -48,7 +48,6 @@ jobs:
       - name: Trunk Check
         uses: trunk-io/trunk-action@v1
         with:
-          post-annotations: true
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
 
       - name: Submit coverage report
