@@ -1,6 +1,7 @@
 version: 0.1
 cli:
     version: 1.4.0
+
 plugins:
     sources:
         - id: trunk
@@ -16,7 +17,6 @@ lint:
         - actionlint@1.6.23
         - shellcheck@0.9.0
         - detekt-gradle@SYSTEM
-    direct_configs: ["lib/detekt.yaml"]
     ignore:
         - linters: [ ALL ]
           paths:
