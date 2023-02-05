@@ -15,5 +15,5 @@ enum class AesModes(val mode: String) {
     CFB("AES/CFB/NoPadding"),
 
     /** `AES/OFB/NoPadding` */
-    OFB("AES/OFB/NoPadding");
+    OFB("AES/OFB/NoPadding"),
 }

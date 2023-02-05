@@ -41,7 +41,7 @@ allprojects {
             DetektExtension.DEFAULT_SRC_DIR_JAVA,
             DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
             DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
-            DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN
+            DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
         )
     }
 
