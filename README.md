@@ -2,20 +2,24 @@
 
 ![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%232459ED&label=Coverage&logo=codacy&style=for-the-badge) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/jhdcruz/kipher?color=green&logo=github&style=for-the-badge)
 
-A simple library for data encryption in Java/Kotlin.
+Opinionated library for straightforward & hassle-free data encryption in Java/Kotlin.
 
 ### Features:
+
+#### Encryption
 
 - AES
     - AES/GCM/NoPadding
     - AES/CTR/NoPadding
     - AES/CFB/NoPadding
     - AES/OFB/NoPadding
-    - AES/CBC/PKCS5Padding
+    - AES/CBC/PKCS7Padding
 - and more to be implemented...
 
 The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
 in a straightforward and hassle-free method.
+
+----
 
 > **Warning**
 >
@@ -65,18 +69,18 @@ class EncryptionTest {
 
 Using the library in Java requires a few things that needs to be done first:
 
-1. [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/1.8.0) is required to be
-   added as a dependency.
+1. [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/1.8.10) might be required
+   to be added as a dependency.
 
 ```java
 import kipher.aes.AesEncryption;
 
 class EncryptionTest {
     public static void main(String[] args) {
-        AesGcmEncryption encryptionUtils = new AesEncryption();
+        AesEncryption encryptionUtils = new AesEncryption();
 
         String data = "sample data";
-        SecretKey secretKey = encryptionUtils.generateSecretKey();
+        SecretKey secretKey = encryptionUtils.generateKey();
 
         byte[] encryptedData = encryptionUtils.encrypt(data, secretKey);
         byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
@@ -86,7 +90,7 @@ class EncryptionTest {
 }
 ```
 
-### Using different modes
+### Using different modes:
 
 ```kotlin
 import kipher.aes.AesEncryption
@@ -94,9 +98,9 @@ import kipher.aes.AesModes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = AesEncryption(256, AesModes.CBC)
+        val encryptionUtils = AesEncryption(256, AesModes.CBC) // key size, mode
         val data = "sample data"
-        val secretKey = encryptionUtils.generateSecretKey()
+        val secretKey = encryptionUtils.generateKey()
 
         val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
         val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
