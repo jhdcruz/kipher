@@ -30,21 +30,21 @@ private const val GCM_IV_LENGTH = 12
  * @param aesMode Custom [AesModes] (default: [AesModes.GCM])
  */
 class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesEncryptionInterface {
+    private val transformation = aesMode.mode
+
     private val secureRandom = SecureRandom()
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
+    private val cipher = Cipher.getInstance(transformation)
 
-    private val transformation = aesMode.mode
-    private val ivLength: Int
+    // use iv length based on current mode
+    private val ivLength: Int = when (aesMode) {
+        AesModes.GCM -> GCM_IV_LENGTH
+        else -> IV_LENGTH
+    }
 
     init {
         try {
             keyGenerator.init(keySize, secureRandom)
-
-            // set required iv length based on mode
-            ivLength = when (aesMode) {
-                AesModes.GCM -> GCM_IV_LENGTH
-                else -> IV_LENGTH
-            }
         } catch (e: InvalidParameterException) {
             throw KipherException(e)
         }
@@ -77,8 +77,6 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
         return try {
             // randomize iv for each encryption
             val iv = generateIv()
-
-            val cipher = Cipher.getInstance(transformation)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             // Only GCM has a specific method compared to other modes
@@ -116,8 +114,6 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
             return try {
                 // randomize iv for each encryption
                 val iv = generateIv()
-
-                val cipher = Cipher.getInstance(transformation)
                 val keySpec = SecretKeySpec(key, ALGORITHM)
 
                 val parameterSpec = GCMParameterSpec(GCM_TAG_LENGTH, iv)
@@ -146,7 +142,6 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
     @Throws(KipherException::class)
     override fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray {
         return try {
-            val cipher = Cipher.getInstance(transformation)
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             if (transformation == AesModes.GCM.mode) {
@@ -181,7 +176,6 @@ class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesE
             throw KipherException("Metadata is only supported in GCM mode.")
         } else {
             return try {
-                val cipher = Cipher.getInstance(transformation)
                 val keySpec = SecretKeySpec(key, ALGORITHM)
 
                 // use first 12 bytes for iv
