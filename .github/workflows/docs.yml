@@ -1,8 +1,10 @@
 name: docs
 
 on:
+  push:
+    tags:
+      - "*"
   workflow_dispatch:
-  workflow_call:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
