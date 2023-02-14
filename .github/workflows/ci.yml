@@ -59,3 +59,13 @@ jobs:
         uses: github/codeql-action/upload-sarif@main
         with:
           sarif_file: build/reports/detekt/merge.sarif
+
+      - name: Gradle dependency submission
+        uses: mikepenz/gradle-dependency-submission@latest
+        with:
+          gradle-build-module: |-
+            :kipher-aes
+            :kipher-common
+            :kipher
+          gradle-build-configuration: |-
+            compileClasspath
