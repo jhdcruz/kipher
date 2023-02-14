@@ -9,11 +9,8 @@ Opinionated library for straightforward & hassle-free data encryption in Java/Ko
 #### Encryption
 
 - AES
-    - AES/GCM/NoPadding
-    - AES/CTR/NoPadding
-    - AES/CFB/NoPadding
-    - AES/OFB/NoPadding
-    - AES/CBC/PKCS7Padding
+    - AES/GCM/NoPadding _(default)_
+    - AES/CBC/PKCS5Padding
 - and more to be implemented...
 
 The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
