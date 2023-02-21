@@ -46,13 +46,13 @@ Here's how you can use it:
 Using the library in kotlin is as easy as importing it:
 
 ```kotlin
-import kipher.aes.AesEncryption
+import kipher.aes.KipherAes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = AesEncryption()
+        val encryptionUtils = KipherAes()
         val data = "sample data"
-        val secretKey = encryptionUtils.generateSecretKey()
+        val secretKey: ByteArray = encryptionUtils.generateKey()
 
         val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
         val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
@@ -70,14 +70,14 @@ Using the library in Java requires a few things that needs to be done first:
    to be added as a dependency.
 
 ```java
-import kipher.aes.AesEncryption;
+import kipher.aes.KipherAes;
 
 class EncryptionTest {
     public static void main(String[] args) {
-        AesEncryption encryptionUtils = new AesEncryption();
+        KipherAes encryptionUtils = new KipherAes();
 
         String data = "sample data";
-        SecretKey secretKey = encryptionUtils.generateKey();
+        byte[] secretKey = encryptionUtils.generateKey();
 
         byte[] encryptedData = encryptionUtils.encrypt(data, secretKey);
         byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
@@ -95,9 +95,11 @@ import kipher.aes.AesModes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = AesEncryption(256, AesModes.CBC) // key size, mode
+        val encryptionUtils = AesEncryption(256, AesModes.CBC) // key size, mode 
+        // can also be just AesModes.GCM or just key size (singular constructors)
+
         val data = "sample data"
-        val secretKey = encryptionUtils.generateKey()
+        val secretKey: ByteArray = encryptionUtils.generateKey()
 
         val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
         val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
@@ -106,6 +108,8 @@ class EncryptionTest {
     }
 }
 ```
+
+Should be relatively the same in Java implementation.
 
 > **Note**
 >

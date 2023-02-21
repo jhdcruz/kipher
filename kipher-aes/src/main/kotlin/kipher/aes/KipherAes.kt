@@ -14,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec
 
 // Constants
 private const val ALGORITHM = "AES"
+private const val KEY_LENGTH = 256
 private const val IV_LENGTH = 16
 
 private const val GCM_TAG_LENGTH = 128
@@ -29,7 +30,11 @@ private const val GCM_IV_LENGTH = 12
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  * @param aesMode Custom [AesModes] (default: [AesModes.GCM])
  */
-class AesEncryption(keySize: Int = 256, aesMode: AesModes = AesModes.GCM) : AesEncryptionInterface {
+class KipherAes(val keySize: Int, val aesMode: AesModes) : KipherAesInterface {
+    // singular constructors of the parameters
+    constructor(keySize: Int = KEY_LENGTH) : this(keySize, AesModes.GCM)
+    constructor(aesMode: AesModes) : this(KEY_LENGTH, aesMode)
+
     private val transformation = aesMode.mode
 
     private val secureRandom = SecureRandom()

@@ -2,7 +2,7 @@
 
 package kipher.aes
 
-internal interface AesEncryptionInterface {
+internal interface KipherAesInterface {
     /** Generate a secret key as [ByteArray]. */
     fun generateKey(): ByteArray
 
