@@ -90,12 +90,12 @@ class EncryptionTest {
 ### Using different modes:
 
 ```kotlin
-import kipher.aes.AesEncryption
+import kipher.aes.KipherAes
 import kipher.aes.AesModes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = AesEncryption(256, AesModes.CBC) // key size, mode 
+        val encryptionUtils = KipherAes(256, AesModes.CBC) // key size, mode 
         // can also be just AesModes.GCM or just key size (singular constructors)
 
         val data = "sample data"
