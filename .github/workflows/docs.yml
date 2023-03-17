@@ -2,10 +2,15 @@ name: docs
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+      - main
+    paths-ignore:
+      - "**.md"
+      - "**.txt"
+      - "**.json"
+      - ".gitignore"
   workflow_dispatch:
-  
+
 permissions:
   contents: read
   pages: write
@@ -16,7 +21,7 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=4g"
   JDK_VERSION: 19
 
 jobs:
