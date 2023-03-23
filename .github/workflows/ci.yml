@@ -61,7 +61,7 @@ jobs:
           sarif_file: build/reports/detekt/merge.sarif
 
       - name: Gradle dependency submission
-        uses: mikepenz/gradle-dependency-submission@v0.8.5
+        uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
           gradle-build-module: |-
             :kipher-aes
