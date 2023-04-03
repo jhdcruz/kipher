@@ -30,7 +30,7 @@ private const val GCM_IV_LENGTH = 12
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  * @param aesMode Custom [AesModes] (default: [AesModes.GCM])
  */
-class KipherAes(val keySize: Int, val aesMode: AesModes) : KipherAesInterface {
+class KipherAes(private val keySize: Int, private val aesMode: AesModes) : KipherAesInterface {
     // singular constructors of the parameters
     constructor(keySize: Int = KEY_LENGTH) : this(keySize, AesModes.GCM)
     constructor(aesMode: AesModes) : this(KEY_LENGTH, aesMode)
