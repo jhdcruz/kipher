@@ -27,11 +27,6 @@ allprojects {
         detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
     }
 
-    // Experimental: use kotlin's K2 compiler
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.useK2 = true
-    }
-
     detekt {
         parallel = true
         ignoreFailures = true
@@ -61,5 +56,10 @@ allprojects {
         detektReportMergeSarif.configure {
             input.from(this@withType.sarifReportFile)
         }
+    }
+
+    // Experimental: use kotlin's K2 compiler
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.languageVersion = "2.0"
     }
 }
