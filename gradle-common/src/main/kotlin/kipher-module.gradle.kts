@@ -24,7 +24,7 @@ tasks.named<JacocoReport>("jacocoTestReport") {
             classDirectories.files.map {
                 fileTree(it) {
                     exclude(
-                        "./**/**/interfaces/**",
+                        "./**/**/*Interface",
                     )
                 }
             },
