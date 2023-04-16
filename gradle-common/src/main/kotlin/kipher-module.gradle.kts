@@ -9,6 +9,12 @@ dependencies {
 
 kotlin {
     jvmToolchain(8)
+
+    sourceSets.all {
+        languageSettings {
+            languageVersion = "2.0"
+        }
+    }
 }
 
 tasks.named<Test>("test") {
