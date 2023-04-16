@@ -1,10 +1,9 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-@Suppress("DSL_SCOPE_VIOLATION") // https://github.com/gradle/gradle/issues/22797
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.detekt)
@@ -31,6 +30,7 @@ allprojects {
         parallel = true
         ignoreFailures = true
         buildUponDefaultConfig = true
+        baseline = file("$rootDir/config/detekt/baseline.xml")
 
         source = objects.fileCollection().from(
             DetektExtension.DEFAULT_SRC_DIR_JAVA,
@@ -51,15 +51,14 @@ allprojects {
         }
 
         finalizedBy(detektReportMergeSarif)
-
-        // Merge detekt report into sarif file for CodeQL scanning
-        detektReportMergeSarif.configure {
-            input.from(this@withType.sarifReportFile)
-        }
     }
 
-    // Experimental: use kotlin's K2 compiler
-    tasks.withType<KotlinCompile> {
-        kotlinOptions.languageVersion = "2.0"
+    // Merge detekt report into sarif file for CodeQL scanning
+    detektReportMergeSarif.configure {
+        input.from(tasks.withType<Detekt>().map { it.sarifReportFile })
+    }
+
+    tasks.withType<DetektCreateBaselineTask>().configureEach {
+        jvmTarget = "1.8"
     }
 }
