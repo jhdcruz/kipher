@@ -31,6 +31,7 @@ tasks.named<JacocoReport>("jacocoTestReport") {
                 fileTree(it) {
                     exclude(
                         "./**/**/*Interface",
+                        "./**/**/*Impl",
                     )
                 }
             },
