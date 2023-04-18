@@ -1,8 +1,3 @@
-/*
- * Copyright 2023 Joshua Hero Dela Cruz
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import org.jetbrains.dokka.gradle.DokkaTask
 
 plugins {
