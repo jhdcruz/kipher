@@ -7,9 +7,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
 internal class KipherAesTest {
-    private val message = "message"
-    private val metadata = "metadata".encodeToByteArray()
+    private val message = "message".encodeToByteArray()
+    private val aad = "metadata".encodeToByteArray()
     private val invalidKey = "invalid-key".encodeToByteArray()
+
+    private val decodeToString = { bytes: ByteArray -> String(bytes, Charsets.UTF_8) }
 
     @Test
     fun `test key generation`() {
@@ -30,6 +32,22 @@ internal class KipherAesTest {
     }
 
     @Test
+    fun `test IV generation of GCM`() {
+        val kipherAes = KipherAes()
+        val iv = kipherAes.generateIv()
+
+        assertEquals(12, iv.size)
+    }
+
+    @Test
+    fun `test IV generation of CBC`() {
+        val kipherAes = KipherAes(AesModes.CBC)
+        val iv = kipherAes.generateIv()
+
+        assertEquals(16, iv.size)
+    }
+
+    @Test
     fun `test encryption`() {
         val kipherAes = KipherAes()
 
@@ -37,7 +55,7 @@ internal class KipherAesTest {
         val cipherText = kipherAes.encrypt(message, secretKey)
         val decrypted = kipherAes.decrypt(cipherText, secretKey)
 
-        assertEquals(message, String(decrypted, Charsets.UTF_8))
+        assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
     @Test
@@ -45,10 +63,10 @@ internal class KipherAesTest {
         val kipherAes = KipherAes()
 
         val secretKey = kipherAes.generateKey()
-        val cipherText = kipherAes.encrypt(message, metadata, secretKey)
-        val decrypted = kipherAes.decrypt(cipherText, metadata, secretKey)
+        val cipherText = kipherAes.encrypt(message, aad, secretKey)
+        val decrypted = kipherAes.decrypt(cipherText, aad, secretKey)
 
-        assertEquals(message, String(decrypted, Charsets.UTF_8))
+        assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
     @Test
@@ -56,7 +74,7 @@ internal class KipherAesTest {
         val kipherAes = KipherAes()
 
         val secretKey = kipherAes.generateKey()
-        val cipherText = kipherAes.encrypt(message, metadata, secretKey)
+        val cipherText = kipherAes.encrypt(message, aad, secretKey)
 
         assertThrows<KipherException> {
             kipherAes.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
@@ -68,7 +86,7 @@ internal class KipherAesTest {
         val kipherAes = KipherAes()
 
         assertThrows<KipherException> {
-            kipherAes.encrypt(message, metadata, invalidKey)
+            kipherAes.encrypt(message, aad, invalidKey)
         }
     }
 
@@ -86,16 +104,20 @@ internal class KipherAesTest {
         val kipherAes = KipherAes(192)
 
         val secretKey = kipherAes.generateKey()
-        val cipherText = kipherAes.encrypt(message, metadata, secretKey)
-        val decrypted = kipherAes.decrypt(cipherText, metadata, secretKey)
+        val cipherText = kipherAes.encrypt(message, aad, secretKey)
+        val decrypted = kipherAes.decrypt(cipherText, aad, secretKey)
 
-        assertEquals(message, String(decrypted, Charsets.UTF_8))
+        assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
     @Test
     fun `test encryption with invalid custom key size`() {
+        val kipherAes = KipherAes(999)
+
+        val secretKey = kipherAes.generateKey()
+
         assertThrows<KipherException> {
-            KipherAes(123).generateKey()
+            kipherAes.encrypt(message, aad, secretKey)
         }
     }
 
