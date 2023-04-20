@@ -16,7 +16,7 @@ on:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
-  JDK_VERSION: 19
+  JDK_VERSION: 20
 
 jobs:
   test:
@@ -37,6 +37,7 @@ jobs:
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'gradle'
 
       - name: Build with Analyze
         uses: gradle/gradle-build-action@v2

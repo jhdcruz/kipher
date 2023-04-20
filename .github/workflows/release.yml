@@ -7,7 +7,7 @@ on:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
-  JDK_VERSION: 19
+  JDK_VERSION: 20
 
 jobs:
   build:
@@ -25,6 +25,7 @@ jobs:
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'gradle'
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1

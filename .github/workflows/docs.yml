@@ -22,7 +22,7 @@ concurrency:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=4g"
-  JDK_VERSION: 19
+  JDK_VERSION: 20
 
 jobs:
   deploy:
@@ -44,6 +44,7 @@ jobs:
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'gradle'
 
       - name: Dokka build
         uses: gradle/gradle-build-action@v2

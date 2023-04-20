@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 8, 11, 17, 19 ]
+        java: [ 8, 11, 17, 19, 20 ]
     steps:
       - uses: actions/checkout@v3
 
@@ -19,6 +19,7 @@ jobs:
           distribution: "temurin"
           server-id: github
           settings-path: ${{ github.workspace }}
+          cache: 'gradle'
 
       - name: Test with JDK ${{ matrix.java }}
         uses: gradle/gradle-build-action@v2
