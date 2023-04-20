@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### AddedA
+
+- RSA encryption, decryption, signing, and verification
 
 ### Changed
 
@@ -18,6 +20,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [4.0.0] - 2023-04-21
+
+### Added
+
+- BREAKING CHANGE: Bouncy castle provider
+
+### Changed
+
+- Refactor interfaces to abstract/sealed classes
 
 ## [3.0.0]
 
