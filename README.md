@@ -28,7 +28,7 @@ in a straightforward and hassle-free method.
 
 > [API documentation](https://jhdcruz.github.io/kipher/) | Project Documentation<sup>(WIP)</sup>
 
-Unfortunately, The library is not **yet** available in Maven Central.
+**Unfortunately, The library is not yet available in Maven Central.**
 
 Here's how you can use it:
 
@@ -50,12 +50,12 @@ import kipher.aes.KipherAes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = KipherAes()
+        val encryptionUtils = KipherAes() // defaults to 256, AES-GCM
         val data = "sample data"
         val secretKey: ByteArray = encryptionUtils.generateKey()
 
-        val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
-        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
+        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey) // aad is optional
+        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, aad, secretKey)
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
@@ -96,7 +96,7 @@ import kipher.aes.AesModes
 class EncryptionTest {
     fun main() {
         val encryptionUtils = KipherAes(256, AesModes.CBC) // key size, mode 
-        // can also be just AesModes.GCM or just key size (singular constructors)
+        // can also be just AesModes.CBC or just key size (singular constructors)
 
         val data = "sample data"
         val secretKey: ByteArray = encryptionUtils.generateKey()
@@ -123,10 +123,10 @@ If you want to contribute to this project, feel free to open an issue or a pull 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE.txt) file for details
+This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICENSE.txt) file for details
 
 ## Disclaimer
 
-I am not a security expert/guru, this library is primarily made for ease-of-use, while implementing strong encryption
-methods as much as possible out-of-the-box. If you found a security issue, please
+**I am not a security expert/guru**, this library is primarily made for ease-of-use, while implementing strong
+encryption methods as much as possible out-of-the-box. If you found a security issue, please
 see [reporting a security issue](./SECURITY.md).
