@@ -46,15 +46,17 @@ Here's how you can use it:
 Using the library in kotlin is as easy as importing it:
 
 ```kotlin
-import kipher.aes.KipherAes
+import kipher.aes.GcmEncryption
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = KipherAes() // defaults to 256, AES-GCM
-        val data = "sample data"
+        val encryptionUtils = GcmEncryption()
+
+        val data = "sample data".encodeToByteArray()
+        val aad = "sample aad".encodeToByteArray()
         val secretKey: ByteArray = encryptionUtils.generateKey()
 
-        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey) // aad is optional
+        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey)
         val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, aad, secretKey)
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
@@ -70,24 +72,25 @@ Using the library in Java requires a few things that needs to be done first:
    to be added as a dependency.
 
 ```java
-import kipher.aes.KipherAes;
+import kipher.aes.GcmEncryption;
 
 class EncryptionTest {
     public static void main(String[] args) {
-        KipherAes encryptionUtils = new KipherAes();
+        GcmEncryption encryptionUtils = new GcmEncryption();
 
-        String data = "sample data";
+        byte[] data = "sample data".getBytes();
+        byte[] aad = "sample aad".getBytes();
         byte[] secretKey = encryptionUtils.generateKey();
 
-        byte[] encryptedData = encryptionUtils.encrypt(data, secretKey);
-        byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, secretKey);
+        byte[] encryptedData = encryptionUtils.encrypt(data, aad, secretKey);
+        byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, aad, secretKey);
 
         System.out.println(new String(decryptedPass, StandardCharsets.UTF_8)); // outputs "sample data"
     }
 }
 ```
 
-### Using different modes:
+### Using different key size:
 
 ```kotlin
 import kipher.aes.KipherAes
@@ -95,21 +98,21 @@ import kipher.aes.AesModes
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = KipherAes(256, AesModes.CBC) // key size, mode 
-        // can also be just AesModes.CBC or just key size (singular constructors)
+        val encryptionUtils = GcmEncryption(192) // key size
 
         val data = "sample data"
+        val aad = "sample aad".encodeToByteArray()
         val secretKey: ByteArray = encryptionUtils.generateKey()
 
-        val encryptedData: ByteArray = encryptionUtils.encrypt(data, secretKey)
-        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, secretKey)
+        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey)
+        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, aad, secretKey)
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
 }
 ```
 
-Should be relatively the same in Java implementation.
+Have a look into [API documentation](https://jhdcruz.github.io/kipher/) for other functions and methods.
 
 > **Note**
 >
