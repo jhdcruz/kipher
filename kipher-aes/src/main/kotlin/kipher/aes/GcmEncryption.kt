@@ -24,7 +24,7 @@ class GcmEncryption(
 ) : AesEncryption(keySize, AesModes.GCM) {
 
     // use iv length based on current mode
-    override val ivLength: Int = IV_LENGTH
+    override val ivLength: Int = GCM_IV_LENGTH
 
     /**
      * Encrypts the provided [data] along with [aad] using [key].
