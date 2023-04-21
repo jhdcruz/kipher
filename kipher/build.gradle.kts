@@ -17,6 +17,6 @@ reporting {
     }
 }
 
-tasks.build {
+tasks.test {
     dependsOn(tasks.named<JacocoReport>("testCodeCoverageReport"))
 }
