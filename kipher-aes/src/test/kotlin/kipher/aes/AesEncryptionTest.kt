@@ -35,45 +35,7 @@ internal class AesEncryptionTest {
     }
 
     @Test
-    fun `test IV generation of GCM`() {
-        val gcmEncryption = GcmEncryption()
-        val iv = gcmEncryption.generateIv()
-
-        assertEquals(12, iv.size)
-    }
-
-    @Test
-    fun `test IV generation of CBC`() {
-        val cbcEncryption = CbcEncryption()
-        val iv = cbcEncryption.generateIv()
-
-        assertEquals(16, iv.size)
-    }
-
-    @Test
-    fun `test CBC encryption`() {
-        val cbcEncryption = CbcEncryption()
-
-        val secretKey = cbcEncryption.generateKey()
-        val cipherText = cbcEncryption.encrypt(message, secretKey)
-        val decrypted = cbcEncryption.decrypt(cipherText, secretKey)
-
-        assertEquals(decodeToString(message), decodeToString(decrypted))
-    }
-
-    @Test
-    fun `test GCM encryption`() {
-        val gcmEncryption = GcmEncryption()
-
-        val secretKey = gcmEncryption.generateKey()
-        val cipherText = gcmEncryption.encrypt(message, aad, secretKey)
-        val decrypted = gcmEncryption.decrypt(cipherText, aad, secretKey)
-
-        assertEquals(decodeToString(message), decodeToString(decrypted))
-    }
-
-    @Test
-    fun `test CBC encryption with IV`() {
+    fun `test basic encryption with IV`() {
         val cbcEncryption = CbcEncryption()
 
         val secretKey = cbcEncryption.generateKey()
@@ -84,40 +46,45 @@ internal class AesEncryptionTest {
     }
 
     @Test
-    fun `test GCM encryption with IV`() {
+    fun `test authenticated encryption with IV`() {
         val gcmEncryption = GcmEncryption()
 
         val secretKey = gcmEncryption.generateKey()
-        val cipherText: Pair<ByteArray, ByteArray> = gcmEncryption.encryptWithIv(message, aad, secretKey)
+        val cipherText: Pair<ByteArray, ByteArray> =
+            gcmEncryption.encryptWithIv(message, aad, secretKey)
         val decrypted = gcmEncryption.decrypt(cipherText.second, aad, secretKey, cipherText.first)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
     @Test
-    fun `test encryption with wrong metadata`() {
-        val gcmEncryption = GcmEncryption()
+    fun `test authenticated encryption with wrong metadata`() {
+        val authenticatedEncryption = AuthenticatedEncryption(AesModes.GCM)
 
-        val secretKey = gcmEncryption.generateKey()
-        val cipherText = gcmEncryption.encrypt(message, aad, secretKey)
+        val secretKey = authenticatedEncryption.generateKey()
+        val cipherText = authenticatedEncryption.encrypt(message, aad, secretKey)
 
         assertThrows<KipherException> {
-            gcmEncryption.decrypt(cipherText, "wrong-metadata".encodeToByteArray(), secretKey)
+            authenticatedEncryption.decrypt(
+                cipherText,
+                "wrong-metadata".encodeToByteArray(),
+                secretKey,
+            )
         }
     }
 
     @Test
-    fun `test GCM encryption using invalid secret key`() {
-        val gcmEncryption = GcmEncryption()
+    fun `test authenticated encryption using invalid secret key`() {
+        val authenticatedEncryption = AuthenticatedEncryption(AesModes.GCM)
 
         assertThrows<KipherException> {
-            gcmEncryption.encrypt(message, aad, invalidKey)
+            authenticatedEncryption.encrypt(message, aad, invalidKey)
         }
     }
 
     @Test
-    fun `test CBC encryption with invalid secret key`() {
-        val cbcEncryption = CbcEncryption()
+    fun `test basic encryption with invalid secret key`() {
+        val cbcEncryption = BasicEncryption(AesModes.CBC)
 
         assertThrows<KipherException> {
             cbcEncryption.encrypt(message, invalidKey)

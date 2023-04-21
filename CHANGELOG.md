@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - RSA encryption, decryption, signing, and verification
+- Brought back other modes for AES encryption
+    - `CbcEncryption()`
+    - `CfbEncryption()`
+    - `CtrEncryption()`
+    - `CcmEncryption()` _(CCM is a variant of GCM)_
 
 ### Changed
 

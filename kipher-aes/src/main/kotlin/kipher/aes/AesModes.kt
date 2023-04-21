@@ -5,11 +5,12 @@
 
 package kipher.aes
 
-/** AES encryption [mode]s. */
-internal enum class AesModes(val mode: String) {
-    /** `AES/GCM/NoPadding` */
-    GCM("AES/GCM/NoPadding"),
+/** Available AES encryption [mode]s */
+enum class AesModes(val mode: String) {
+    CBC("AES/CBC/PKCS7Padding"),
+    CTR("AES/CTR/NoPadding"),
+    CFB("AES/CFB/NoPadding"),
 
-    /** `AES/CBC/PKCS5Padding` */
-    CBC("AES/CBC/PKCS5Padding"),
+    GCM("AES/GCM/NoPadding"),
+    CCM("AES/CCM/NoPadding"),
 }

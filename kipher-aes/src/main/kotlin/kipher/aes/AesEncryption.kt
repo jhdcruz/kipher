@@ -8,36 +8,38 @@
 package kipher.aes
 
 import kipher.common.BaseEncryption
-import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
 // Constants
 internal const val ALGORITHM = "AES"
-internal const val IV_LENGTH = 16
-internal const val GCM_TAG_LENGTH = 128
-internal const val GCM_IV_LENGTH = 12
+internal const val BASIC_IV_LENGTH = 16
+internal const val AUTHENTICATED_TAG_LENGTH = 128
+internal const val AUTHENTICATED_IV_LENGTH = 12
 
+/** Default key size value for aes encryption */
 const val DEFAULT_KEY_SIZE = 256
 
 /**
  * Provides common functionalities for AES encryption.
  *
  * Should not be used/consumed directly.
+ *
+ * @property keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
-sealed class AesEncryption(private val keySize: Int, private val aesMode: AesModes) : BaseEncryption() {
-    override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
+sealed class AesEncryption(private val keySize: Int) : BaseEncryption() {
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
 
-    abstract val ivLength: Int
-
+    /** Generate a random iv based on encryption mode used. */
     internal fun generateIv(): ByteArray {
-        // other modes uses 16 iv size while GCM uses 12
-        val iv = when (aesMode) {
-            AesModes.GCM -> ByteArray(GCM_IV_LENGTH)
-            else -> ByteArray(IV_LENGTH)
-        }.also { randomize.nextBytes(it) }
+        return when (this) {
+            is BasicEncryption -> ByteArray(BASIC_IV_LENGTH).also {
+                randomize.nextBytes(it)
+            }
 
-        return iv
+            is AuthenticatedEncryption -> ByteArray(AUTHENTICATED_IV_LENGTH).also {
+                randomize.nextBytes(it)
+            }
+        }
     }
 
     /** Generate a secret key. */

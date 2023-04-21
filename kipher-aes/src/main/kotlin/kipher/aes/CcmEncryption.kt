@@ -6,12 +6,12 @@
 package kipher.aes
 
 /**
- * AES Encryption using CBC mode.
+ * AES Encryption using CCM mode.
  *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
-class CbcEncryption(
-    private val keySize: Int = DEFAULT_KEY_SIZE,
-) : BasicEncryption(AesModes.CBC, keySize)
+class CcmEncryption(
+    keySize: Int = DEFAULT_KEY_SIZE,
+) : AuthenticatedEncryption(AesModes.CCM, keySize)
