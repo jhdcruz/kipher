@@ -22,7 +22,7 @@ concurrency:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=4g"
-  JDK_VERSION: 20
+  JDK_VERSION: 19
 
 jobs:
   deploy:
