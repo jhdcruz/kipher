@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### AddedA
+### Added
 
 - RSA encryption, decryption, signing, and verification
 
@@ -25,11 +25,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- BREAKING CHANGE: Bouncy castle provider
+- BREAKING CHANGE: Bouncy castle provider are now
+
+- BREAKING CHANGE: `GcmEncryption()` and `CbcEncryption()` replaces `KipherAes()`
+
+- Introduces `encryptWithIv()` which returns both the encrypted
+  data and iv. Applicable for `GcmEncryption()` and `CbcEncryption()`.
+    - Add a new `iv` parameter to `decrypt()` for separate iv input.
 
 ### Changed
 
 - Refactor interfaces to abstract/sealed classes
+
+### Removed
+
+- Removed `KipherAes()`
+    - See `GcmEncryption()` and `CbcEncryption()` for replacement
 
 ## [3.0.0]
 

@@ -20,7 +20,7 @@ internal const val GCM_IV_LENGTH = 12
 const val DEFAULT_KEY_SIZE = 256
 
 /**
- * Provides structure for AES encryption.
+ * Provides common functionalities for AES encryption.
  *
  * Should not be used/consumed directly.
  */

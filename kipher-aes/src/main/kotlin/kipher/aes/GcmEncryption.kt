@@ -15,8 +15,6 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * AES Encryption using GCM mode.
  *
- * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
- *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
@@ -31,12 +29,12 @@ class GcmEncryption(
     /**
      * Encrypts the provided [data] along with [aad] using [key].
      *
-     * Only supports [AesModes.GCM].
+     * Returns both IV and cipher text separately in a [Pair] (iv, data).
      *
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun encrypt(data: ByteArray, aad: ByteArray, key: ByteArray): ByteArray {
+    fun encryptWithIv(data: ByteArray, aad: ByteArray, key: ByteArray): Pair<ByteArray, ByteArray> {
         return try {
             // randomize iv for each encryption
             val iv = generateIv()
@@ -49,11 +47,29 @@ class GcmEncryption(
             cipher.updateAAD(aad)
             val cipherText = cipher.doFinal(data)
 
-            // concatenate iv and cipher text
-            ByteBuffer.allocate(iv.size + cipherText.size).apply {
-                put(iv)
-                put(cipherText)
-            }.array()
+            Pair(iv, cipherText)
+        } catch (e: GeneralSecurityException) {
+            throw KipherException(e)
+        }
+    }
+
+    /**
+     * Encrypts the provided [data] using the provided [key].
+     *
+     * IV is prepended to the cipher text.
+     *
+     * @throws KipherException
+     */
+    @Throws(KipherException::class)
+    fun encrypt(data: ByteArray, aad: ByteArray, key: ByteArray): ByteArray {
+        return try {
+            encryptWithIv(data, aad, key).let { (iv, cipherText) ->
+                // concatenate iv and cipher text
+                ByteBuffer.allocate(iv.size + cipherText.size).apply {
+                    put(iv)
+                    put(cipherText)
+                }.array()
+            }
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
         }
@@ -62,28 +78,37 @@ class GcmEncryption(
     /**
      * Decrypts [encrypted] data with [aad] verification using [key].
      *
-     * Only supports [AesModes.GCM].
-     *
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun decrypt(encrypted: ByteArray, aad: ByteArray, key: ByteArray): ByteArray {
+    @JvmOverloads
+    fun decrypt(encrypted: ByteArray, aad: ByteArray, key: ByteArray, iv: ByteArray? = null): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
-            // use first 12 bytes for iv
-            val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, ivLength)
-            cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+            if (iv != null) {
+                // use the provided iv
+                val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, iv)
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+            } else {
+                // use first 12 bytes for iv
+                val gcmIv = GCMParameterSpec(GCM_TAG_LENGTH, encrypted, 0, ivLength)
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+            }
 
-            // check if aad is correct/matches
+            // verify aad of the encrypted data
             cipher.updateAAD(aad)
 
-            // Use everything from 12 bytes on as ciphertext
-            cipher.doFinal(
-                encrypted,
-                ivLength,
-                encrypted.size - ivLength,
-            )
+            if (iv != null) {
+                cipher.doFinal(encrypted)
+            } else {
+                // Use everything from 12 bytes on as ciphertext
+                cipher.doFinal(
+                    encrypted,
+                    ivLength,
+                    encrypted.size - ivLength,
+                )
+            }
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
         }

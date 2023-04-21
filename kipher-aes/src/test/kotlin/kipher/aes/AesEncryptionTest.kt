@@ -73,6 +73,28 @@ internal class AesEncryptionTest {
     }
 
     @Test
+    fun `test CBC encryption with IV`() {
+        val cbcEncryption = CbcEncryption()
+
+        val secretKey = cbcEncryption.generateKey()
+        val cipherText: Pair<ByteArray, ByteArray> = cbcEncryption.encryptWithIv(message, secretKey)
+        val decrypted = cbcEncryption.decrypt(cipherText.second, secretKey, cipherText.first)
+
+        assertEquals(decodeToString(message), decodeToString(decrypted))
+    }
+
+    @Test
+    fun `test GCM encryption with IV`() {
+        val gcmEncryption = GcmEncryption()
+
+        val secretKey = gcmEncryption.generateKey()
+        val cipherText: Pair<ByteArray, ByteArray> = gcmEncryption.encryptWithIv(message, aad, secretKey)
+        val decrypted = gcmEncryption.decrypt(cipherText.second, aad, secretKey, cipherText.first)
+
+        assertEquals(decodeToString(message), decodeToString(decrypted))
+    }
+
+    @Test
     fun `test encryption with wrong metadata`() {
         val gcmEncryption = GcmEncryption()
 

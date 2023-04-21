@@ -15,8 +15,6 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * AES Encryption using CBC mode.
  *
- * The Initialization Vector (IV) is generated randomly and prepended to the cipher text.
- *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
@@ -30,10 +28,12 @@ class CbcEncryption(
     /**
      * Encrypts the provided [data] using the provided [key].
      *
+     * Returns both IV and cipher text separately in a [Pair] (iv, data).
+     *
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun encrypt(data: ByteArray, key: ByteArray): ByteArray {
+    fun encryptWithIv(data: ByteArray, key: ByteArray): Pair<ByteArray, ByteArray> {
         return try {
             // randomize iv for each encryption
             val iv = generateIv()
@@ -43,34 +43,60 @@ class CbcEncryption(
 
             val cipherText = cipher.doFinal(data)
 
-            // concatenate iv and cipher text
-            ByteBuffer.allocate(iv.size + cipherText.size).apply {
-                put(iv)
-                put(cipherText)
-            }.array()
+            Pair(iv, cipherText)
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
         }
     }
 
     /**
-     * Decrypts [encrypted] data using [key].
+     * Encrypts the provided [data] using the provided [key].
+     *
+     * IV is prepended to the cipher text.
      *
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun decrypt(encrypted: ByteArray, key: ByteArray): ByteArray {
+    fun encrypt(data: ByteArray, key: ByteArray): ByteArray {
+        return try {
+            encryptWithIv(data, key).let { (iv, cipherText) ->
+                // prepend iv to cipher text
+                ByteBuffer.allocate(ivLength + cipherText.size)
+                    .put(iv)
+                    .put(cipherText)
+                    .array()
+            }
+        } catch (e: GeneralSecurityException) {
+            throw KipherException(e)
+        }
+    }
+
+    /**
+     * Decrypts [encrypted] data using [key] and optional [iv].
+     *
+     * Provide [iv] if it was not prepended to the cipher text. Otherwise, its optional.
+     *
+     * @throws KipherException
+     */
+    @Throws(KipherException::class)
+    @JvmOverloads
+    fun decrypt(encrypted: ByteArray, key: ByteArray, iv: ByteArray? = null): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
-            cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(encrypted, 0, ivLength))
-
-            // Use everything from 12 bytes on as ciphertext
-            cipher.doFinal(
-                encrypted,
-                ivLength,
-                encrypted.size - ivLength,
-            )
+            if (iv != null) {
+                // use the provided iv
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv))
+                cipher.doFinal(encrypted)
+            } else {
+                // Use everything from 16 bytes on as ciphertext
+                cipher.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(encrypted, 0, ivLength))
+                cipher.doFinal(
+                    encrypted,
+                    ivLength,
+                    encrypted.size - ivLength,
+                )
+            }
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
         }
