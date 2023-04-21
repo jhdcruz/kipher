@@ -25,12 +25,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- BREAKING CHANGE: Bouncy castle provider are now
+- **BREAKING CHANGE:** Security provider now defaults to bouncy castle
 
-- BREAKING CHANGE: `GcmEncryption()` and `CbcEncryption()` replaces `KipherAes()`
+- **BREAKING CHANGE:** `GcmEncryption()` and `CbcEncryption()` replaces `KipherAes()`
 
 - Introduces `encryptWithIv()` which returns both the encrypted
-  data and iv. Applicable for `GcmEncryption()` and `CbcEncryption()`.
+  data and iv in `Pair`. Applicable for `GcmEncryption()` and `CbcEncryption()`.
     - Add a new `iv` parameter to `decrypt()` for separate iv input.
 
 ### Changed
