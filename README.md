@@ -113,9 +113,11 @@ Should be relatively the same in Java implementation.
 
 > **Note**
 >
-> If your project uses JDK 8, you might need
+> If your project uses earlier JDK 8, you might need
 > [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
 > for the library to function properly.
+>
+> *See more: https://stackoverflow.com/a/3864276*
 
 ## Contributing
 
