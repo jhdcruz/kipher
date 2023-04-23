@@ -29,9 +29,9 @@ gradleEnterprise {
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
-rootProject.name = "kipher-root"
+rootProject.name = "kipher"
 
-include("kipher")
+include("kipher-coverage")
 include("kipher-common")
 include("kipher-aes")
 include("kipher-rsa")

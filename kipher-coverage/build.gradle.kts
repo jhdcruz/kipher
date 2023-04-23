@@ -1,11 +1,10 @@
 plugins {
     id("kipher-module")
-    id("kipher-publish")
     id("jacoco-report-aggregation")
 }
 
 dependencies {
-    api(projects.kipherAes)
+    jacocoAggregation(projects.kipherAes)
 }
 
 @Suppress("UnstableApiUsage")
@@ -17,6 +16,6 @@ reporting {
     }
 }
 
-tasks.build {
-    dependsOn(tasks.named<JacocoReport>("testCodeCoverageReport"))
+tasks.named<JacocoReport>("testCodeCoverageReport") {
+    dependsOn(tasks.test)
 }
