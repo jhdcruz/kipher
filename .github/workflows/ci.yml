@@ -52,7 +52,7 @@ jobs:
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
 
       - name: Submit coverage report
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
