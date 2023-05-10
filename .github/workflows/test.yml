@@ -25,3 +25,8 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test
+
+      - name: Submit coverage report
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
