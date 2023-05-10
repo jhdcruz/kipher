@@ -33,6 +33,7 @@ open class BasicEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     fun encryptWithIv(data: ByteArray, key: ByteArray): Pair<ByteArray, ByteArray> {
         return try {
             // randomize iv for each encryption
@@ -57,6 +58,7 @@ open class BasicEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     fun encrypt(data: ByteArray, key: ByteArray): ByteArray {
         return try {
             encryptWithIv(data, key).let { (iv, cipherText) ->
@@ -78,6 +80,7 @@ open class BasicEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     @JvmOverloads
     fun decrypt(encrypted: ByteArray, key: ByteArray, iv: ByteArray? = null): ByteArray {
         return try {

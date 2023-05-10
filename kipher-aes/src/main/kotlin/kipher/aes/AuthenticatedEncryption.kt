@@ -36,6 +36,7 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     fun encryptWithIv(
         data: ByteArray,
         aad: ByteArray,
@@ -67,6 +68,7 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     fun encrypt(data: ByteArray, aad: ByteArray, key: ByteArray): ByteArray {
         return try {
             encryptWithIv(data, aad, key).let { (iv, cipherText) ->
@@ -86,6 +88,7 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
      *
      * @throws KipherException
      */
+    @Throws(KipherException::class)
     @JvmOverloads
     fun decrypt(
         encrypted: ByteArray,
