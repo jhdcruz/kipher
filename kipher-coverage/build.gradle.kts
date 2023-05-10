@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
     jacocoAggregation(projects.kipherAes)
+    jacocoAggregation(projects.kipherRsa)
 }
 
 @Suppress("UnstableApiUsage")
