@@ -27,6 +27,7 @@ jobs:
           arguments: test
 
       - name: Submit coverage report
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
