@@ -17,6 +17,6 @@ reporting {
     }
 }
 
-tasks.named<JacocoReport>("testCodeCoverageReport") {
-    dependsOn(tasks.test)
+tasks.named<Test>("test") {
+    finalizedBy(tasks.named<JacocoReport>("testCodeCoverageReport"))
 }
