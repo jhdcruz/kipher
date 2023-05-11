@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.8.21"
-detekt = "1.22.0"
+detekt = "1.23.0-RC3"
 dokka = "1.8.10"
 bouncycastle = "1.73"
 
@@ -10,7 +10,6 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 
 [libraries]
-detekt-formatting = { module = "io.gitlab.arturbosch:detekt-formatting", version.ref = "detekt" }
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 
 bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }

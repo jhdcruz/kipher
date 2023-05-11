@@ -1,6 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
-import io.gitlab.arturbosch.detekt.extensions.DetektExtension
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
@@ -8,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
-    id("jacoco-report-aggregation")
 }
 
 tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
@@ -23,7 +21,7 @@ allprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.22.0")
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.0-RC3")
     }
 
     detekt {
@@ -31,15 +29,14 @@ allprojects {
         ignoreFailures = true
         buildUponDefaultConfig = true
         baseline = file("$rootDir/config/detekt/baseline.xml")
-
-        source = objects.fileCollection().from(
-            DetektExtension.DEFAULT_SRC_DIR_JAVA,
-            DetektExtension.DEFAULT_TEST_SRC_DIR_JAVA,
-            DetektExtension.DEFAULT_SRC_DIR_KOTLIN,
-            DetektExtension.DEFAULT_TEST_SRC_DIR_KOTLIN,
-        )
     }
 
+    tasks.withType<DetektCreateBaselineTask>().configureEach {
+        jvmTarget = "1.8"
+    }
+}
+
+subprojects {
     tasks.withType<Detekt> {
         basePath = rootProject.projectDir.absolutePath
         jvmTarget = "1.8"
@@ -56,9 +53,5 @@ allprojects {
     // Merge detekt report into sarif file for CodeQL scanning
     detektReportMergeSarif.configure {
         input.from(tasks.withType<Detekt>().map { it.sarifReportFile })
-    }
-
-    tasks.withType<DetektCreateBaselineTask>().configureEach {
-        jvmTarget = "1.8"
     }
 }
