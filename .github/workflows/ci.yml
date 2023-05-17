@@ -59,7 +59,7 @@ jobs:
         uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
           gradle-build-module: |-
-            :kipher
+            :kipher-coverage
             :kipher-common
             :kipher-aes
             :kipher-rsa
