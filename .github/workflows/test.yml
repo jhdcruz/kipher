@@ -5,7 +5,6 @@ on:
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
-  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 jobs:
   unit:
@@ -33,4 +32,4 @@ jobs:
       - name: Submit coverage report
         run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
         env:
-          CODACY_PROJECT_TOKEN: ${{ env.CODACY_PROJECT_TOKEN }}
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
