@@ -29,8 +29,23 @@ jobs:
         with:
           arguments: test
 
+      - name: Upload test coverage
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-file
+          path: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+
+  upload:
+    needs: [ unit ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: coverage-file
+          path: ./coverage/
+
       - name: Submit coverage report
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/testCodeCoverageReport.xml
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
@@ -38,5 +53,5 @@ jobs:
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
+          files: ./coverage/testCodeCoverageReport.xml
           flags: unittests
