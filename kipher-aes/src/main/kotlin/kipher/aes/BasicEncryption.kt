@@ -17,8 +17,8 @@ import javax.crypto.spec.SecretKeySpec
  *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
- * @property keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  * @property aesMode Custom AES mode from [AesModes].
+ * @property keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
 open class BasicEncryption @JvmOverloads constructor(
     private val aesMode: AesModes,
