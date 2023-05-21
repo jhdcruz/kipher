@@ -8,7 +8,7 @@ package kipher.aes
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class AesModesEncryptionTest {
+internal class AesModesEncryptionTest {
     private val message = "message".encodeToByteArray()
     private val aad = "metadata".encodeToByteArray()
 
