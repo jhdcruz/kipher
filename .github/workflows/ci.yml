@@ -73,9 +73,3 @@ jobs:
           check-mode: all
           trunk-token: ${{ secrets.TRUNK_TOKEN }}
           arguments: --replace
-
-      - name: Qodana scan
-        if: always()
-        uses: JetBrains/qodana-action@main
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
