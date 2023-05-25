@@ -12,15 +12,17 @@ java {
     withJavadocJar()
 }
 
-tasks.named<DokkaTask>("dokkaHtml") {
-    outputDirectory.set(buildDir.resolve("javadoc"))
-}
+tasks {
+    named<DokkaTask>("dokkaHtml") {
+        outputDirectory.set(buildDir.resolve("javadoc"))
+    }
 
-tasks.named<Jar>("javadocJar") {
-    dependsOn(tasks.dokkaJavadoc)
-    archiveClassifier.set("javadoc")
+    named<Jar>("javadocJar") {
+        dependsOn(tasks.dokkaJavadoc)
+        archiveClassifier.set("javadoc")
 
-    from(tasks.dokkaJavadoc)
+        from(tasks.dokkaJavadoc)
+    }
 }
 
 project.version = project.property("VERSION_NAME")

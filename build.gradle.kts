@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
@@ -6,11 +7,18 @@ import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.detekt)
+    alias(libs.plugins.shadow)
     alias(libs.plugins.dokka)
 }
 
-tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(buildDir.resolve("dokkaMultiModuleOutput"))
+tasks {
+    named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
+        outputDirectory.set(buildDir.resolve("dokkaMultiModuleOutput"))
+    }
+
+    withType<Jar> {
+        dependsOn(named<ShadowJar>("shadowJar"))
+    }
 }
 
 val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
@@ -18,6 +26,7 @@ val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
 }
 
 allprojects {
+    apply(plugin = "com.github.johnrengelman.shadow")
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
     dependencies {
