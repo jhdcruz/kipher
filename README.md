@@ -21,7 +21,7 @@ without the need to manually construct your own.
 
 - and more to be implemented...
 
-> **Info**
+> **Note**
 >
 > If you don't know which one to use, stick with the `recommended`
 > based on your chosen encryption method.
@@ -149,7 +149,7 @@ details
 
 ## Disclaimer
 
-**I ([@jhdcruz](https://github.com/jhdcruz)) am not a security expert/professional**, this library
+**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**, this library
 is primarily made for convenience and ease-of-use.
 
 I came with this idea when I was making some JVM applications that requires encryption/decryptions,
