@@ -1,21 +1,10 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-
 plugins {
     id("kipher-module")
+    id("shadowJar")
     id("kipher-publish")
 }
 
 dependencies {
-    implementation(projects.kipherCommon) {
-        configurations["shadow"]
-    }
+    implementation(projects.kipherCommon)
     implementation(libs.bouncycastle.pcix)
 }
-
-tasks.named<ShadowJar>("shadowJar") {
-    dependsOn(":kipher-common:shadowJar")
-
-    archiveClassifier.set("")
-    mergeServiceFiles()
-}
-

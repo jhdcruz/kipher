@@ -3,10 +3,12 @@ plugins {
 }
 
 repositories {
+    gradlePluginPortal()
     mavenCentral()
 }
 
 dependencies {
-    implementation(libs.kotlin.plugin)
     implementation(libs.dokka)
+    implementation(libs.shadow)
+    implementation(libs.kotlin.gradle)
 }
