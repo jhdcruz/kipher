@@ -12,8 +12,8 @@ lint:
         - markdownlint
         - prettier
     enabled:
-        - renovate@35.98.0
-        - yamllint@1.31.0
+        - renovate@35.100.3
+        - yamllint@1.32.0
         - shfmt@3.5.0
         - gitleaks@8.16.3
         - taplo@0.7.0
