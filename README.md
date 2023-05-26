@@ -2,27 +2,36 @@
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%232459ED&label=Coverage&logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/jhdcruz/kipher?color=green&logo=github&style=for-the-badge)](https://github.com/jhdcruz/kipher/releases/latest)
 
-Opinionated library for straightforward & hassle-free data encryption in Java/Kotlin.
+Opinionated library for straightforward & hassle-free data encryption in JVM applications. (
+Java/Kotlin)
+
+The goal of this library is to provide an abstracted layer for easily encrypting and decrypting data
+without the need to manually construct your own.
 
 ### Features:
 
 #### Encryption
 
 - AES
-    - AES/GCM/NoPadding _(default)_
-    - AES/CBC/PKCS5Padding
+    - `AES/GCM/NoPadding` _(Recommended)_
+    - `AES/CCM/NoPadding`
+    - `AES/CBC/PKCS5Padding`
+    - `AES/CTR/NoPadding`
+    - `AES/CFB/NoPadding`
+
 - and more to be implemented...
 
-The goal of this library is to provide an abstraction layer for easily encrypting and decrypting data
-in a straightforward and hassle-free method.
-
-----
+> **Info**
+>
+> If you don't know which one to use, stick with the `recommended`
+> based on your chosen encryption method.
 
 > **Warning**
 >
 > `Kipher` is still in early development, lots of breaking changes **will** occur.
 >
-> Pin to a specific version to avoid breaking changes, and avoid updating without looking at changelogs for now.
+> Pin to a specific version to avoid breaking changes, and avoid updating without looking at
+> changelogs for now.
 
 ## Usage
 
@@ -32,11 +41,13 @@ in a straightforward and hassle-free method.
 
 Here's how you can use it:
 
-- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest), and manually add it
-  to your
-  project. ([Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans))
-
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
+
+- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest),
+  and manually add it
+  to your
+  project.
+    - ([Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans))
 
 - Using the package directly from GitHub
   Packages. ([Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) | [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package))
@@ -66,10 +77,13 @@ class EncryptionTest {
 
 ### Java:
 
-Using the library in Java requires a few things that needs to be done first:
+to use the library in java, you have two options:
 
-1. [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/1.8.10) might be required
-   to be added as a dependency.
+- Use the `-java` version of the library. _(Plug n' play)_
+
+- Or, add kotlin runtime
+  manually [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
+  as a dependency.
 
 ```java
 import kipher.aes.GcmEncryption;
@@ -112,7 +126,9 @@ class EncryptionTest {
 }
 ```
 
-Have a look into [API documentation](https://jhdcruz.github.io/kipher/) for other functions and methods.
+Have a look into [API documentation](https://jhdcruz.github.io/kipher/) for complete list functions
+and
+methods.
 
 > **Note**
 >
@@ -128,10 +144,15 @@ If you want to contribute to this project, feel free to open an issue or a pull 
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICENSE.txt) file for details
+This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICENSE.txt) file for
+details
 
 ## Disclaimer
 
-**I am not a security expert/guru**, this library is primarily made for ease-of-use, while implementing strong
-encryption methods as much as possible out-of-the-box. If you found a security issue, please
-see [reporting a security issue](./SECURITY.md).
+**I ([@jhdcruz](https://github.com/jhdcruz)) am not a security expert/professional**, this library
+is primarily made for convenience and ease-of-use.
+
+I came with this idea when I was making some JVM applications that requires encryption/decryptions,
+and had to do lots of copy-paste between source code.
+
+> If you found a security issue, please see [reporting a security issue](./SECURITY.md).
