@@ -1,5 +1,5 @@
 plugins {
-    id("kipher-tests")
+    id("module")
     id("jacoco-report-aggregation")
 }
 

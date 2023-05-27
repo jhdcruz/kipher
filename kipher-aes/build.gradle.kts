@@ -1,7 +1,7 @@
 plugins {
-    id("kipher-module")
-    id("shadowJar")
-    id("kipher-publish")
+    id("module")
+    id("compile")
+    id("publish")
 }
 
 dependencies {

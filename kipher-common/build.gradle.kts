@@ -1,5 +1,5 @@
 plugins {
-    id("kipher-module")
+    id("module")
 }
 
 dependencies {
