@@ -88,7 +88,7 @@ to use the library in java, you have two options:
 - Use the `-runtime` version of the library. _(Plug n' play)_
 
 - Or, add [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
-- as a dependency manually.
+  as a dependency manually.
 
 ```java
 import kipher.aes.GcmEncryption;

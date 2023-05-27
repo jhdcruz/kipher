@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     kotlin("jvm")
     id("com.github.johnrengelman.shadow")
@@ -20,16 +22,19 @@ tasks {
         }
     }
 
-    shadowJar {
+    val runtimeJar by creating(ShadowJar::class) {
         archiveClassifier.set("runtime")
         duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
+        from(project.tasks.shadowJar.get().outputs)
+        configurations = listOf(project.configurations.runtimeClasspath.get())
+        manifest.inheritFrom(project.tasks.jar.get().manifest)
+
         mergeServiceFiles()
+        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
     }
 
-    // always run shadowJar since
-    // normal builds doesn't include dependencies
     build {
-        finalizedBy(shadowJar)
+        finalizedBy(shadowJar, runtimeJar)
     }
 }

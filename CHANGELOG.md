@@ -10,6 +10,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - RSA encryption, decryption, signing, and verification
+
+### Changed
+
+### Removed
+
+### Deprecated
+
+### Fixed
+
+### Security
+
+## [4.1.0] - 2023-05-27
+
+### Added
+
+- runtime JARs (`*-runtime.jar`)
+    - For projects that are non-kotlin _(ex. Java projects)_
+
 - Brought back other modes for AES encryption
     - `CbcEncryption()`
     - `CfbEncryption()`
@@ -23,6 +41,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 
 ### Fixed
+
+- Fixed missing dependencies errors
+    - Such as: `Missing BaseEncryption()`, `Missing Bouncy Castle`
 
 ### Security
 
