@@ -2,8 +2,7 @@
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%232459ED&label=Coverage&logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/jhdcruz/kipher?color=green&logo=github&style=for-the-badge)](https://github.com/jhdcruz/kipher/releases/latest)
 
-Opinionated library for straightforward & hassle-free data encryption in JVM applications. (
-Java/Kotlin)
+Opinionated library for straightforward & hassle-free data encryption for JVM applications.
 
 The goal of this library is to provide an abstracted layer for easily encrypting and decrypting data
 without the need to manually construct your own.
@@ -44,15 +43,22 @@ Here's how you can use it:
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
 
 - Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest),
-  and manually add it
-  to your
-  project.
-    - ([Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse) | [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library) | [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans))
+  and manually add it to your project.
+    - [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse)
+    - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
+    - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
 
 - Using the package directly from GitHub
-  Packages. ([Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package) | [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package))
+  Packages.
+    - [Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
+    - [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package)
 
-### Kotlin:
+> **Note**
+>
+> For non-kotlin projects, use `*-runtime.jar` instead of `*.jar` as it contains necessary runtime
+> already.
+
+### Kotlin
 
 Using the library in kotlin is as easy as importing it:
 
@@ -75,15 +81,14 @@ class EncryptionTest {
 }
 ```
 
-### Java:
+### Java (Non-kotlin)
 
 to use the library in java, you have two options:
 
-- Use the `-java` version of the library. _(Plug n' play)_
+- Use the `-runtime` version of the library. _(Plug n' play)_
 
-- Or, add kotlin runtime
-  manually [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
-  as a dependency.
+- Or, add [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
+- as a dependency manually.
 
 ```java
 import kipher.aes.GcmEncryption;
@@ -104,7 +109,7 @@ class EncryptionTest {
 }
 ```
 
-### Using different key size:
+### Using different key size
 
 ```kotlin
 import kipher.aes.KipherAes
@@ -126,9 +131,8 @@ class EncryptionTest {
 }
 ```
 
-Have a look into [API documentation](https://jhdcruz.github.io/kipher/) for complete list functions
-and
-methods.
+Have a look into [API documentation](https://jhdcruz.github.io/kipher/)
+for complete list functions and methods.
 
 > **Note**
 >
@@ -149,7 +153,8 @@ details
 
 ## Disclaimer
 
-**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**, this library
+**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**, this
+library
 is primarily made for convenience and ease-of-use.
 
 I came with this idea when I was making some JVM applications that requires encryption/decryptions,
