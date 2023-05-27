@@ -17,6 +17,8 @@ reporting {
     }
 }
 
-tasks.named<Test>("test") {
-    finalizedBy(tasks.named<JacocoReport>("testCodeCoverageReport"))
+tasks {
+    test {
+        finalizedBy(testCodeCoverageReport)
+    }
 }

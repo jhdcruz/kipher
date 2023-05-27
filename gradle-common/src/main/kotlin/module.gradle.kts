@@ -18,12 +18,12 @@ kotlin {
 }
 
 tasks {
-    named<Test>("test") {
+    test {
         useJUnitPlatform()
     }
 
-    named<JacocoReport>("jacocoTestReport") {
-        dependsOn(tasks.test)
+    jacocoTestReport {
+        dependsOn(test)
 
         reports {
             xml.required.set(true)

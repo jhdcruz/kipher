@@ -1,5 +1,3 @@
-import org.jetbrains.dokka.gradle.DokkaTask
-
 plugins {
     id("org.jetbrains.dokka")
     `java-library`
@@ -13,15 +11,15 @@ java {
 }
 
 tasks {
-    named<DokkaTask>("dokkaHtml") {
+    dokkaHtml {
         outputDirectory.set(buildDir.resolve("javadoc"))
     }
 
     named<Jar>("javadocJar") {
-        dependsOn(tasks.dokkaJavadoc)
+        dependsOn(dokkaJavadoc)
         archiveClassifier.set("javadoc")
 
-        from(tasks.dokkaJavadoc)
+        from(dokkaJavadoc)
     }
 }
 
