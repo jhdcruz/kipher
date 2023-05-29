@@ -14,7 +14,7 @@ without the need to manually construct your own.
 - AES
     - `AES/GCM/NoPadding` _(Recommended)_
     - `AES/CCM/NoPadding`
-    - `AES/CBC/PKCS5Padding`
+    - `AES/CBC/PKCS7Padding`
     - `AES/CTR/NoPadding`
     - `AES/CFB/NoPadding`
 
