@@ -1,7 +1,8 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
+import org.jetbrains.dokka.versioning.VersioningConfiguration
+import org.jetbrains.dokka.versioning.VersioningPlugin
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -9,8 +10,30 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-tasks.named<DokkaMultiModuleTask>("dokkaHtmlMultiModule") {
-    outputDirectory.set(buildDir.resolve("dokkaMultiModuleOutput"))
+buildscript {
+    dependencies {
+        classpath("org.jetbrains.dokka:versioning-plugin:1.8.10")
+    }
+}
+
+dependencies {
+    dokkaPlugin("org.jetbrains.dokka:versioning-plugin:1.8.10")
+}
+
+rootProject.version = rootProject.property("VERSION_NAME")
+    ?: throw GradleException("Project version property is missing")
+
+tasks.dokkaHtmlMultiModule {
+    val docVersionsDir = projectDir.resolve("docs")
+    val currentVersion = rootProject.version.toString()
+
+    val currentDocsDir = docVersionsDir.resolve(currentVersion)
+    outputDirectory.set(currentDocsDir)
+
+    pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
+        olderVersionsDir = docVersionsDir
+        version = currentVersion
+    }
 }
 
 val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
