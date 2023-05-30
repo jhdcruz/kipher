@@ -53,6 +53,7 @@ jobs:
         with:
           name: docs
           path: "./docs/" + ${{ steps.tag_name.outputs.current_version }}
+          if-no-files-found: error
 
   push:
     needs: build
@@ -73,7 +74,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add docs
-          git commit -m "docs: generate docs for ${{ steps.tag_name.outputs.current_version }}"
+          git commit -m "docs: generate docs for ${{ steps.tag_name.outputs.current_version }} [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
@@ -84,10 +85,10 @@ jobs:
 
   deploy:
     needs: build
+    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
