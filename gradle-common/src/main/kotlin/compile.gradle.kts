@@ -2,8 +2,14 @@ import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 plugins {
     kotlin("jvm")
+    id("org.jetbrains.dokka")
     id("com.github.johnrengelman.shadow")
-    java
+    `java-library`
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 dependencies {
@@ -31,7 +37,17 @@ tasks {
         manifest.inheritFrom(project.tasks.jar.get().manifest)
 
         mergeServiceFiles()
-        exclude("META-INF/*.SF", "META-INF/*.DSA", "META-INF/*.RSA")
+    }
+
+    dokkaHtml {
+        outputDirectory.set(buildDir.resolve("javadoc"))
+    }
+
+    named<Jar>("javadocJar") {
+        dependsOn(dokkaJavadoc)
+        archiveClassifier.set("javadoc")
+
+        from(dokkaJavadoc)
     }
 
     build {

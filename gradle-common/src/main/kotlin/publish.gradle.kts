@@ -1,26 +1,6 @@
 plugins {
-    id("org.jetbrains.dokka")
-    `java-library`
     `maven-publish`
     signing
-}
-
-java {
-    withSourcesJar()
-    withJavadocJar()
-}
-
-tasks {
-    dokkaHtml {
-        outputDirectory.set(buildDir.resolve("javadoc"))
-    }
-
-    named<Jar>("javadocJar") {
-        dependsOn(dokkaJavadoc)
-        archiveClassifier.set("javadoc")
-
-        from(dokkaJavadoc)
-    }
 }
 
 project.version = project.property("VERSION_NAME")
@@ -31,44 +11,44 @@ project.group = project.property("GROUP")
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = project.property("GROUP").toString()
+            groupId = rootProject.property("GROUP").toString()
             artifactId = project.property("POM_ARTIFACT_ID").toString()
             version = project.property("VERSION_NAME").toString()
 
             pom {
                 name.set(project.property("POM_NAME").toString())
                 description.set(project.property("POM_DESCRIPTION").toString())
-                url.set(project.property("POM_URL").toString())
+                url.set(rootProject.property("POM_URL").toString())
 
                 licenses {
                     license {
-                        name.set(project.property("POM_LICENSE_NAME").toString())
-                        url.set(project.property("POM_LICENSE_URL").toString())
+                        name.set(rootProject.property("POM_LICENSE_NAME").toString())
+                        url.set(rootProject.property("POM_LICENSE_URL").toString())
                         distribution.set("repo")
                     }
                 }
 
                 developers {
                     developer {
-                        id.set(project.property("POM_DEVELOPER_ID").toString())
-                        name.set(project.property("POM_DEVELOPER_NAME").toString())
-                        url.set(project.property("POM_DEVELOPER_URL").toString())
+                        id.set(rootProject.property("POM_DEVELOPER_ID").toString())
+                        name.set(rootProject.property("POM_DEVELOPER_NAME").toString())
+                        url.set(rootProject.property("POM_DEVELOPER_URL").toString())
                     }
                 }
 
                 scm {
-                    url.set(project.property("POM_SCM_URL").toString())
-                    connection.set(project.property("POM_SCM_CONNECTION").toString())
-                    developerConnection.set(project.property("POM_SCM_DEV_CONNECTION").toString())
+                    url.set(rootProject.property("POM_SCM_URL").toString())
+                    connection.set(rootProject.property("POM_SCM_CONNECTION").toString())
+                    developerConnection.set(
+                        rootProject.property("POM_SCM_DEV_CONNECTION").toString()
+                    )
                 }
 
                 issueManagement {
-                    system.set(project.property("POM_ISSUE_SYSTEM").toString())
-                    url.set(project.property("POM_ISSUE_URL").toString())
+                    system.set(rootProject.property("POM_ISSUE_SYSTEM").toString())
+                    url.set(rootProject.property("POM_ISSUE_URL").toString())
                 }
             }
-
-            from(components["java"])
         }
     }
 
