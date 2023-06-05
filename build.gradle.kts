@@ -12,14 +12,15 @@ plugins {
 
 buildscript {
     dependencies {
-        classpath("org.jetbrains.dokka:versioning-plugin:1.8.10")
+        classpath(libs.dokka.versioning)
     }
 }
 
 dependencies {
-    dokkaPlugin("org.jetbrains.dokka:versioning-plugin:1.8.10")
+    dokkaPlugin(libs.dokka.versioning)
 }
 
+// dokka uses this to determine versioned docs
 rootProject.version = rootProject.property("VERSION_NAME")
     ?: throw GradleException("Project version property is missing")
 
