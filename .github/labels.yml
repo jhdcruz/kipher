@@ -1,25 +1,24 @@
 "Module | AES":
   - kiper-aes/**/*
+  - kiper-aes-compat/**/*
 
 "Module | RSA":
   - kiper-rsa/**/*
+  - kiper-rsa-compat/**/*
 
 "Module | Gradle":
-  - gradle-common/**/*
+  - gradle-scripts/**/*
   - gradle/**/*
   - ./**/*.gradle.kts
+  - gradlew
+  - gradlew.bat
 
 Tests:
-  - ./**/*Test.kt
+  - ./**/**/test/**/*
 
 Documentation:
   - docs/**/*
   - ./**/*.md
-
-Tooling | Internal:
-  - gradlew
-  - gradlew.bat
-  - .editorconfig
 
 Tooling | Extensions:
   - renovate.json
