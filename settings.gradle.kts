@@ -31,7 +31,11 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 rootProject.name = "kipher"
 
-include("kipher-coverage")
-include("kipher-common")
-include("kipher-aes")
-include("kipher-rsa")
+include(
+    "kipher-coverage",
+    "kipher-common",
+    "kipher-aes",
+    "kipher-aes-compat",
+    "kipher-rsa",
+    "kipher-rsa-compat",
+)

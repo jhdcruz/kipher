@@ -61,6 +61,7 @@ jobs:
           draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
           artifacts: |
             kipher-aes/build/libs/*.jar
+            kipher-aes-compat/build/libs/*.jar
 
       - name: Publish package
         uses: gradle/gradle-build-action@v2

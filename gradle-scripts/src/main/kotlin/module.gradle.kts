@@ -1,6 +1,13 @@
 plugins {
     kotlin("jvm")
+    id("org.jetbrains.dokka")
     jacoco
+    `java-library`
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 dependencies {
@@ -29,5 +36,16 @@ tasks {
             xml.required.set(true)
             html.required.set(true)
         }
+    }
+
+    dokkaHtml {
+        outputDirectory.set(buildDir.resolve("javadoc"))
+    }
+
+    named<Jar>("javadocJar") {
+        dependsOn(dokkaJavadoc)
+        archiveClassifier.set("javadoc")
+
+        from(dokkaJavadoc)
     }
 }
