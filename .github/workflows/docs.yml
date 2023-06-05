@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "**"
+      - *
 
 permissions:
   contents: read
@@ -12,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: pages
   cancel-in-progress: true
 
 env:
@@ -33,10 +33,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JDK_VERSION }}
-          distribution: "temurin"
+          distribution: temurin
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: "gradle"
+          cache: gradle
 
       - name: Get version from tag
         id: tag_name
@@ -63,11 +63,14 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Remove previous versions
+        run: rm -rf docs/
+
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: "./docs/"
+          path: ./docs
 
       - name: Commit latest docs
         run: |
@@ -80,8 +83,7 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: "./docs/" + ${{ steps.tag_name.outputs.current_version }}
-
+          directory: ./docs/ + ${{ steps.tag_name.outputs.current_version }}
 
   deploy:
     needs: build
@@ -94,12 +96,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: "./docs/"
+          path: ./docs/
 
       - name: Upload to pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./docs/" + ${{ steps.tag_name.outputs.current_version }}
+          path: ./docs/ + ${{ steps.tag_name.outputs.current_version }}
 
       - name: Deploy to GitHub Pages
         id: deployment
