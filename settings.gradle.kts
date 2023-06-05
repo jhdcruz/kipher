@@ -6,7 +6,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    includeBuild("gradle-common")
+    includeBuild("gradle-scripts")
 }
 
 dependencyResolutionManagement {
