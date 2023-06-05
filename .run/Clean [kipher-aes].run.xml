@@ -10,7 +10,8 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipher-aes:clean" />
+          <option value="kipherAes:clean" />
+          <option value="kipherAesCompat:clean" />
         </list>
       </option>
       <option name="vmOptions" />
@@ -18,7 +19,7 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
-    <ForceTestExec>false</ForceTestExec>
+    <RunAsTest>false</RunAsTest>
     <method v="2" />
   </configuration>
 </component>

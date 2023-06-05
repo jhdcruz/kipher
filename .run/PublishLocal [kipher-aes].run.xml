@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build [kipher-aes]" type="GradleRunConfiguration" factoryName="Gradle" folderName="kipher-aes">
+  <configuration default="false" name="PublishLocal [kipher-aes]" type="GradleRunConfiguration" factoryName="Gradle" folderName="kipher-aes">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,8 +10,8 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipherAes:build" />
-          <option value="kipherAesCompat:build" />
+          <option value="kipherAes:publishToMavenLocal" />
+          <option value="kipherAesCompat:publishToMavenLocal" />
         </list>
       </option>
       <option name="vmOptions" />
