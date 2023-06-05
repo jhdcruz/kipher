@@ -25,7 +25,7 @@ rootProject.version = rootProject.property("VERSION_NAME")
     ?: throw GradleException("Project version property is missing")
 
 tasks.dokkaHtmlMultiModule {
-    val docVersionsDir = projectDir.resolve("docs")
+    val docVersionsDir = projectDir.resolve("docs/api")
     val currentVersion = rootProject.version.toString()
 
     val currentDocsDir = docVersionsDir.resolve(currentVersion)

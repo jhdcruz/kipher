@@ -38,11 +38,6 @@ jobs:
           settings-path: ${{ github.workspace }}
           cache: gradle
 
-      - name: Get version from tag
-        id: tag_name
-        shell: bash
-        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
       - name: Dokka build
         uses: gradle/gradle-build-action@v2
         with:
@@ -52,7 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: docs
-          path: "./docs/" + ${{ steps.tag_name.outputs.current_version }}
+          path: ./docs/api/
           if-no-files-found: error
 
   push:
@@ -63,27 +58,33 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get version from tag
+        id: tag_name
+        shell: bash
+        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+        # remove previous versions, new version contains the old ones
       - name: Remove previous versions
-        run: rm -rf docs/
+        run: rm -rf docs/api
 
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: ./docs
+          path: ./docs/api
 
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add docs
+          git add docs/api/
           git commit -m "docs: generate docs for ${{ steps.tag_name.outputs.current_version }} [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: ./docs/ + ${{ steps.tag_name.outputs.current_version }}
+          directory: ./docs/api
 
   deploy:
     needs: build
@@ -96,12 +97,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: ./docs/
+          path: ./docs/api
 
       - name: Upload to pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./docs/ + ${{ steps.tag_name.outputs.current_version }}
+          path: ./docs/api
 
       - name: Deploy to GitHub Pages
         id: deployment
