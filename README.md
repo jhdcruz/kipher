@@ -53,11 +53,6 @@ Here's how you can use it:
     - [Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
     - [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package)
 
-> **Note**
->
-> For non-kotlin projects, use `*-runtime.jar` instead of `*.jar` as it contains necessary runtime
-> already.
-
 ### Kotlin
 
 Using the library in kotlin is as easy as importing it:
@@ -85,7 +80,7 @@ class EncryptionTest {
 
 to use the library in java, you have two options:
 
-- Use the `-runtime` version of the library. _(Plug n' play)_
+- Use the `-compat` version of the library.
 
 - Or, add [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
   as a dependency manually.
