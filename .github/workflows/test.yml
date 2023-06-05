@@ -19,10 +19,10 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java }}
-          distribution: "temurin"
+          distribution: temurin
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: 'gradle'
+          cache: gradle
 
       - name: Test with JDK ${{ matrix.java }}
         uses: gradle/gradle-build-action@v2

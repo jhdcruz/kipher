@@ -6,7 +6,7 @@ on:
   push:
     paths:
       - "**.gradle.kts"
-      - "libs.versions.toml"
+      - libs.versions.toml
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
@@ -22,22 +22,22 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JDK_VERSION }}
-          distribution: "temurin"
+          distribution: temurin
           server-id: github
           settings-path: ${{ github.workspace }}
-          cache: 'gradle'
+          cache: gradle
 
       - name: Test with JDK ${{ env.JDK_VERSION }}
         uses: gradle/gradle-build-action@v2
         with:
           arguments: test build
 
-      - name: "FOSSA Scan"
+      - name: FOSSA Scan
         uses: fossas/fossa-action@v1
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}
 
-      - name: "FOSSA Test"
+      - name: FOSSA Test
         uses: fossas/fossa-action@v1
         with:
           api-key: ${{ secrets.FOSSA_API_KEY }}

@@ -1,8 +1,8 @@
 name: triage
 on:
   workflow_run:
-    workflows: ["Pull Request"]
-    types: [completed]
+    workflows: [ Pull Request ]
+    types: [ completed ]
 
 jobs:
   label:
@@ -16,7 +16,7 @@ jobs:
         with:
           configuration-path: .github/labels.yml
           sync-labels: true
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
   check:
     name: Trunk Check Annotate
