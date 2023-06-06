@@ -34,5 +34,5 @@
         "automerge": true
     },
     "dependencyDashboard": false,
-    "commitMessagePrefix": "gradle:"
+    "commitMessagePrefix": "chore(deps):"
 }
