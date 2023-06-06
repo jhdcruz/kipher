@@ -67,7 +67,7 @@ jobs:
             :kipher-rsa
             :kipher-rsa-compat
           gradle-build-configuration: |-
-            debugCompileClasspath
+            compileClasspath
 
       - name: Trunk Check
         if: always()
