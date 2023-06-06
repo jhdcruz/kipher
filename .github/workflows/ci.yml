@@ -59,12 +59,15 @@ jobs:
         uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
           gradle-build-module: |-
+            :gradle-scripts
             :kipher-coverage
             :kipher-common
             :kipher-aes
+            :kipher-aes-compat
             :kipher-rsa
+            :kipher-rsa-compat
           gradle-build-configuration: |-
-            compileClasspath
+            debugCompileClasspath
 
       - name: Trunk Check
         if: always()
