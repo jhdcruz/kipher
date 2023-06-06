@@ -1,0 +1,46 @@
+name: chores
+on:
+  schedule:
+    - cron: 0 0 * * 1
+  workflow_dispatch:
+
+jobs:
+  upgrade:
+    name: trunk-upgrade
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Trunk Upgrade
+        uses: trunk-io/trunk-action/upgrade@main
+
+  analyze:
+    name: repo-scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: java
+
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v2
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: /language:java
