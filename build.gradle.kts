@@ -13,6 +13,7 @@ plugins {
 buildscript {
     dependencies {
         classpath(libs.dokka.versioning)
+        classpath(libs.dokka.plugins.kaj)
     }
 }
 
