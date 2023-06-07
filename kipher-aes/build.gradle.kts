@@ -1,7 +1,7 @@
 plugins {
-    id("module")
-    id("compile")
-    id("publish")
+    id("conventions.module")
+    id("conventions.compile")
+    id("conventions.publish")
 }
 
 dependencies {

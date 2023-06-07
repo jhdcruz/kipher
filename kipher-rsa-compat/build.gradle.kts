@@ -1,15 +1,11 @@
 plugins {
-    id("module")
-    id("compile-compat")
-    id("publish")
+    id("conventions.module")
+    id("conventions.compile-compat")
+    id("conventions.publish")
 }
 
 dependencies {
     api(projects.kipherRsa) {
         configurations.shadow
     }
-}
-
-tasks.shadowJar {
-    dependsOn(project(":kipher-rsa").tasks.shadowJar)
 }

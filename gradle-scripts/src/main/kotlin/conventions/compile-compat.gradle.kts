@@ -1,7 +1,14 @@
+package conventions
+
 plugins {
-    kotlin("jvm")
+    id("org.jetbrains.dokka")
     id("com.github.johnrengelman.shadow")
     `java-library`
+}
+
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
 
 dependencies {

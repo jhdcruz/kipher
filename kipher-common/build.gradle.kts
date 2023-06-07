@@ -1,5 +1,5 @@
 plugins {
-    id("module")
+    id("conventions.module")
 }
 
 dependencies {
