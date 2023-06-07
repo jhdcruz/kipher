@@ -12,6 +12,7 @@ jobs:
     strategy:
       matrix:
         java: [ 8, 11, 17, 19 ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
     steps:
       - uses: actions/checkout@v3
 
@@ -20,14 +21,20 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: temurin
-          server-id: github
-          settings-path: ${{ github.workspace }}
-          cache: gradle
+
+      # gradle-build-action already does the caching
+      - name: Setup gradle
+        uses: gradle/gradle-build-action@v2
+        env:
+          ORG_GRADLE_PROJECT_kipher.toolchain.compilerVersion: ${{ matrix.java }}
+
+      - name: Test with JDK ${{ matrix.java }} on Windows
+        if: matrix.os == 'windows-latest'
+        run: clean test --stacktrace --no-daemon --no-parallel
 
       - name: Test with JDK ${{ matrix.java }}
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: test
+        if: matrix.os != 'windows-latest'
+        run: ./gradlew clean test --stacktrace
 
       - name: Upload test coverage
         uses: actions/upload-artifact@v3
