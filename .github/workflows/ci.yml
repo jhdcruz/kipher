@@ -7,10 +7,10 @@ on:
     branches:
       - main
     paths-ignore:
-      - "**.md"
-      - "**.txt"
-      - "**.json"
-      - ".gitignore"
+      - ./**.md
+      - ./**.txt
+      - ./**.json
+      - ./.gitignore
     tags-ignore:
       - "*"
 
@@ -27,6 +27,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: test
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -36,11 +38,9 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ env.JDK_VERSION }}
-          distribution: "temurin"
-          server-id: github
-          settings-path: ${{ github.workspace }}
-          cache: 'gradle'
+          distribution: temurin
 
+      # gradle-build-action already does the caching
       - name: Build with Analyze
         uses: gradle/gradle-build-action@v2
         with:
@@ -48,14 +48,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload SARIF results file
-        if: always()
-        uses: github/codeql-action/upload-sarif@main
-        with:
-          sarif_file: build/reports/detekt/merge.sarif
-
       - name: Gradle dependency submission
-        if: always()
         uses: mikepenz/gradle-dependency-submission@v0.8.6
         with:
           gradle-build-module: |-
@@ -63,11 +56,15 @@ jobs:
             :kipher-coverage
             :kipher-common
             :kipher-aes
-            :kipher-aes-compat
             :kipher-rsa
-            :kipher-rsa-compat
           gradle-build-configuration: |-
             compileClasspath
+
+      - name: Upload SARIF results file
+        if: always()
+        uses: github/codeql-action/upload-sarif@main
+        with:
+          sarif_file: build/reports/detekt/merge.sarif
 
       - name: Trunk Check
         if: always()
