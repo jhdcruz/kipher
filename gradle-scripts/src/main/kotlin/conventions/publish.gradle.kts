@@ -12,7 +12,7 @@ project.group = project.property("GROUP")
 
 publishing {
     publications {
-        register<MavenPublication>("main") {
+        register<MavenPublication>("maven") {
             groupId = rootProject.property("GROUP").toString()
             artifactId = project.property("POM_ARTIFACT_ID").toString()
             version = project.property("VERSION_NAME").toString()
