@@ -12,7 +12,7 @@ java {
 }
 
 dependencies {
-    runtimeOnly(kotlin("stdlib"))
+    implementation(kotlin("stdlib"))
 }
 
 tasks {
