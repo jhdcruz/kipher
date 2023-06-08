@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: https://jhdcruz.github.io/kipher
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Setup Pages
         uses: actions/configure-pages@v3
@@ -94,7 +94,7 @@ jobs:
           path: ./docs/api
 
       - name: Get generate docs directory name
-        id: dir_name
+        id: docs
         shell: bash
         run: |
           cd ./docs/api
@@ -103,7 +103,7 @@ jobs:
       - name: Upload to pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: "./docs/api/${{ steps.tag_name.outputs.dir_name }}"
+          path: "./docs/api/${{ steps.docs.outputs.dir_name }}"
 
       - name: Deploy to GitHub Pages
         id: deployment
