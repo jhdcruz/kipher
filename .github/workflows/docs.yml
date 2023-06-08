@@ -7,7 +7,7 @@ on:
       - "**"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -52,11 +52,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get version from tag
-        id: tag_name
-        shell: bash
-        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
         # remove previous versions, new version contains the old ones
       - name: Remove previous versions
         run: rm -rf docs/api
@@ -72,7 +67,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -f docs/api/
-          git commit -m "docs: generate docs for ${{ steps.tag_name.outputs.current_version }} [skip-ci]"
+          git commit -m "docs: generate docs [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
@@ -90,21 +85,23 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
-      - name: Get version from tag
-        id: tag_name
-        shell: bash
-        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: docs
           path: ./docs/api
 
+      - name: Get generate docs directory name
+        id: dir_name
+        shell: bash
+        run: |
+          cd $(echo $GITHUB_REPOSITORY | awk -F/ '{print $2}')
+          echo "dir_name=${find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///'}" >> $GITHUB_OUTPUT
+
       - name: Upload to pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ./docs/api + ${{ steps.tag_name.outputs.current_version }}
+          path: ./docs/api/ + ${{ steps.tag_name.outputs.dir_name }}
 
       - name: Deploy to GitHub Pages
         id: deployment
