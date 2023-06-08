@@ -1,0 +1,11 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:kipher-aes
+kipher.aes
+module:kipher-aes-compat
+kipher.aes
+module:kipher-rsa
+kipher.rsa
+module:kipher-rsa-compat
+kipher.rsa
