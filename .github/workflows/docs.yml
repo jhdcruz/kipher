@@ -82,6 +82,8 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - uses: actions/checkout@v3
+
       - name: Setup Pages
         uses: actions/configure-pages@v3
 
@@ -95,7 +97,7 @@ jobs:
         id: dir_name
         shell: bash
         run: |
-          cd $(echo $GITHUB_REPOSITORY | awk -F/ '{print $2}')
+          cd docs/api
           echo "dir_name=${find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///'}" >> $GITHUB_OUTPUT
 
       - name: Upload to pages
