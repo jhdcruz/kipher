@@ -98,7 +98,7 @@ jobs:
         shell: bash
         run: |
           cd docs/api
-          echo "dir_name=${find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///'}" >> $GITHUB_OUTPUT
+          echo "dir_name=$(find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///')" >> $GITHUB_OUTPUT
 
       - name: Upload to pages
         uses: actions/upload-pages-artifact@v1
