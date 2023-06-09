@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package kipher.aes
+package io.github.jhdcruz.kipher.aes
 
-import kipher.common.KipherException
+import io.github.jhdcruz.kipher.common.KipherException
 import java.nio.ByteBuffer
 import java.security.GeneralSecurityException
 import javax.crypto.Cipher

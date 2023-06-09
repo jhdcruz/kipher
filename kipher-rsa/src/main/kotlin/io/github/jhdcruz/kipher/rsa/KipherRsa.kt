@@ -5,9 +5,9 @@
 
 @file:Suppress("MagicNumber")
 
-package kipher.rsa
+package io.github.jhdcruz.kipher.rsa
 
-import kipher.common.KipherException
+import io.github.jhdcruz.kipher.common.KipherException
 import java.security.GeneralSecurityException
 import java.security.InvalidParameterException
 import java.security.KeyPair
@@ -27,7 +27,7 @@ class KipherRsa @JvmOverloads constructor(
     /** Cipher instance for RSA encryption. */
     private val cipher: Cipher = Cipher.getInstance(
         rsaMode.mode,
-        // use bouncycastle as provider if set to true
+        // use bouncy castle as provider if set to true
         "BC",
     )
 

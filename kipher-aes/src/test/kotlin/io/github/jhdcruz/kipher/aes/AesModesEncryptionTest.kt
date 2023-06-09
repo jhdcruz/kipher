@@ -1,9 +1,4 @@
-/*
- * Copyright 2023 Joshua Hero Dela Cruz
- * SPDX-License-Identifier: Apache-2.0
- */
-
-package kipher.aes
+package io.github.jhdcruz.kipher.aes
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

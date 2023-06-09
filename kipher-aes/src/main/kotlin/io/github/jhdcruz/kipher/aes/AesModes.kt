@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package kipher.aes
+package io.github.jhdcruz.kipher.aes
 
 /** Available AES encryption [mode]s */
 enum class AesModes(val mode: String) {

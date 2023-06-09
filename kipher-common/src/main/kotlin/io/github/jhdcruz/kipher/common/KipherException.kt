@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package kipher.common
+package io.github.jhdcruz.kipher.common
 
 /**
  * Throw custom exception caused by [cause].

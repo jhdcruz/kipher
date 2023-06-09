@@ -5,7 +5,7 @@
 
 @file:JvmSynthetic
 
-package kipher.rsa
+package io.github.jhdcruz.kipher.rsa
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.KeyFactory
@@ -14,7 +14,6 @@ import java.security.Security
 
 abstract class KipherRsaImpl {
     init {
-        // add bouncy castle as security provider if bouncycastle is true
         Security.addProvider(BouncyCastleProvider())
     }
 

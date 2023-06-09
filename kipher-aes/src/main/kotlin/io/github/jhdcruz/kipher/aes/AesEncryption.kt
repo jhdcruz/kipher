@@ -5,9 +5,9 @@
 
 @file:JvmSynthetic
 
-package kipher.aes
+package io.github.jhdcruz.kipher.aes
 
-import kipher.common.BaseEncryption
+import io.github.jhdcruz.kipher.common.BaseEncryption
 import javax.crypto.KeyGenerator
 
 // Constants

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package kipher.rsa
+package io.github.jhdcruz.kipher.rsa
 
 enum class RsaModes(val mode: String) {
     OAEP_512("RSA/ECB/OAEPWithSHA-512AndMGF1Padding"),
