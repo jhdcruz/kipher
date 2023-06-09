@@ -1,5 +1,4 @@
 ---
-engines:
-  duplication:
-    exclude_paths:
-      - "**/*Test.kt"
+exclude_paths:
+  - "docs/api/**"
+  - ".trunk/configs/**"
