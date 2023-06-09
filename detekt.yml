@@ -1,0 +1,7 @@
+style:
+  ForbiddenComment:
+    active: false
+
+libraries:
+  LibraryEntitiesShouldNotBePublic:
+    active: false

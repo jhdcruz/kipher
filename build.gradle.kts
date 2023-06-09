@@ -54,7 +54,8 @@ allprojects {
         parallel = true
         ignoreFailures = true
         buildUponDefaultConfig = true
-        baseline = file("$rootDir/config/detekt/baseline.xml")
+
+        config.setFrom("${rootProject.projectDir}/detekt.yml")
     }
 
     tasks.withType<DetektCreateBaselineTask>().configureEach {
