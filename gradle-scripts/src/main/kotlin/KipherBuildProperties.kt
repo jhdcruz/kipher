@@ -9,7 +9,10 @@ import javax.inject.Inject
  *
  * Default values are set in the root `gradle.properties`, and can be overridden via
  * [CLI args, system properties, and environment variables](https://docs.gradle.org/current/userguide/build_environment.html#sec:project_properties)
+ *
+ * [Reference](https://github.com/Kotlin/dokka/blob/18d01bf269a88c0fba0ae860a1fda644d31a37c2/build-logic/src/main/kotlin/org/jetbrains/DokkaBuildProperties.kt)
  */
+@Suppress("UnnecessaryAbstractClass")
 abstract class KipherBuildProperties @Inject constructor(
     private val providers: ProviderFactory,
 ) {
