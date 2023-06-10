@@ -1,5 +1,7 @@
 package conventions
 
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
+
 plugins {
     id("org.jetbrains.dokka")
     id("com.github.johnrengelman.shadow")
@@ -26,6 +28,14 @@ tasks {
 
     dokkaHtml {
         outputDirectory.set(buildDir.resolve("javadoc"))
+    }
+
+    named<DokkaTaskPartial>("dokkaHtmlPartial") {
+        dokkaSourceSets {
+            configureEach {
+                includes.from("README.md")
+            }
+        }
     }
 
     named<Jar>("javadocJar") {

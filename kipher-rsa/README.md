@@ -1,3 +1,3 @@
-# Kipher RSA
+# Module kipher-rsa
 
-A simple library helper for encrypting and decrypting data in RSA algorithm.
+Library for encrypting/decrypting, signing, and verifying data using RSA algorithm.

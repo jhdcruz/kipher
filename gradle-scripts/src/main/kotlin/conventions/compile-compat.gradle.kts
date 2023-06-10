@@ -1,5 +1,7 @@
 package conventions
 
+import org.jetbrains.dokka.gradle.DokkaTaskPartial
+
 plugins {
     kotlin("jvm")
     id("org.jetbrains.dokka")
@@ -20,6 +22,14 @@ tasks {
     shadowJar {
         archiveClassifier.set("")
         mergeServiceFiles()
+    }
+
+    named<DokkaTaskPartial>("dokkaHtmlPartial") {
+        dokkaSourceSets {
+            configureEach {
+                includes.from("README.md")
+            }
+        }
     }
 
     named<Jar>("javadocJar") {
