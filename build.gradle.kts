@@ -1,8 +1,12 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import io.gitlab.arturbosch.detekt.report.ReportMergeTask
+import org.jetbrains.dokka.base.DokkaBase
+import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
+import java.util.Calendar
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
@@ -12,6 +16,7 @@ plugins {
 
 buildscript {
     dependencies {
+        classpath(libs.dokka.base)
         classpath(libs.dokka.versioning)
         classpath(libs.dokka.plugins.kaj)
     }
@@ -25,16 +30,28 @@ dependencies {
 rootProject.version = rootProject.property("VERSION_NAME")
     ?: throw GradleException("Project version property is missing")
 
-tasks.dokkaHtmlMultiModule {
-    val docVersionsDir = projectDir.resolve("docs/api")
-    val currentVersion = rootProject.version.toString()
+tasks {
+    dokkaHtmlMultiModule {
+        moduleName.set("Kipher")
 
-    val currentDocsDir = docVersionsDir.resolve(currentVersion)
-    outputDirectory.set(currentDocsDir)
+        val docVersionsDir = projectDir.resolve("docs/api")
+        val currentVersion = rootProject.version.toString()
 
-    pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-        olderVersionsDir = docVersionsDir
-        version = currentVersion
+        val currentDocsDir = docVersionsDir.resolve(currentVersion)
+        outputDirectory.set(currentDocsDir)
+
+        pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
+            olderVersionsDir = docVersionsDir
+            version = currentVersion
+        }
+
+        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+            footerMessage =
+                // get current year
+                "© ${Calendar.getInstance().get(Calendar.YEAR)}" +
+                    " Kipher Author & Contributors | " +
+                    "Licensed under <a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>The Apache 2.0 License</a>"
+        }
     }
 }
 
