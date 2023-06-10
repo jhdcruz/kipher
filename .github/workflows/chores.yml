@@ -21,6 +21,8 @@ jobs:
 
       - name: Trunk Upgrade
         uses: trunk-io/trunk-action/upgrade@main
+        with:
+          prefix: "chore(config): "
 
   cql-scan:
     name: repo-scan
