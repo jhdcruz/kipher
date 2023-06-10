@@ -22,6 +22,13 @@ tasks {
         mergeServiceFiles()
     }
 
+    named<Jar>("javadocJar") {
+        dependsOn(dokkaJavadoc)
+        archiveClassifier.set("javadoc")
+
+        from(dokkaJavadoc)
+    }
+
     build {
         finalizedBy(shadowJar)
     }

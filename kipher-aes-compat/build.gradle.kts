@@ -28,10 +28,12 @@ tasks {
         }
     }
 
+    val sources = project(":kipher-aes").sourceSets.main.get().allSource
+
     dokkaHtmlPartial.configure {
         dokkaSourceSets {
             configureEach {
-                sourceRoots.from(project(":kipher-aes").sourceSets.main.get().allSource.srcDirs)
+                sourceRoots.from(sources.srcDirs)
             }
         }
     }
@@ -41,21 +43,13 @@ tasks {
 
         dokkaSourceSets {
             configureEach {
-                sourceRoots.from(project(":kipher-aes").sourceSets.main.get().allSource.srcDirs)
+                sourceRoots.from(sources.srcDirs)
             }
         }
     }
 
-    javadocJar {
-        dependsOn(dokkaJavadoc)
-        archiveClassifier.set("javadoc")
-
-        from(dokkaJavadoc)
-    }
-
-    // configure sources jar
     sourcesJar {
         archiveClassifier.set("sources")
-        from(project(":kipher-aes").sourceSets.main.get().allSource)
+        from(sources)
     }
 }
