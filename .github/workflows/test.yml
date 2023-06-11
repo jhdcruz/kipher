@@ -37,6 +37,7 @@ jobs:
         run: ./gradlew clean test --stacktrace
 
       - name: Upload test coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: actions/upload-artifact@v3
         with:
           name: coverage-file
