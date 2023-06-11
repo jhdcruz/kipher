@@ -1,9 +1,5 @@
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
-import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
 import java.util.Calendar
@@ -55,10 +51,6 @@ tasks {
     }
 }
 
-val detektReportMergeSarif by tasks.registering(ReportMergeTask::class) {
-    output.set(rootProject.layout.buildDirectory.file("reports/detekt/merge.sarif"))
-}
-
 allprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
 
@@ -73,29 +65,5 @@ allprojects {
         buildUponDefaultConfig = true
 
         config.setFrom("${rootProject.projectDir}/detekt.yml")
-    }
-
-    tasks.withType<DetektCreateBaselineTask>().configureEach {
-        jvmTarget = "1.8"
-    }
-}
-
-subprojects {
-    tasks.withType<Detekt> {
-        basePath = rootProject.projectDir.absolutePath
-        jvmTarget = "1.8"
-
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-            sarif.required.set(true)
-        }
-
-        finalizedBy(detektReportMergeSarif)
-    }
-
-    // Merge detekt report into sarif file for CodeQL scanning
-    detektReportMergeSarif.configure {
-        input.from(tasks.withType<Detekt>().map { it.sarifReportFile })
     }
 }
