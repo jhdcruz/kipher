@@ -21,11 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## [4.1.0] - 2023-05-27
+## [0.8.0] - 2023-05-27
 
 ### Added
 
-- runtime JARs (`*-runtime.jar`)
+- runtime JARs (`*-compat.jar`)
     - For projects that are non-kotlin _(ex. Java projects)_
 
 - Brought back other modes for AES encryption
@@ -34,12 +34,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `CtrEncryption()`
     - `CcmEncryption()` _(CCM is a variant of GCM)_
 
-### Changed
-
-### Removed
-
-### Deprecated
-
 ### Fixed
 
 - Fixed missing dependencies errors
@@ -47,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
-## [4.0.0] - 2023-04-21
+## [0.7.0] - 2023-04-21
 
 ### Added
 
@@ -68,13 +62,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `KipherAes()`
     - See `GcmEncryption()` and `CbcEncryption()` for replacement
 
-## [3.0.0]
+## [0.6.0]
 
 ### Changed
 
 - BREAKING CHANGE: `AesGcmEncryption()` is no longer available. Use `AesEncryption()` instead.
 
-## [2.1.0]
+## [0.5.0]
 
 ### Deprecated
 
@@ -83,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - `"AES/CFB/NoPadding`
     - `AES/OFB/NoPadding`
 
-## [2.0.0] - 2023-01-24
+## [0.4.0] - 2023-01-24
 
 ### Added
 
@@ -101,7 +95,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - BREAKING CHANGE: `AesGcmEncryption()` is no longer available. Use `AesEncryption()` instead.
 
-## [1.1.0] - 2023-01-11
+## [0.3.0] - 2023-01-11
 
 ### Added
 
@@ -109,7 +103,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Valid key sizes: `128`, `192`, `256`.
     - Custom key sizes are **optional**, and will default to `256` if not specified.
 
-## [1.0.0] - 2023-01-11
+## [0.2.0] - 2023-01-11
 
 ### Added
 
