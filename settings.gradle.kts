@@ -35,7 +35,5 @@ include(
     "kipher-coverage",
     "kipher-common",
     "kipher-aes",
-    "kipher-aes-compat",
     "kipher-rsa",
-    "kipher-rsa-compat",
 )

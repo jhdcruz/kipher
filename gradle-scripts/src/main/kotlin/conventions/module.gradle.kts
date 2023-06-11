@@ -3,6 +3,7 @@ package conventions
 plugins {
     kotlin("jvm")
     id("conventions.base")
+    id("com.github.johnrengelman.shadow")
     jacoco
     `java-library`
 }
@@ -24,6 +25,10 @@ kotlin {
 
 tasks {
     withType<Test>().configureEach {
+        if (project.name != "kipher-common") {
+            dependsOn(project(":kipher-common").tasks.shadowJar)
+        }
+
         useJUnitPlatform()
 
         javaLauncher.set(

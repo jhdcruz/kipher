@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.kipherCommon)
+    implementation(projects.kipherCommon) {
+        configurations.shadow
+    }
     implementation(libs.bouncycastle.pcix)
 }

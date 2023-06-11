@@ -15,19 +15,12 @@ java {
 
 tasks {
     shadowJar {
+        if (project.name != "kipher-common") {
+            dependsOn(project(":kipher-common").tasks.shadowJar)
+        }
+
         archiveClassifier.set("")
         mergeServiceFiles()
-
-        // For some reason, this is included in the final jar despite
-        // listing it separately in each compat modules, so I had to
-        // exclude it manually and create a separate compile script
-        dependencies {
-            exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-        }
-    }
-
-    dokkaHtml {
-        outputDirectory.set(buildDir.resolve("javadoc"))
     }
 
     named<DokkaTaskPartial>("dokkaHtmlPartial") {

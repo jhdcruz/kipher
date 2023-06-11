@@ -12,10 +12,12 @@ project.group = project.property("GROUP")
 
 publishing {
     publications {
-        register<MavenPublication>("maven") {
+        create<MavenPublication>("maven") {
             groupId = rootProject.property("GROUP").toString()
             artifactId = project.property("POM_ARTIFACT_ID").toString()
             version = project.property("VERSION_NAME").toString()
+
+            from(components["java"])
 
             pom {
                 name.convention(project.property("POM_NAME").toString())
@@ -93,4 +95,5 @@ signing {
     useInMemoryPgpKeys(signingKey, signingPassword)
 
     sign(publishing.publications["maven"])
+    isRequired = rootProject.version.toString().endsWith("SNAPSHOT").not()
 }
