@@ -9,6 +9,8 @@ shadow = "8.1.1"
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
+
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
