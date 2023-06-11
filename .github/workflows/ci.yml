@@ -11,12 +11,11 @@ on:
       - ./**.txt
       - ./**.json
       - ./.gitignore
-    tags-ignore:
-      - "*"
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 jobs:
@@ -41,13 +40,16 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
           distribution: temurin
 
-      # gradle-build-action already does the caching
-      - name: Build with Analyze
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: gradle/gradle-build-action@v2
+
+      - name: Gradle build
+        run: ./gradlew build
+
+      # versions are set to SNAPSHOT on main,
+      # and only removed in release branch
+      - name: Publish snapshots
+        if: startsWith(github.ref, 'refs/heads/main')
+        run: ./gradlew publish
 
       - name: Gradle dependency submission
         uses: mikepenz/gradle-dependency-submission@v0.8.6
@@ -62,7 +64,6 @@ jobs:
             compileClasspath
 
       - name: Upload SARIF results file
-        if: always()
         uses: github/codeql-action/upload-sarif@main
         with:
           sarif_file: build/reports/detekt/merge.sarif
