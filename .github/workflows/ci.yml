@@ -64,6 +64,7 @@ jobs:
             compileClasspath
 
       - name: Upload SARIF results file
+        if: always()
         uses: github/codeql-action/upload-sarif@main
         with:
           sarif_file: build/reports/detekt/merge.sarif
