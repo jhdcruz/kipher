@@ -4,7 +4,7 @@ detekt = "1.23.0"
 dokka = "1.8.20"
 kotlin = "1.8.22"
 shadow = "8.1.1"
-sonarqube = "4.2.0.3129"
+sonarqube = "4.2.1.3168"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
