@@ -7,7 +7,7 @@ plugins {
     signing
 }
 
-project.version = project.property("VERSION_NAME")
+project.version = project.property("VERSION")
     ?: throw GradleException("Project version property is missing")
 project.group = project.property("GROUP")
     ?: throw GradleException("Project group property is missing")
@@ -15,9 +15,9 @@ project.group = project.property("GROUP")
 publishing {
     publications {
         create<MavenPublication>("maven") {
+            artifactId = project.property("ARTIFACT_ID").toString()
             groupId = rootProject.property("GROUP").toString()
-            artifactId = project.property("POM_ARTIFACT_ID").toString()
-            version = project.property("VERSION_NAME").toString()
+            version = rootProject.property("VERSION").toString()
 
             from(components["java"])
 

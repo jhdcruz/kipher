@@ -21,14 +21,14 @@ reporting {
 
 sonarqube {
     properties {
-        val projectKey = "${rootProject.property("GROUP")}:${project.property("POM_NAME")}"
+        val projectKey = "${rootProject.property("GROUP")}:${project.property("ARTIFACT_ID")}"
 
         // project metadata
         property("sonar.projectKey", projectKey)
         property("sonar.organization", rootProject.property("sonar.organization").toString())
         property("sonar.host.url", rootProject.property("sonar.host.url").toString())
         property("sonar.projectDescription", project.property("POM_DESCRIPTION").toString())
-        property("sonar.projectVersion", project.property("VERSION_NAME").toString())
+        property("sonar.projectVersion", project.property("VERSION").toString())
 
         // project reports
         property(

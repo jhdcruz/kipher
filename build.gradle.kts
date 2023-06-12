@@ -23,7 +23,7 @@ dependencies {
 }
 
 // dokka uses this to determine versioned docs
-rootProject.version = rootProject.property("VERSION_NAME")
+rootProject.version = rootProject.property("VERSION")
     ?: throw GradleException("Project version property is missing")
 
 tasks {
