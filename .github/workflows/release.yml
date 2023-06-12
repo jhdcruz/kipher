@@ -20,6 +20,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
       - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v3
         with:
@@ -32,7 +39,9 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew clean build --scan
+        run: ./gradlew clean build --scan sonarqube --info
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Get version from tag
         id: tag_name

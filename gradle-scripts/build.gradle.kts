@@ -12,4 +12,5 @@ dependencies {
     implementation(libs.dokka)
     implementation(libs.shadow)
     implementation(libs.kotlin.gradle)
+    implementation(libs.sonarqube)
 }
