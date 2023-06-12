@@ -3,7 +3,6 @@ package conventions
 plugins {
     kotlin("jvm")
     id("conventions.base")
-    jacoco
     `java-library`
 }
 
@@ -22,6 +21,7 @@ kotlin {
     }
 }
 
+
 tasks {
     withType<Test>().configureEach {
         useJUnitPlatform()
@@ -31,14 +31,5 @@ tasks {
                 languageVersion.set(kipherBuild.testLauncher)
             },
         )
-    }
-
-    jacocoTestReport {
-        dependsOn(test)
-
-        reports {
-            xml.required.set(true)
-            html.required.set(true)
-        }
     }
 }

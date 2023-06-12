@@ -1,6 +1,8 @@
 package conventions
 
 plugins {
+    id("conventions.compile")
+    id("conventions.reports")
     `maven-publish`
     signing
 }

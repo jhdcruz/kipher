@@ -3,8 +3,8 @@ package conventions
 import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
+    id("conventions.module")
     id("org.jetbrains.dokka")
-    `java-library`
 }
 
 java {
@@ -22,9 +22,9 @@ tasks {
     }
 
     named<Jar>("javadocJar") {
-        dependsOn(dokkaJavadoc)
+        dependsOn(dokkaHtml)
         archiveClassifier.set("javadoc")
 
-        from(dokkaJavadoc)
+        from(dokkaHtml)
     }
 }
