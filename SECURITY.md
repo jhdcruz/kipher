@@ -4,14 +4,16 @@
 
 **Only the latest version are supported.**
 
-If you use a version that is not the latest, I highly recommend you update to the latest version.
-Otherwise, you are on your own.
+**There are currently no plans nor man-power to backport fixes to older versions**. If
+you are using an older version, please upgrade to the latest version. Otherwise,
+you are on your own.
 
 ## Reporting a Vulnerability
 
 Report a vulnerability by opening an [issue](https://github.com/jhdcruz/kipher/issues/new/choose),
 or, if you think the vulnerability is very sensitive, you
-can [submit a security advisory](https://github.com/jhdcruz/kipher/security/advisories/new) in the security tab.
+can [submit a security advisory](https://github.com/jhdcruz/kipher/security/advisories/new) in the
+security tab.
 
 **Reporting a vulnerability should at least include the following:**
 

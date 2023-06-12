@@ -2,14 +2,14 @@
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%232459ED&label=Coverage&logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/jhdcruz/kipher?color=green&logo=github&style=for-the-badge)](https://github.com/jhdcruz/kipher/releases/latest)
 
-Opinionated library for straightforward & hassle-free data encryption for JVM applications.
-
-The goal of this library is to provide an abstracted layer for easily encrypting and decrypting data
-without the need to manually construct your own.
+Abstracted cryptographic library for straightforward & hassle-free data encryption for JVM
+applications.
 
 ### Features:
 
 #### Encryption
+
+- [Bouncy Castle](https://bouncycastle.org/) Security Provider
 
 - AES
     - `AES/GCM/NoPadding` _(Recommended)_
@@ -25,20 +25,13 @@ without the need to manually construct your own.
 > If you don't know which one to use, stick with the `recommended`
 > based on your chosen encryption method.
 
-> **Warning**
->
-> `Kipher` is still in early development, lots of breaking changes **will** occur.
->
-> Pin to a specific version to avoid breaking changes, and avoid updating without looking at
-> changelogs for now.
-
 ## Usage
 
-> [API documentation](https://jhdcruz.github.io/kipher/) | Project Documentation<sup>(WIP)</sup>
+> [API documentation](https://jhdcruz.github.io/kipher/)
 
-**Unfortunately, The library is not yet available in Maven Central.**
+Unfortunately, **The library is not yet available in Maven Central.**
 
-Here's how you can use it:
+Other ways to use the library:
 
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
 
@@ -78,13 +71,6 @@ class EncryptionTest {
 
 ### Java (Non-kotlin)
 
-to use the library in java, you have two options:
-
-- Use the `-compat` version of the library.
-
-- Or, add [`kotlin-stdlib`](https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib/)
-  as a dependency manually.
-
 ```java
 import kipher.aes.GcmEncryption;
 
@@ -103,6 +89,8 @@ class EncryptionTest {
     }
 }
 ```
+
+> The library should work with other JVM-compatible languages (ex. Scala), although untested.
 
 ### Using different key size
 
@@ -126,9 +114,6 @@ class EncryptionTest {
 }
 ```
 
-Have a look into [API documentation](https://jhdcruz.github.io/kipher/)
-for complete list functions and methods.
-
 > **Note**
 >
 > If your project uses earlier JDK 8, you might need
@@ -149,10 +134,7 @@ details
 ## Disclaimer
 
 **I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**, this
-library
-is primarily made for convenience and ease-of-use.
-
-I came with this idea when I was making some JVM applications that requires encryption/decryptions,
-and had to do lots of copy-paste between source code.
+library is primarily made for convenience and ease-of-use, while providing as much security as
+possible out-of-the-box.
 
 > If you found a security issue, please see [reporting a security issue](./SECURITY.md).
