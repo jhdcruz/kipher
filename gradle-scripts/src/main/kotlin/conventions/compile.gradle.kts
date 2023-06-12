@@ -16,7 +16,7 @@ java {
 tasks {
     shadowJar {
         if (project.name != "kipher-common") {
-            dependsOn(project(":kipher-common").tasks.shadowJar)
+            dependsOn(":kipher-common:shadowJar")
         }
 
         archiveClassifier.set("")
