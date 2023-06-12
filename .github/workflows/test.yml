@@ -10,6 +10,7 @@ jobs:
   unit:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         java: [ 8, 11, 17, 19 ]
         os: [ ubuntu-latest, windows-latest, macos-latest ]
@@ -43,6 +44,7 @@ jobs:
           name: coverage-file
           path: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
+  # This uploads the aggregated coverage report
   upload:
     needs: [ unit ]
     runs-on: ubuntu-latest
@@ -51,11 +53,6 @@ jobs:
         with:
           name: coverage-file
           path: ./coverage/
-
-      - name: Submit coverage report
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/testCodeCoverageReport.xml
-        env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
       - name: Codecov report
         uses: codecov/codecov-action@v3
