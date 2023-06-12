@@ -41,19 +41,21 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
           distribution: temurin
 
+      - name: Validate Gradle wrapper
+        uses: gradle/radle/wrapper-validation-action@v1
+
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew build
+        run: ./gradlew build --scan
 
       # versions are set to SNAPSHOT on main,
       # and only removed in release branch
       - name: Publish snapshots
-        if: startsWith(github.ref, 'refs/heads/main')
         run: ./gradlew publish
 
       - name: Gradle dependency submission
-        uses: mikepenz/gradle-dependency-submission@v0.8.6
+        uses: mikepenz/gradle-dependency-submission@main
         with:
           gradle-build-module: |-
             :gradle-scripts

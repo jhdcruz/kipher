@@ -2,8 +2,6 @@ name: release
 
 on:
   push:
-    branches:
-      - release
     tags:
       - "**"
 
@@ -34,7 +32,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew clean build
+        run: ./gradlew clean build --scan
 
       - name: Get version from tag
         id: tag_name
@@ -61,8 +59,10 @@ jobs:
           artifacts: |
             kipher-*/build/libs/*.jar
 
+      - name: cut SNAPSHOT on gradle.properties version
+        run: sed -i "s/-SNAPSHOT//" gradle.properties
+
       - name: Publish package
-        if: startsWith(github.ref, 'refs/heads/release')
         run: ./gradlew publish
         env:
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}

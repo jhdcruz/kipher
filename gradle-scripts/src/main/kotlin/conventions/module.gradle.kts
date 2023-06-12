@@ -30,7 +30,7 @@ kotlin {
 tasks {
     withType<Test>().configureEach {
         if (project.name != "kipher-common") {
-            dependsOn(project(":kipher-common").tasks.shadowJar)
+            dependsOn(":kipher-common:shadowJar")
         }
 
         useJUnitPlatform()
@@ -38,7 +38,7 @@ tasks {
         javaLauncher.set(
             javaToolchains.launcherFor {
                 languageVersion.set(kipherBuild.testLauncher)
-            }
+            },
         )
     }
 
