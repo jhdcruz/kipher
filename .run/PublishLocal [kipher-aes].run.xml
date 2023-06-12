@@ -10,8 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipherAes:publishToMavenLocal" />
-          <option value="kipherAesCompat:publishToMavenLocal" />
+          <option value="kipher-aes:publishToMavenLocal" />
         </list>
       </option>
       <option name="vmOptions" />

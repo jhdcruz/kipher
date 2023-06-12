@@ -10,8 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipherAes:build" />
-          <option value="kipherAesCompat:build" />
+          <option value="kipher-aes:build" />
         </list>
       </option>
       <option name="vmOptions" />
