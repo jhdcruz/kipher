@@ -3,7 +3,6 @@ bouncycastle = "1.73"
 detekt = "1.23.0"
 dokka = "1.8.20"
 kotlin = "1.8.22"
-shadow = "8.1.1"
 sonarqube = "4.2.1.3168"
 
 [plugins]
@@ -17,9 +16,6 @@ detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
 dokka-versioning = { module = "org.jetbrains.dokka:versioning-plugin", version.ref = "dokka" }
-dokka-plugins-kaj = { module = "org.jetbrains.dokka:kotlin-as-java-plugin", version.ref = "dokka" }
-
-shadow = { module = "com.github.johnrengelman:shadow", version.ref = "shadow" }
 
 bouncycastle-pcix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncycastle" }
 bouncycastle-pgp = { module = "org.bouncycastle:bcpg-jdk18on", version.ref = "bouncycastle" }
