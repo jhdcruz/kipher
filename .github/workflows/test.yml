@@ -18,9 +18,21 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Set up JDK ${{ matrix.java }}
+        if: matrix.java != 8
         uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java }}
+          distribution: temurin
+
+      # additional JDK for sonar deps which requires at least JDK 11
+      # due to composite builds, it's pretty much impossible to skip
+      - name: Set up multiple JDKs
+        if: matrix.java == 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: |
+            19
+            ${{ matrix.java }}
           distribution: temurin
 
       # gradle-build-action already does the caching
@@ -34,9 +46,16 @@ jobs:
         run: ./gradlew clean test --stacktrace --no-daemon --no-parallel
 
       - name: Test with JDK ${{ matrix.java }}
-        if: matrix.os != 'windows-latest'
+        if: matrix.os != 'windows-latest' && matrix.java != 8
         run: ./gradlew clean test --stacktrace
 
+      - name: Test with JDK 8 (sonar support)
+        if: matrix.os != 'windows-latest' && matrix.java == 8
+        run: |
+          JAVA_HOME=${{ env.JAVA_HOME_19_X64 }} ./gradlew build
+          JAVA_HOME=${{ env.JAVA_HOME_8_X64 }} ./gradlew test --stacktrace
+
+      # upload only one aggregated coverage report
       - name: Upload test coverage
         if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: actions/upload-artifact@v3
@@ -44,7 +63,7 @@ jobs:
           name: coverage-file
           path: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
-  # This uploads the aggregated coverage report
+  # uploads the aggregated coverage report
   upload:
     needs: [ unit ]
     runs-on: ubuntu-latest
