@@ -16,7 +16,12 @@ env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+permissions:
+  security-events: write
+  contents: write
+  packages: write
 
 jobs:
   test:
@@ -26,10 +31,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     needs: test
-    permissions:
-      security-events: write
-      contents: write
-      packages: write
     steps:
       - uses: actions/checkout@v3
         with:
@@ -54,9 +55,11 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew build --scan sonarqube --info
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build --scan
+
+      # This uploads reports to sonarcloud in monorepo setup (per-module)
+      - name: Sonar scan
+        run: ./gradlew sonar --info
 
       # versions are set to SNAPSHOT on main,
       # and only removed in release branch
