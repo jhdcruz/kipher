@@ -6,7 +6,5 @@ plugins {
 }
 
 dependencies {
-    implementation(projects.kipherCommon) {
-        configurations.shadow
-    }
+    api(projects.kipherCommon)
 }

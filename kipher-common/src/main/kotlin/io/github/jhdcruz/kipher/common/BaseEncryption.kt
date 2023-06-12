@@ -15,7 +15,7 @@ abstract class BaseEncryption {
     val randomize = SecureRandom()
 
     init {
-        // add bouncy castle as security provider if bouncycastle is true
+        // add bouncy castle as security provider
         Security.addProvider(BouncyCastleProvider())
     }
 

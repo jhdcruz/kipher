@@ -4,7 +4,6 @@ import org.jetbrains.dokka.gradle.DokkaTaskPartial
 
 plugins {
     id("org.jetbrains.dokka")
-    id("com.github.johnrengelman.shadow")
     `java-library`
 }
 
@@ -14,15 +13,6 @@ java {
 }
 
 tasks {
-    shadowJar {
-        if (project.name != "kipher-common") {
-            dependsOn(":kipher-common:shadowJar")
-        }
-
-        archiveClassifier.set("")
-        mergeServiceFiles()
-    }
-
     named<DokkaTaskPartial>("dokkaHtmlPartial") {
         dokkaSourceSets {
             configureEach {
@@ -36,9 +26,5 @@ tasks {
         archiveClassifier.set("javadoc")
 
         from(dokkaJavadoc)
-    }
-
-    build {
-        finalizedBy(shadowJar)
     }
 }
