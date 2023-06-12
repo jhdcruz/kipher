@@ -42,7 +42,7 @@ jobs:
           distribution: temurin
 
       - name: Validate Gradle wrapper
-        uses: gradle/radle/wrapper-validation-action@v1
+        uses: gradle/wrapper-validation-action@v1
 
       - uses: gradle/gradle-build-action@v2
 
