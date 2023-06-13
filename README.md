@@ -1,6 +1,6 @@
 # Kipher
 
-[![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%232459ED&label=Coverage&logo=codacy&style=for-the-badge)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard) [![GitHub release (latest by date)](https://img.shields.io/github/v/release/jhdcruz/kipher?color=green&logo=github&style=for-the-badge)](https://github.com/jhdcruz/kipher/releases/latest)
+[![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%1E1E1E&label=Coverage&logo=codacy&style=flat-square)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard)
 
 Abstracted cryptographic library for straightforward & hassle-free data encryption for JVM
 applications.
@@ -89,8 +89,6 @@ class EncryptionTest {
     }
 }
 ```
-
-> The library should work with other JVM-compatible languages (ex. Scala), although untested.
 
 ### Using different key size
 
