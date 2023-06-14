@@ -55,11 +55,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew build --scan
-
-      # This uploads reports to sonarcloud in monorepo setup
-      - name: Sonar scan
-        run: ./gradlew sonar --info
+        run: ./gradlew build --scan sonar --info
 
       # versions are set to SNAPSHOT on main,
       # and only removed in release branch
