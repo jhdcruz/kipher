@@ -16,9 +16,6 @@ internal const val BASIC_IV_LENGTH = 16
 internal const val AUTHENTICATED_TAG_LENGTH = 128
 internal const val AUTHENTICATED_IV_LENGTH = 12
 
-/** Default key size value for aes encryption */
-const val DEFAULT_KEY_SIZE = 256
-
 /**
  * Provides common functionalities for AES encryption.
  *
@@ -48,5 +45,10 @@ sealed class AesEncryption(private val keySize: Int) : BaseEncryption() {
             init(keySize)
             generateKey().encoded
         }
+    }
+
+    companion object {
+        /** Default key size value for aes encryption */
+        const val DEFAULT_KEY_SIZE: Int = 256
     }
 }
