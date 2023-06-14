@@ -57,7 +57,7 @@ jobs:
       - name: Gradle build
         run: ./gradlew build --scan
 
-      # This uploads reports to sonarcloud in monorepo setup (per-module)
+      # This uploads reports to sonarcloud in monorepo setup
       - name: Sonar scan
         run: ./gradlew sonar --info
 
