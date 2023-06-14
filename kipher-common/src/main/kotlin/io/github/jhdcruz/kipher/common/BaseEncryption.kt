@@ -11,13 +11,14 @@ import java.security.Security
 import javax.crypto.Cipher
 
 abstract class BaseEncryption {
-    /** secure random number generator */
-    val randomize = SecureRandom()
 
     init {
         // add bouncy castle as security provider
         Security.addProvider(BouncyCastleProvider())
     }
+
+    /** secure random number generator */
+    val randomize = SecureRandom()
 
     /** Set cipher type and modes, including provider */
     abstract val cipher: Cipher
