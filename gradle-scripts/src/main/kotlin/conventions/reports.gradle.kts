@@ -39,10 +39,6 @@ sonarqube {
             "sonar.coverage.jacoco.xmlReportPaths",
             "${project.projectDir}/build/reports/jacoco/test/jacocoTestReport.xml"
         )
-        property(
-            "sonar.kotlin.detekt.reportPaths",
-            "${project.projectDir}/build/reports/detekt/detekt.xml"
-        )
     }
 }
 
