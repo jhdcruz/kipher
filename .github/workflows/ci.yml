@@ -70,7 +70,6 @@ jobs:
             :kipher-coverage
             :kipher-common
             :kipher-aes
-            :kipher-rsa
           gradle-build-configuration: |-
             compileClasspath
 
