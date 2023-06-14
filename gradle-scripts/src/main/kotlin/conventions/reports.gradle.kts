@@ -35,10 +35,13 @@ sonarqube {
         property("sonar.projectVersion", project.property("VERSION").toString())
 
         // project reports
-        property(
-            "sonar.coverage.jacoco.xmlReportPaths",
-            "${project.projectDir}/build/reports/jacoco/test/jacocoTestReport.xml"
-        )
+        // exclude the rest for now, since they're in progress
+        if (project.name == "kipher-aes") {
+            property(
+                "sonar.coverage.jacoco.xmlReportPaths",
+                "${project.projectDir}/build/reports/jacoco/test/jacocoTestReport.xml"
+            )
+        }
     }
 }
 
