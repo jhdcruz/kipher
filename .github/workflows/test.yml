@@ -56,9 +56,7 @@ jobs:
           path: ./coverage/
 
       - name: Submit coverage report
-        run: |
-          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
-            -l Kotlin --force-language -r ./coverage/testCodeCoverageReport.xml
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/testCodeCoverageReport.xml
         env:
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
