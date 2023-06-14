@@ -46,7 +46,6 @@ jobs:
           name: coverage-file
           path: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
-  # uploads the aggregated coverage report
   upload:
     needs: [ unit ]
     runs-on: ubuntu-latest
@@ -56,9 +55,16 @@ jobs:
           name: coverage-file
           path: ./coverage/
 
+      - name: Submit coverage report
+        run: |
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report \
+            -l Kotlin --force-language -r ./coverage/testCodeCoverageReport.xml
+        env:
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
       - name: Codecov report
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./coverage/testCodeCoverageReport.xml
-          flags: unittests
+          flags: unit

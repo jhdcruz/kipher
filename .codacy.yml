@@ -1,0 +1,5 @@
+---
+exclude_paths:
+  - "docs/api/**"
+  - ".trunk/configs/**"
+  - ".run/**"
