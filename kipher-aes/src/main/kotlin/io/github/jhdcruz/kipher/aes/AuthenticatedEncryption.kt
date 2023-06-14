@@ -12,6 +12,8 @@ import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
+internal const val AUTHENTICATED_IV_LENGTH: Int = 12
+
 /**
  * AES Encryption using authenticated modes.
  *
@@ -28,6 +30,12 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
     private val keySize: Int = DEFAULT_KEY_SIZE,
 ) : AesEncryption(keySize) {
     override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
+
+    override fun generateIv(): ByteArray {
+        return ByteArray(AUTHENTICATED_IV_LENGTH).also {
+            randomize.nextBytes(it)
+        }
+    }
 
     /**
      * Encrypts the provided [data] along with [aad] using [key].
@@ -47,7 +55,7 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
             val iv = generateIv()
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
-            val parameterSpec = GCMParameterSpec(AUTHENTICATED_TAG_LENGTH, iv)
+            val parameterSpec = GCMParameterSpec(AES_BLOCK_SIZE, iv)
 
             cipher.run {
                 init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
@@ -99,14 +107,14 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
+            // use the provided iv, else extract from encrypted
             if (iv != null) {
-                // use the provided iv
-                val gcmIv = GCMParameterSpec(AUTHENTICATED_TAG_LENGTH, iv)
+                val gcmIv = GCMParameterSpec(AES_BLOCK_SIZE, iv)
                 cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
             } else {
                 // use first 12 bytes for iv
                 val gcmIv = GCMParameterSpec(
-                    AUTHENTICATED_TAG_LENGTH,
+                    AES_BLOCK_SIZE,
                     encrypted,
                     0,
                     AUTHENTICATED_IV_LENGTH,
@@ -120,7 +128,7 @@ open class AuthenticatedEncryption @JvmOverloads constructor(
             if (iv != null) {
                 cipher.doFinal(encrypted)
             } else {
-                // Use everything from 12 bytes on as ciphertext
+                // Use everything from 12th bytes on as ciphertext
                 cipher.doFinal(
                     encrypted,
                     AUTHENTICATED_IV_LENGTH,

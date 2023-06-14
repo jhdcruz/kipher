@@ -12,6 +12,8 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
+internal const val BASIC_IV_LENGTH: Int = 12
+
 /**
  * AES Encryption using basic modes.
  *
@@ -25,6 +27,12 @@ open class BasicEncryption @JvmOverloads constructor(
     private val keySize: Int = DEFAULT_KEY_SIZE,
 ) : AesEncryption(keySize) {
     override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
+
+    override fun generateIv(): ByteArray {
+        return ByteArray(BASIC_IV_LENGTH).also {
+            randomize.nextBytes(it)
+        }
+    }
 
     /**
      * Encrypts the provided [data] using the provided [key].
