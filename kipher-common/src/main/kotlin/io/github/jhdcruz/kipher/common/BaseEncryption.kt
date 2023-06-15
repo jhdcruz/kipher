@@ -10,6 +10,12 @@ import java.security.SecureRandom
 import java.security.Security
 import javax.crypto.Cipher
 
+/**
+ * Base encryption class that provides common methods and properties
+ * across kipher modules/
+ *
+ * Sets up [BouncyCastleProvider]
+ */
 abstract class BaseEncryption {
 
     init {
