@@ -27,7 +27,13 @@ sealed class AesEncryption(private val keySize: Int) : BaseEncryption() {
     // Generate a random iv based on encryption mode used.
     internal abstract fun generateIv(): ByteArray
 
-    /** Generate a secret key. */
+    /** Generate a secret key.
+     *
+     * **Reusing the same key for multiple encryption is not recommended,
+     * and poses security risk.**
+     *
+     * `encrypt()` functions already generates a new key for each encryption.
+     */
     fun generateKey(): ByteArray {
         return keyGenerator.run {
             init(keySize)
