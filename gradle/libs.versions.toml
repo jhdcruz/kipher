@@ -3,6 +3,7 @@ bouncycastle = "1.73"
 detekt = "1.23.0"
 dokka = "1.8.20"
 kotlin = "1.8.22"
+annotations = "24.0.1"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
@@ -20,4 +21,5 @@ bouncycastle-pcix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = 
 bouncycastle-pgp = { module = "org.bouncycastle:bcpg-jdk18on", version.ref = "bouncycastle" }
 bouncycastle-provider = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "bouncycastle" }
 
+jetbrains-annotations = { module = "org.jetbrains:annotations", version.ref = "annotations" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

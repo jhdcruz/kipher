@@ -5,6 +5,8 @@
 
 package io.github.jhdcruz.kipher.aes
 
+import org.jetbrains.annotations.NotNull
+
 /**
  * AES Encryption using CCM mode.
  *
@@ -13,5 +15,5 @@ package io.github.jhdcruz.kipher.aes
  * @param keySize Custom key size: `128`, `192`, `256`. (default: `256`)
  */
 class CcmEncryption(
-    keySize: Int = DEFAULT_KEY_SIZE,
+    @NotNull keySize: Int = DEFAULT_KEY_SIZE,
 ) : AuthenticatedEncryption(AesModes.CCM, keySize)

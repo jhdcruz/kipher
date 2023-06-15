@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     api(projects.kipherCommon)
+    implementation(libs.jetbrains.annotations)
 }

@@ -6,6 +6,8 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
+import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import java.nio.ByteBuffer
 import java.security.GeneralSecurityException
 import javax.crypto.Cipher
@@ -42,7 +44,10 @@ open class BasicEncryption @JvmOverloads constructor(
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun encryptWithIv(data: ByteArray, key: ByteArray): Pair<ByteArray, ByteArray> {
+    fun encryptWithIv(
+        @NotNull data: ByteArray,
+        @NotNull key: ByteArray
+    ): Pair<ByteArray, ByteArray> {
         return try {
             // randomize iv for each encryption
             val iv = generateIv()
@@ -62,22 +67,15 @@ open class BasicEncryption @JvmOverloads constructor(
     /**
      * Encrypts the provided [data] using the provided [key].
      *
-     * IV is prepended to the cipher text.
-     *
-     * @throws KipherException
+     * @return Encrypted data
      */
-    @Throws(KipherException::class)
-    fun encrypt(data: ByteArray, key: ByteArray): ByteArray {
-        return try {
-            encryptWithIv(data, key).let { (iv, cipherText) ->
-                // prepend iv to cipher text
-                ByteBuffer.allocate(BASIC_IV_LENGTH + cipherText.size)
-                    .put(iv)
-                    .put(cipherText)
-                    .array()
-            }
-        } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+    fun encrypt(@NotNull data: ByteArray, @NotNull key: ByteArray): ByteArray {
+        return encryptWithIv(data, key).let { (iv, cipherText) ->
+            // prepend iv to cipher text
+            ByteBuffer.allocate(BASIC_IV_LENGTH + cipherText.size)
+                .put(iv)
+                .put(cipherText)
+                .array()
         }
     }
 
@@ -90,7 +88,11 @@ open class BasicEncryption @JvmOverloads constructor(
      */
     @Throws(KipherException::class)
     @JvmOverloads
-    fun decrypt(encrypted: ByteArray, key: ByteArray, iv: ByteArray? = null): ByteArray {
+    fun decrypt(
+        @NotNull encrypted: ByteArray,
+        @NotNull key: ByteArray,
+        @Nullable iv: ByteArray? = null
+    ): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
