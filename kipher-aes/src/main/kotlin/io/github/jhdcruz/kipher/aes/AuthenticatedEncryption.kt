@@ -6,6 +6,7 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
+import org.jetbrains.annotations.NotNull
 import java.nio.ByteBuffer
 import java.security.GeneralSecurityException
 import javax.crypto.Cipher
@@ -33,105 +34,213 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     }
 
     /**
-     * Encrypts the provided [data] along with [aad] using [key].
+     * Encrypts the provided [data] along with [aad] (if provided) using [key].
      *
-     * Returns both IV and cipher text separately in a [Pair] (iv, data).
+     * This is useful for **advanced use cases** if you want finer control
+     * over what to do with the outputs.
      *
-     * @throws KipherException
-     */
-    @Throws(KipherException::class)
-    fun encryptWithIv(
-        data: ByteArray,
-        aad: ByteArray,
-        key: ByteArray,
-    ): Pair<ByteArray, ByteArray> {
-        return try {
-            // randomize iv for each encryption
-            val iv = generateIv()
-            val keySpec = SecretKeySpec(key, ALGORITHM)
-
-            val parameterSpec = GCMParameterSpec(AES_BLOCK_SIZE, iv)
-
-            cipher.run {
-                init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
-                updateAAD(aad) // attach additional data
-                doFinal(data)
-            }.let { cipherText ->
-                Pair(iv, cipherText)
-            }
-        } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
-        }
-    }
-
-    /**
-     * Encrypts the provided [data] using the provided [key].
+     * If you want to encrypt data without worrying about `iv` and `aad`, use [encrypt] instead
      *
-     * IV is prepended to the cipher text.
-     *
-     * @throws KipherException
-     */
-    @Throws(KipherException::class)
-    fun encrypt(data: ByteArray, aad: ByteArray, key: ByteArray): ByteArray {
-        return try {
-            encryptWithIv(data, aad, key).let { (iv, cipherText) ->
-                // concatenate iv and cipher text
-                ByteBuffer.allocate(iv.size + cipherText.size).apply {
-                    put(iv)
-                    put(cipherText)
-                }.array()
-            }
-        } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
-        }
-    }
-
-    /**
-     * Decrypts [encrypted] data with [aad] verification using [key].
-     *
+     * @return [Map] containing the `iv`, `data` (encrypted), and `aad`.
      * @throws KipherException
      */
     @Throws(KipherException::class)
     @JvmOverloads
-    fun decrypt(
-        encrypted: ByteArray,
-        aad: ByteArray,
-        key: ByteArray,
-        iv: ByteArray? = null,
-    ): ByteArray {
+    fun encryptBare(
+        @NotNull data: ByteArray,
+        @NotNull key: ByteArray,
+        @NotNull iv: ByteArray,
+        @NotNull aad: ByteArray = byteArrayOf(),
+    ): Map<String, ByteArray> {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
+            val parameterSpec = GCMParameterSpec(AES_BLOCK_SIZE, iv)
 
-            // use the provided iv, else extract from encrypted
-            if (iv != null) {
-                val gcmIv = GCMParameterSpec(AES_BLOCK_SIZE, iv)
-                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
-            } else {
-                // use first 12 bytes for iv
-                val gcmIv = GCMParameterSpec(
-                    AES_BLOCK_SIZE,
-                    encrypted,
-                    0,
-                    AUTHENTICATED_IV_LENGTH,
-                )
-                cipher.init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
-            }
+            cipher.run {
+                init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
 
-            // verify aad of the encrypted data
-            cipher.updateAAD(aad)
+                // add aad if not empty
+                if (aad.isNotEmpty()) {
+                    updateAAD(aad)
+                }
 
-            if (iv != null) {
-                cipher.doFinal(encrypted)
-            } else {
-                // Use everything from 12th bytes on as ciphertext
-                cipher.doFinal(
-                    encrypted,
-                    AUTHENTICATED_IV_LENGTH,
-                    encrypted.size - AUTHENTICATED_IV_LENGTH,
+                doFinal(data)
+            }.let { encrypted ->
+                mapOf(
+                    "iv" to iv,
+                    "data" to encrypted,
+                    "aad" to aad
                 )
             }
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
         }
+    }
+
+    /**
+     * Decrypts [encrypted] data with optional [aad] verification using [key] nad [iv].
+     *
+     * @return Decrypted data
+     * @throws KipherException
+     */
+    @Throws(KipherException::class)
+    @JvmOverloads
+    fun decryptBare(
+        @NotNull encrypted: ByteArray,
+        @NotNull key: ByteArray,
+        @NotNull iv: ByteArray,
+        @NotNull aad: ByteArray = byteArrayOf(),
+    ): ByteArray {
+        return try {
+            val keySpec = SecretKeySpec(key, ALGORITHM)
+            val gcmIv = GCMParameterSpec(AES_BLOCK_SIZE, iv)
+
+            cipher.run {
+                init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+
+                // add aad if not empty
+                if (aad.isNotEmpty()) {
+                    updateAAD(aad)
+                }
+                doFinal(encrypted)
+            }
+        } catch (e: GeneralSecurityException) {
+            throw KipherException(e)
+        }
+    }
+
+    /**
+     * Encrypts the provided [data] along with optional [aad] and [key].
+     *
+     * This method already generates a new key for each encryption.
+     * [generateKey] is optional.
+     *
+     * @return Concatenated encrypted data in `[iv, data, aad]` format
+     */
+    @JvmOverloads
+    fun encrypt(
+        @NotNull data: ByteArray,
+        @NotNull key: ByteArray = byteArrayOf(),
+        @NotNull aad: ByteArray = byteArrayOf()
+    ): Map<String, ByteArray> {
+        // default to generating key for each encryption
+        // but allow flexibility for separate keys, if desired
+        val secretKey = if (key.isEmpty()) {
+            generateKey()
+        } else {
+            key
+        }
+
+        return encryptBare(
+            data = data,
+            key = secretKey,
+            iv = generateIv(),
+            aad = aad
+        ).let { encrypted ->
+            // calculate size of encrypted data based on aad availability
+            val encryptedSize = encrypted.values.sumOf { it.size + aadSeparator.size }
+
+            // concatenate iv, cipher text, and aad
+            val concatData = ByteBuffer.allocate(encryptedSize).run {
+                put(encrypted["iv"])
+                put(encrypted["data"])
+
+                // This shouldn't be a problem since AADs are not
+                // supposed to be encrypted or a secret anyway, I guess
+                // https://crypto.stackexchange.com/a/35730
+                put(aadSeparator)
+                put(encrypted["aad"])
+
+                array()
+            }
+
+            // we also return the key here to group them together
+            // primarily since key can be optional and automatically
+            // be generated for every encryption, if omitted
+            mapOf(
+                "key" to secretKey,
+                "data" to concatData
+            )
+        }
+    }
+
+    /**
+     * Decrypts [encrypted] data using [key].
+     *
+     * This method assumes that the [encrypted] data is in `[iv, data, aad]` format.
+     *
+     * Presumably encrypted using [encrypt]
+     *
+     * @throws KipherException
+     */
+    @Throws(KipherException::class)
+    fun decrypt(
+        @NotNull encrypted: ByteArray,
+        @NotNull key: ByteArray,
+    ): ByteArray {
+        extract(encrypted).let { data ->
+            return decryptBare(
+                encrypted = data.getValue("data"),
+                key = key,
+                iv = data.getValue("iv"),
+                aad = data.getValue("aad")
+            )
+        }
+    }
+
+    /**
+     * Extracts the `iv`, `data`, and `aad` from the [encrypted] data.
+     *
+     * This can only extract data encrypted using [encrypt] or [encryptBare]
+     *
+     * If you want to extract data encrypted outside of `Kipher`, you have to extract them
+     * manually based on how they are structured
+     *
+     * @return [Map] containing the `iv`, `data`, and `aad`.
+     */
+    @Throws(KipherException::class)
+    override fun extract(@NotNull encrypted: ByteArray): Map<String, ByteArray> {
+        return try {
+            // get iv from the first 12 bytes
+            val iv = encrypted.copyOfRange(0, AUTHENTICATED_IV_LENGTH)
+
+            // TODO: Refactor or refine finding the AAD, this can
+            //       can potentially conflict with an AAD that contains
+            //       the same bytes/content as the aad separator.
+            //       Probably even encrypted data itself, although quite
+            //       unlikely, still possible.
+
+            // find the index of aad and check if its equal
+            // bytes as the aadSeparator
+            val aadSeparatorIndex = encrypted.indices.first { i ->
+                encrypted
+                    .sliceArray(i until i + aadSeparator.size)
+                    .contentEquals(aadSeparator)
+            }
+
+            // get the aad value
+            val aad = aadSeparatorIndex.let { aadIndex ->
+                val aadValueIndex = aadIndex + aadSeparator.size
+
+                encrypted.copyOfRange(aadValueIndex, encrypted.size)
+                    // trim trailing zeros/spaces
+                    .dropLastWhile { it == 0.toByte() }.toByteArray()
+            }
+
+            val cipherText = encrypted.copyOfRange(AUTHENTICATED_IV_LENGTH, aadSeparatorIndex)
+
+            mapOf(
+                "iv" to iv,
+                "data" to cipherText,
+                "aad" to aad
+            )
+        } catch (e: Exception) {
+            throw KipherException("Error extracting encryption details from provided file", e)
+        }
+    }
+
+    companion object {
+        /** Prefix that separates the data and AAD */
+        var aadSeparator: ByteArray = "aad=".toByteArray()
     }
 }

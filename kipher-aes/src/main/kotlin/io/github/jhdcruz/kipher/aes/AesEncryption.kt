@@ -45,6 +45,13 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
         }
     }
 
+    /**
+     * Extracts the encryption details from the [encrypted] data.
+     *
+     * @return [Map] of encryption details (such as iv, data, etc.)
+     */
+    abstract fun extract(encrypted: ByteArray): Map<String, ByteArray>
+
     companion object {
         /** Default key size value */
         const val DEFAULT_KEY_SIZE: Int = 256

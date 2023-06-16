@@ -17,9 +17,10 @@ internal class AesEncryptionTest {
     fun `test key generation`() {
         val cbcEncryption = CbcEncryption()
 
-        // no need to test for GCM since it uses the same function
+        // no need to test for authenticated since it uses the same function
         val key = cbcEncryption.generateKey()
 
+        // 32 = 256-bit key. 16 = 128-bit
         assertEquals(32, key.size)
     }
 
@@ -27,7 +28,7 @@ internal class AesEncryptionTest {
     fun `test key randomization`() {
         val cbcEncryption = CbcEncryption()
 
-        // no need to test for GCM since it uses the same function
+        // no need to test for authenticated since it uses the same function
         val firstKey = cbcEncryption.generateKey()
         val secondKey = cbcEncryption.generateKey()
 
@@ -35,7 +36,7 @@ internal class AesEncryptionTest {
     }
 
     @Test
-    fun `test basic encryption with IV`() {
+    fun `test basic encryption`() {
         val cbcEncryption = CbcEncryption()
 
         val secretKey = cbcEncryption.generateKey()
@@ -46,45 +47,67 @@ internal class AesEncryptionTest {
     }
 
     @Test
-    fun `test authenticated encryption with IV`() {
+    fun `test authenticated encryption`() {
         val gcmEncryption = GcmEncryption()
 
-        val secretKey = gcmEncryption.generateKey()
-        val cipherText: Pair<ByteArray, ByteArray> =
-            gcmEncryption.encryptWithIv(message, aad, secretKey)
-        val decrypted = gcmEncryption.decrypt(cipherText.second, aad, secretKey, cipherText.first)
+        val encrypted = gcmEncryption.encrypt(message, aad)
+
+
+        val decrypted = gcmEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
+
+        assertEquals(decodeToString(message), decodeToString(decrypted))
+    }
+
+    @Test
+    fun `test authenticated encryption without AAD`() {
+        val gcmEncryption = GcmEncryption()
+
+        val encrypted = gcmEncryption.encrypt(message)
+
+        val decrypted = gcmEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
+
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
     @Test
     fun `test authenticated encryption with wrong metadata`() {
-        val authenticatedEncryption = AuthenticatedEncryption(AesModes.GCM)
+        val gcmEncryption = GcmEncryption()
 
-        val secretKey = authenticatedEncryption.generateKey()
-        val cipherText = authenticatedEncryption.encrypt(message, aad, secretKey)
+        val secretKey = gcmEncryption.generateKey()
+        val encrypted = gcmEncryption.encryptBare(
+            message,
+            secretKey,
+            aad
+        )
 
         assertThrows<KipherException> {
-            authenticatedEncryption.decrypt(
-                cipherText,
-                "wrong-metadata".encodeToByteArray(),
+            gcmEncryption.decryptBare(
+                encrypted["data"]!!,
                 secretKey,
+                "invalid-aad".encodeToByteArray()
             )
         }
     }
 
     @Test
     fun `test authenticated encryption using invalid secret key`() {
-        val authenticatedEncryption = AuthenticatedEncryption(AesModes.GCM)
+        val gcmEncryption = GcmEncryption()
 
         assertThrows<KipherException> {
-            authenticatedEncryption.encrypt(message, aad, invalidKey)
+            gcmEncryption.encrypt(message, invalidKey, aad)
         }
     }
 
     @Test
     fun `test basic encryption with invalid secret key`() {
-        val cbcEncryption = BasicEncryption(AesModes.CBC)
+        val cbcEncryption = CbcEncryption()
 
         assertThrows<KipherException> {
             cbcEncryption.encrypt(message, invalidKey)
@@ -93,11 +116,11 @@ internal class AesEncryptionTest {
 
     @Test
     fun `test encryption with custom key size`() {
-        val gcmEncryption = GcmEncryption(192)
+        val cbcEncryption = CbcEncryption()
 
-        val secretKey = gcmEncryption.generateKey()
-        val cipherText = gcmEncryption.encrypt(message, aad, secretKey)
-        val decrypted = gcmEncryption.decrypt(cipherText, aad, secretKey)
+        val secretKey = cbcEncryption.generateKey(128)
+        val cipherText = cbcEncryption.encrypt(message, secretKey)
+        val decrypted = cbcEncryption.decrypt(cipherText, secretKey)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -109,7 +132,7 @@ internal class AesEncryptionTest {
         val secretKey = gcmEncryption.generateKey(69)
 
         assertThrows<KipherException> {
-            gcmEncryption.encrypt(message, aad, secretKey)
+            gcmEncryption.encrypt(message, secretKey, aad)
         }
     }
 }
