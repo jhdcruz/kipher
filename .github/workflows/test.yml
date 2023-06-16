@@ -38,33 +38,18 @@ jobs:
       - name: Test with JDK ${{ matrix.java }}
         if: matrix.os != 'windows-latest'
         run: ./gradlew clean test --stacktrace
-
-      # upload only one aggregated coverage report
-      - name: Upload test coverage
-        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-file
-          path: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
-
-  upload:
-    needs: [ unit ]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: coverage-file
-          path: "coverage/"
-
+        
       - name: Codacy coverage report
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: "coverage/testCodeCoverageReport.xml"
+          coverage-reports: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
       - name: Codecov coverage report
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: "coverage/testCodeCoverageReport.xml"
+          files: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
           flags: unit
