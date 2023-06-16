@@ -104,9 +104,9 @@ internal class AesEncryptionTest {
 
     @Test
     fun `test encryption with invalid custom key size`() {
-        val gcmEncryption = GcmEncryption(999)
+        val gcmEncryption = GcmEncryption()
 
-        val secretKey = gcmEncryption.generateKey()
+        val secretKey = gcmEncryption.generateKey(69)
 
         assertThrows<KipherException> {
             gcmEncryption.encrypt(message, aad, secretKey)

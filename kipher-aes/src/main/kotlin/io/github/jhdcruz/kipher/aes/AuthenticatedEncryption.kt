@@ -17,19 +17,14 @@ internal const val AUTHENTICATED_IV_LENGTH: Int = 12
 /**
  * AES Encryption using authenticated modes.
  *
- * It incorporates a tag that provides a cryptographic checksum that can be used to help validate a
- * decryption such as additional clear text, or associated data, into the tag used for validation
+ * It incorporates `aad` that provides a cryptographic checksum that can be used to help
+ * validate a decryption such as additional clear text, or associated data used for validation
  *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
- * @property aesMode Custom AES mode from [AesModes].
- * @property keySize Custom key size: `128`, `192`, `256`. (default: `256`)
+ * @param aesMode Custom AES mode from [AesModes].
  */
-open class AuthenticatedEncryption @JvmOverloads constructor(
-    private val aesMode: AesModes,
-    private val keySize: Int = DEFAULT_KEY_SIZE,
-) : AesEncryption(keySize) {
-    override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
+open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
     override fun generateIv(): ByteArray {
         return ByteArray(AUTHENTICATED_IV_LENGTH).also {
