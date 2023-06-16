@@ -14,7 +14,7 @@ import javax.crypto.Cipher
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-internal const val BASIC_IV_LENGTH: Int = 12
+internal const val BASIC_IV_LENGTH: Int = 16
 
 /**
  * AES Encryption using basic modes.
