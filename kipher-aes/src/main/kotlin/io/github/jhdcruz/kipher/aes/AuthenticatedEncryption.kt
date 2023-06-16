@@ -120,20 +120,12 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     @JvmOverloads
     fun encrypt(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray = byteArrayOf(),
+        @NotNull key: ByteArray = generateKey(),
         @NotNull aad: ByteArray = byteArrayOf()
     ): Map<String, ByteArray> {
-        // default to generating key for each encryption
-        // but allow flexibility for separate keys, if desired
-        val secretKey = if (key.isEmpty()) {
-            generateKey()
-        } else {
-            key
-        }
-
         return encryptBare(
             data = data,
-            key = secretKey,
+            key = key,
             iv = generateIv(),
             aad = aad
         ).let { encrypted ->
@@ -154,11 +146,11 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 array()
             }
 
-            // we also return the key here to group them together
-            // primarily since key can be optional and automatically
-            // be generated for every encryption, if omitted
+            // we also return the key here since key can be
+            // optional and automatically be generated for
+            // every encryption, if omitted
             mapOf(
-                "key" to secretKey,
+                "key" to key,
                 "data" to concatData
             )
         }
@@ -167,9 +159,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     /**
      * Decrypts [encrypted] data using [key].
      *
-     * This method assumes that the [encrypted] data is in `[iv, data, aad]` format.
-     *
-     * Presumably encrypted using [encrypt]
+     * This method assumes that the [encrypted] data is in `[iv, data, aad]` format,
+     * presumably encrypted using [encrypt]
      *
      * @throws KipherException
      */
