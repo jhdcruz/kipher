@@ -6,6 +6,7 @@ on:
 env:
   JDK_VERSION: 19
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 jobs:
   unit:
@@ -53,16 +54,15 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: coverage-file
-          path: ./coverage/
 
       - name: Submit coverage report
-        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r ./coverage/testCodeCoverageReport.xml
+        run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r testCodeCoverageReport.xml
         env:
-          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          CODACY_PROJECT_TOKEN: ${{ env.CODACY_PROJECT_TOKEN }}
 
       - name: Codecov report
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/testCodeCoverageReport.xml
+          files: testCodeCoverageReport.xml
           flags: unit
