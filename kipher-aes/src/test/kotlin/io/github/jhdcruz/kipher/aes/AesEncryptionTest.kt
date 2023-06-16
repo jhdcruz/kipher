@@ -39,9 +39,12 @@ internal class AesEncryptionTest {
     fun `test basic encryption`() {
         val cbcEncryption = CbcEncryption()
 
-        val secretKey = cbcEncryption.generateKey()
-        val cipherText: Pair<ByteArray, ByteArray> = cbcEncryption.encryptWithIv(message, secretKey)
-        val decrypted = cbcEncryption.decrypt(cipherText.second, secretKey, cipherText.first)
+        val encrypted = cbcEncryption.encrypt(message)
+
+        val decrypted = cbcEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -50,8 +53,10 @@ internal class AesEncryptionTest {
     fun `test authenticated encryption`() {
         val gcmEncryption = GcmEncryption()
 
-        val encrypted = gcmEncryption.encrypt(message, aad)
-
+        val encrypted = gcmEncryption.encrypt(
+            data = message,
+            aad = aad
+        )
 
         val decrypted = gcmEncryption.decrypt(
             encrypted = encrypted.getValue("data"),
@@ -119,8 +124,12 @@ internal class AesEncryptionTest {
         val cbcEncryption = CbcEncryption()
 
         val secretKey = cbcEncryption.generateKey(128)
-        val cipherText = cbcEncryption.encrypt(message, secretKey)
-        val decrypted = cbcEncryption.decrypt(cipherText, secretKey)
+        val encrypted = cbcEncryption.encrypt(message, secretKey)
+
+        val decrypted = cbcEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }

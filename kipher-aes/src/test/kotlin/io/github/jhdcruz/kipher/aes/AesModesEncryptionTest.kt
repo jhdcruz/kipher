@@ -13,9 +13,12 @@ internal class AesModesEncryptionTest {
     fun `test CBC encryption`() {
         val cbcEncryption = CbcEncryption()
 
-        val secretKey = cbcEncryption.generateKey()
-        val cipherText = cbcEncryption.encrypt(message, secretKey)
-        val decrypted = cbcEncryption.decrypt(cipherText, secretKey)
+        val encrypted = cbcEncryption.encrypt(message)
+
+        val decrypted = cbcEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -24,9 +27,15 @@ internal class AesModesEncryptionTest {
     fun `test GCM encryption`() {
         val gcmEncryption = GcmEncryption()
 
-        val secretKey = gcmEncryption.generateKey()
-        val cipherText = gcmEncryption.encrypt(message, secretKey, aad)
-        val decrypted = gcmEncryption.decrypt(cipherText, secretKey)
+        val encrypted = gcmEncryption.encrypt(
+            data = message,
+            aad = aad,
+        )
+
+        val decrypted = gcmEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -35,9 +44,15 @@ internal class AesModesEncryptionTest {
     fun `test CCM encryption`() {
         val ccmEncryption = CcmEncryption()
 
-        val secretKey = ccmEncryption.generateKey()
-        val cipherText = ccmEncryption.encrypt(message, secretKey, aad)
-        val decrypted = ccmEncryption.decrypt(cipherText, secretKey)
+        val encrypted = ccmEncryption.encrypt(
+            data = message,
+            aad = aad,
+        )
+
+        val decrypted = ccmEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -46,9 +61,12 @@ internal class AesModesEncryptionTest {
     fun `test CFB encryption`() {
         val cfbEncryption = CfbEncryption()
 
-        val secretKey = cfbEncryption.generateKey()
-        val cipherText = cfbEncryption.encrypt(message, secretKey)
-        val decrypted = cfbEncryption.decrypt(cipherText, secretKey)
+        val encrypted = cfbEncryption.encrypt(message)
+
+        val decrypted = cfbEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -57,9 +75,12 @@ internal class AesModesEncryptionTest {
     fun `test CTR encryption`() {
         val ctrEncryption = CtrEncryption()
 
-        val secretKey = ctrEncryption.generateKey()
-        val cipherText = ctrEncryption.encrypt(message, secretKey)
-        val decrypted = ctrEncryption.decrypt(cipherText, secretKey)
+        val encrypted = ctrEncryption.encrypt(message)
+
+        val decrypted = ctrEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
