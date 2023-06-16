@@ -7,7 +7,6 @@ package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
-import org.jetbrains.annotations.Nullable
 import java.nio.ByteBuffer
 import java.security.GeneralSecurityException
 import javax.crypto.Cipher
@@ -21,8 +20,7 @@ internal const val BASIC_IV_LENGTH: Int = 16
  *
  * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  *
- * @property aesMode Custom AES mode from [AesModes].
- * @property keySize Custom key size: `128`, `192`, `256`. (default: `256`)
+ * @param aesMode Custom AES mode from [AesModes].
  */
 open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
@@ -35,25 +33,58 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     /**
      * Encrypts the provided [data] using the provided [key].
      *
-     * Returns both IV and cipher text separately in a [Pair] (iv, data).
+     * This is useful for **advanced use cases** if you want finer control
+     * over what to do with the outputs.
      *
+     * If you want to encrypt data without worrying about `iv`, use [encrypt] instead
+     *
+     * @return [Map] containing the `data`, `key`, and `iv`
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    fun encryptWithIv(
+    @JvmOverloads
+    fun encryptBare(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray
-    ): Pair<ByteArray, ByteArray> {
+        @NotNull key: ByteArray,
+        @NotNull iv: ByteArray = generateIv(),
+    ): Map<String, ByteArray> {
         return try {
-            // randomize iv for each encryption
-            val iv = generateIv()
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
             cipher.run {
                 init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv))
                 doFinal(data)
             }.let { cipherText ->
-                Pair(iv, cipherText)
+                mapOf(
+                    "data" to cipherText,
+                    "key" to key,
+                    "iv" to iv,
+                )
+            }
+        } catch (e: GeneralSecurityException) {
+            throw KipherException(e)
+        }
+    }
+
+    /**
+     * Decrypts [encrypted] data using [key] and optional [iv].
+     *
+     * @return Decrypted data
+     * @throws KipherException
+     */
+    @Throws(KipherException::class)
+    fun decryptBare(
+        @NotNull encrypted: ByteArray,
+        @NotNull key: ByteArray,
+        @NotNull iv: ByteArray
+    ): ByteArray {
+        return try {
+            val keySpec = SecretKeySpec(key, ALGORITHM)
+
+            // use the provided iv
+            cipher.run {
+                init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv))
+                doFinal(encrypted)
             }
         } catch (e: GeneralSecurityException) {
             throw KipherException(e)
@@ -63,59 +94,84 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     /**
      * Encrypts the provided [data] using the provided [key].
      *
+     * This method already generates a new key for each encryption.
+     * [generateKey] is optional.
+     *
+     * @return [Map] containing the `data` and `key`
      * @return Encrypted data
      */
-    fun encrypt(@NotNull data: ByteArray, @NotNull key: ByteArray): ByteArray {
-        return encryptWithIv(data, key).let { (iv, cipherText) ->
-            // prepend iv to cipher text
-            ByteBuffer.allocate(BASIC_IV_LENGTH + cipherText.size)
-                .put(iv)
-                .put(cipherText)
-                .array()
+    @JvmOverloads
+    fun encrypt(
+        @NotNull data: ByteArray,
+        @NotNull key: ByteArray = generateKey(),
+    ): Map<String, ByteArray> {
+        return encryptBare(
+            data = data,
+            key = key
+        ).let { encrypted ->
+            // concat iv and data
+            val concatData = ByteBuffer.allocate(
+                encrypted.getValue("iv").size + encrypted.getValue("data").size
+            ).run {
+                put(encrypted["iv"])
+                put(encrypted["data"])
+                array()
+            }
+
+            // we also return the key here since key can be
+            // optional and automatically be generated for
+            // every encryption, if omitted
+            mapOf(
+                "key" to key,
+                "data" to concatData,
+            )
         }
     }
 
     /**
-     * Decrypts [encrypted] data using [key] and optional [iv].
+     * Decrypts [encrypted] data using [key].
      *
-     * Provide [iv] if it was not prepended to the cipher text. Otherwise, its optional.
+     * This method assumes that the [encrypted] data is in `[iv, data]` format,
+     * presumably encrypted using [encrypt]
      *
      * @throws KipherException
      */
-    @Throws(KipherException::class)
-    @JvmOverloads
     fun decrypt(
         @NotNull encrypted: ByteArray,
-        @NotNull key: ByteArray,
-        @Nullable iv: ByteArray? = null
+        @NotNull key: ByteArray
     ): ByteArray {
+        extract(encrypted).let { data ->
+            return decryptBare(
+                encrypted = data.getValue("data"),
+                key = key,
+                iv = data.getValue("iv")
+            )
+        }
+    }
+
+    /**
+     * Extracts the `iv` and `data` from the [encrypted] data.
+     *
+     * This can only extract data encrypted using [encrypt] or [encryptBare]
+     *
+     * If you want to extract data encrypted outside of `Kipher`, you have to extract them
+     * manually based on how they are structured
+     *
+     * @return [Map] containing the `iv`, `data`
+     */
+    @Throws(KipherException::class)
+    override fun extract(@NotNull encrypted: ByteArray): Map<String, ByteArray> {
         return try {
-            val keySpec = SecretKeySpec(key, ALGORITHM)
+            // get iv from the first 12 bytes
+            val iv = encrypted.copyOfRange(0, BASIC_IV_LENGTH)
+            val cipherText = encrypted.copyOfRange(BASIC_IV_LENGTH, encrypted.size)
 
-            if (iv != null) {
-                // use the provided iv
-                cipher.run {
-                    init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv))
-                    doFinal(encrypted)
-                }
-            } else {
-                // Use everything from 16 bytes on as ciphertext
-                cipher.run {
-                    init(
-                        Cipher.DECRYPT_MODE,
-                        keySpec,
-                        IvParameterSpec(encrypted, 0, BASIC_IV_LENGTH),
-                    )
-
-                    doFinal(
-                        encrypted,
-                        BASIC_IV_LENGTH,
-                        encrypted.size - BASIC_IV_LENGTH,
-                    )
-                }
-            }
-        } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+            mapOf(
+                "iv" to iv,
+                "data" to cipherText
+            )
+        } catch (e: Exception) {
+            throw KipherException("Error extracting encryption details from provided file", e)
         }
     }
 }
