@@ -1,6 +1,6 @@
 package io.github.jhdcruz.kipher.aes
 
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class AesModesEncryptionTest {

@@ -1,8 +1,8 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
-import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
