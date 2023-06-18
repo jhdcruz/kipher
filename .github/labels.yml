@@ -1,10 +1,10 @@
 "Module | AES":
-  - kiper-aes/**/*
-  - kiper-aes-compat/**/*
+  - kipher-aes/**/*
+  - kipher-aes-compat/**/*
 
 "Module | RSA":
-  - kiper-rsa/**/*
-  - kiper-rsa-compat/**/*
+  - kipher-rsa/**/*
+  - kipher-rsa-compat/**/*
 
 "Module | Gradle":
   - gradle-scripts/**/*
