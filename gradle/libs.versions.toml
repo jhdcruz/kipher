@@ -1,5 +1,5 @@
 [versions]
-bouncycastle = "1.73"
+bouncycastle = "1.74"
 detekt = "1.23.0"
 dokka = "1.8.20"
 kotlin = "1.8.22"
