@@ -49,7 +49,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     fun encryptBare(
         @NotNull data: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull iv: ByteArray,
+        @NotNull iv: ByteArray = generateIv(),
         @NotNull aad: ByteArray = byteArrayOf(),
     ): Map<String, ByteArray> {
         return try {
@@ -126,7 +126,6 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         return encryptBare(
             data = data,
             key = key,
-            iv = generateIv(),
             aad = aad
         ).let { encrypted ->
             // calculate size of encrypted data based on aad availability
