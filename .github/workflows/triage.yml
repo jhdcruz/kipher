@@ -1,7 +1,8 @@
 name: triage
+
 on:
   workflow_run:
-    workflows: [ Pull Request ]
+    workflows: [ pull_request_target ]
     types: [ completed ]
 
 jobs:
