@@ -14,8 +14,7 @@ java {
 }
 
 apiValidation {
-    // sub-projects that are excluded from API validation
-    ignoredProjects.addAll(listOf("kipher-common"))
+    ignoredPackages.addAll(listOf("io.github.jhdcruz.kipher.common"))
 }
 
 tasks {
