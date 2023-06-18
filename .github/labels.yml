@@ -8,10 +8,12 @@
 
 "Module | Gradle":
   - gradle-scripts/**/*
-  - gradle/**/*
   - ./**/*.gradle.kts
-  - gradlew
-  - gradlew.bat
+
+Dependencies:
+  - gradle/**/*
+  - ./gradlew
+  - ./gradlew.bat
 
 Tests:
   - ./**/**/test/**/*
@@ -20,9 +22,12 @@ Documentation:
   - docs/**/*
   - ./**/*.md
 
-Tooling | Extensions:
-  - renovate.json
+Tooling:
+  - .codacy.yml
+  - .codecov.yml
   - .whitesource
+  - detekt.yml
+  - renovate.json
 
 Tooling | Workflow:
   - .github/**/*
