@@ -1,4 +1,5 @@
 [versions]
+bin-compat = "0.13.2"
 bouncycastle = "1.74"
 detekt = "1.23.0"
 dokka = "1.8.20"
@@ -12,6 +13,8 @@ dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
+bin-compat-validator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "bin-compat" }
+
 detekt = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detekt" }
 dokka = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "dokka" }
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
