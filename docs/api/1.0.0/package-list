@@ -1,9 +1,0 @@
-$dokka.format:html-v1
-$dokka.linkExtension:html
-
-module:kipher-aes
-io.github.jhdcruz.kipher.aes
-module:kipher-common
-io.github.jhdcruz.kipher.common
-module:kipher-rsa
-io.github.jhdcruz.kipher.rsa
