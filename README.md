@@ -2,8 +2,8 @@
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%1E1E1E&label=Coverage&logo=codacy&style=flat-square)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard)
 
-Abstracted cryptographic library for straightforward & hassle-free data encryption for JVM
-applications.
+Abstracted cryptographic library for straightforward & hassle-free cryptographic
+operations for JVM applications.
 
 ### Features:
 
@@ -31,27 +31,33 @@ applications.
 
 Unfortunately, **The library is not yet available in Maven Central.**
 
-Other ways to use the library:
+<details>
+<summary>Other ways to use the library</summary>
+
+These methods are untested, but should work.
 
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
-
-- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest),
-  and manually add it to your project.
-    - [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse)
-    - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
-    - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
 
 - Using the package directly from GitHub
   Packages.
     - [Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
     - [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package)
 
+- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest),
+  and manually add it to your project.
+    - [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse)
+    - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
+    - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
+  > This method also requires `kipher-common`.
+
+</details>
+
 ### Kotlin
 
 Using the library in kotlin is as easy as importing it:
 
 ```kotlin
-import kipher.aes.GcmEncryption
+import io.github.jhdcruz.kipher.aes.GcmEncryption
 
 class EncryptionTest {
     fun main() {
@@ -59,10 +65,21 @@ class EncryptionTest {
 
         val data = "sample data".encodeToByteArray()
         val aad = "sample aad".encodeToByteArray()
-        val secretKey: ByteArray = encryptionUtils.generateKey()
 
-        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey)
-        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, aad, secretKey)
+        // named parameters are recommended, but optional
+        val encrypted = gcmEncryption.encrypt(
+            data = message,
+            aad = aad,
+        ) // returns Map<String, ByteArray> of [data, key]
+
+        val decrypted = gcmEncryption.decrypt(encrypted)
+
+        // or
+
+        val decrypted = gcmEncryption.decrypt(
+            encrypted = encrypted.getValue("data"),
+            key = encrypted.getValue("key")
+        )
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
@@ -72,20 +89,28 @@ class EncryptionTest {
 ### Java (Non-kotlin)
 
 ```java
-import kipher.aes.GcmEncryption;
+import io.github.jhdcruz.kipher.aes.GcmEncryption;
 
-class EncryptionTest {
+import java.util.Map;
+
+public class Main {
     public static void main(String[] args) {
         GcmEncryption encryptionUtils = new GcmEncryption();
 
-        byte[] data = "sample data".getBytes();
-        byte[] aad = "sample aad".getBytes();
-        byte[] secretKey = encryptionUtils.generateKey();
+        byte[] data = "Hello World".getBytes();
 
-        byte[] encryptedData = encryptionUtils.encrypt(data, aad, secretKey);
-        byte[] decryptedPass = encryptionUtils.decrypt(encryptedData, aad, secretKey);
+        Map<String, byte[]> encrypted = encryptionUtils.encrypt(data);
 
-        System.out.println(new String(decryptedPass, StandardCharsets.UTF_8)); // outputs "sample data"
+        byte[] val = encryptionUtils.decrypt(encrypted);
+
+        // or
+
+        byte[] val = encryptionUtils.decrypt(
+            encrypted.get("data"),
+            encrypted.get("key")
+        );
+
+        System.out.println(new String(val)); // outputs "Hello World"
     }
 }
 ```
@@ -93,19 +118,21 @@ class EncryptionTest {
 ### Using different key size
 
 ```kotlin
-import kipher.aes.KipherAes
-import kipher.aes.AesModes
+import io.github.jhdcruz.kipher.aes.GcmEncryption
 
 class EncryptionTest {
     fun main() {
-        val encryptionUtils = GcmEncryption(192) // key size
+        val encryptionUtils = CbcEncryption()
 
-        val data = "sample data"
-        val aad = "sample aad".encodeToByteArray()
-        val secretKey: ByteArray = encryptionUtils.generateKey()
+        val data = "sample data".encodeToByteArray()
+        val secretKey: ByteArray = encryptionUtils.generateKey(128)
 
-        val encryptedData: ByteArray = encryptionUtils.encrypt(data, aad, secretKey)
-        val decryptedPass: ByteArray = encryptionUtils.decrypt(encryptedData, aad, secretKey)
+        val encrypted = gcmEncryption.encrypt(
+            data = message,
+            key = secretKey
+        )
+
+        val decrypted = gcmEncryption.decrypt(encrypted)
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
@@ -120,13 +147,48 @@ class EncryptionTest {
 >
 > *See more: https://stackoverflow.com/a/3864276*
 
+#### Methods
+
+There are 4 methods you'll primarily use:
+
+- `encrypt`
+- `decrypt`
+
+These are the most easy and straightforward methods you'll use,
+but they rely on internal implementation, which means **you cannot
+decrypt a data that was encrypted by a different method or library**.
+Unless they use the same internal implementation as this library.
+
+##### Advanced Usage/Methods
+
+- `encryptBare`
+- `decryptBare`
+
+The parameters requires all the necessary data for the encryption/decryption process
+individually such as IV, key, AADs, whatever that is applicable. Here **you can decrypt
+data that was encrypted by a different method or library**. Unless they involve a different
+or custom implementation of the encryption/decryption process.
+
+## Compatibility
+
+I strive for backward-compatibility **as much as possible**, but due to the nature of this library
+being a cryptographic library, even a very small change can introduce a breaking change incompatible
+with previous versions.
+
+The library will follow semantic versioning where breaking changes bumps the major version,
+this way developers know that something might not work should they update.
+
 ## Contributing
 
-If you want to contribute to this project, feel free to open an issue or a pull request.
+If you want to contribute to this project, feel free to open an issue or discussion **before**
+opening a pull
+request to avoid wasted efforts.
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](./LICENSE.txt) file for
+[![FOSSA Status](https://app.fossa.com/api/projects/custom%2B26392%2Fgithub.com%2Fjhdcruz%2Fkipher.svg?type=small)](https://app.fossa.com/projects/custom%2B26392%2Fgithub.com%2Fjhdcruz%2Fkipher?ref=badge_small)
+
+This project is licensed under the `Apache 2.0 License` - see the [LICENSE](./LICENSE.txt) file for
 details
 
 ## Disclaimer
