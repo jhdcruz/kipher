@@ -41,11 +41,7 @@ internal class AesEncryptionTest {
         val cbcEncryption = CbcEncryption()
 
         val encrypted = cbcEncryption.encrypt(message)
-
-        val decrypted = cbcEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = cbcEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -59,10 +55,7 @@ internal class AesEncryptionTest {
             aad = aad
         )
 
-        val decrypted = gcmEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = gcmEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -74,8 +67,8 @@ internal class AesEncryptionTest {
         val encrypted = gcmEncryption.encrypt(message)
 
         val decrypted = gcmEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
+            encrypted = encrypted["data"]!!,
+            key = encrypted["key"]!!
         )
 
 
@@ -88,14 +81,16 @@ internal class AesEncryptionTest {
 
         val secretKey = gcmEncryption.generateKey()
         val encrypted = gcmEncryption.encryptBare(
-            message,
-            secretKey,
-            aad
+            data = message,
+            iv = gcmEncryption.generateIv(),
+            key = secretKey,
+            aad = aad
         )
 
         assertThrows<KipherException> {
             gcmEncryption.decryptBare(
                 encrypted["data"]!!,
+                encrypted["iv"]!!,
                 secretKey,
                 "invalid-aad".encodeToByteArray()
             )
@@ -148,8 +143,8 @@ internal class AesEncryptionTest {
         val encrypted = cbcEncryption.encrypt(message, secretKey)
 
         val decrypted = cbcEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
+            encrypted = encrypted["data"]!!,
+            key = encrypted["key"]!!
         )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))

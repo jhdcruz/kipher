@@ -14,11 +14,7 @@ internal class AesModesEncryptionTest {
         val cbcEncryption = CbcEncryption()
 
         val encrypted = cbcEncryption.encrypt(message)
-
-        val decrypted = cbcEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = cbcEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -32,10 +28,7 @@ internal class AesModesEncryptionTest {
             aad = aad,
         )
 
-        val decrypted = gcmEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = gcmEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -49,10 +42,7 @@ internal class AesModesEncryptionTest {
             aad = aad,
         )
 
-        val decrypted = ccmEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = ccmEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -62,11 +52,8 @@ internal class AesModesEncryptionTest {
         val cfbEncryption = CfbEncryption()
 
         val encrypted = cfbEncryption.encrypt(message)
+        val decrypted = cfbEncryption.decrypt(encrypted)
 
-        val decrypted = cfbEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -76,11 +63,7 @@ internal class AesModesEncryptionTest {
         val ctrEncryption = CtrEncryption()
 
         val encrypted = ctrEncryption.encrypt(message)
-
-        val decrypted = ctrEncryption.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+        val decrypted = ctrEncryption.decrypt(encrypted)
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
