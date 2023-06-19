@@ -2,7 +2,9 @@ public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhd
 	public static final field Companion Lio/github/jhdcruz/kipher/aes/AesEncryption$Companion;
 	public static final field DEFAULT_KEY_SIZE I
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public abstract fun concat (Ljava/util/Map;)[B
 	public abstract fun extract ([B)Ljava/util/Map;
+	public abstract fun generateIv ()[B
 	public final fun generateKey (I)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
 	public fun getCipher ()Ljavax/crypto/Cipher;
@@ -25,6 +27,8 @@ public final class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
 public class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
 	public static final field Companion Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption$Companion;
 	public fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;)V
+	public fun concat (Ljava/util/Map;)[B
+	public final fun decrypt (Ljava/util/Map;)[B
 	public final fun decrypt ([B[B)[B
 	public final fun decryptBare ([B[B[B)[B
 	public final fun decryptBare ([B[B[B[B)[B
@@ -33,11 +37,11 @@ public class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jh
 	public final fun encrypt ([B[B)Ljava/util/Map;
 	public final fun encrypt ([B[B[B)Ljava/util/Map;
 	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[BILjava/lang/Object;)Ljava/util/Map;
-	public final fun encryptBare ([B[B)Ljava/util/Map;
 	public final fun encryptBare ([B[B[B)Ljava/util/Map;
 	public final fun encryptBare ([B[B[B[B)Ljava/util/Map;
 	public static synthetic fun encryptBare$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[B[BILjava/lang/Object;)Ljava/util/Map;
 	public fun extract ([B)Ljava/util/Map;
+	public fun generateIv ()[B
 }
 
 public final class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption$Companion {
@@ -47,15 +51,16 @@ public final class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption$Companio
 
 public class io/github/jhdcruz/kipher/aes/BasicEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
 	public fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;)V
+	public fun concat (Ljava/util/Map;)[B
+	public final fun decrypt (Ljava/util/Map;)[B
 	public final fun decrypt ([B[B)[B
 	public final fun decryptBare ([B[B[B)[B
 	public final fun encrypt ([B)Ljava/util/Map;
 	public final fun encrypt ([B[B)Ljava/util/Map;
 	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/aes/BasicEncryption;[B[BILjava/lang/Object;)Ljava/util/Map;
-	public final fun encryptBare ([B[B)Ljava/util/Map;
 	public final fun encryptBare ([B[B[B)Ljava/util/Map;
-	public static synthetic fun encryptBare$default (Lio/github/jhdcruz/kipher/aes/BasicEncryption;[B[B[BILjava/lang/Object;)Ljava/util/Map;
 	public fun extract ([B)Ljava/util/Map;
+	public fun generateIv ()[B
 }
 
 public final class io/github/jhdcruz/kipher/aes/CbcEncryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
