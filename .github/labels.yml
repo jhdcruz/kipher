@@ -28,6 +28,7 @@ Tooling:
   - .whitesource
   - detekt.yml
   - renovate.json
+  - .trunk/**/*
 
 Tooling | Workflow:
   - .github/**/*
