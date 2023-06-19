@@ -185,7 +185,22 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         }
     }
 
+    /**
+     * Decrypts [encrypted] data in a [Map] format.
+     *
+     * This method assumes that [encrypted] is a [Map] that contains
+     * concatenated encrypted data in `[iv, data, aad]` format
+     * and `key`, presumably encrypted using [encrypt]
+     */
+    fun decrypt(encrypted: Map<String, ByteArray>): ByteArray {
+        val concatData = encrypted.getValue("data")
+        val key = encrypted.getValue("key")
+
+        extract(concatData).let { data ->
+            return decryptBare(
+                encrypted = data.getValue("data"),
                 iv = data.getValue("iv"),
+                key = key,
                 aad = data.getValue("aad")
             )
         }
