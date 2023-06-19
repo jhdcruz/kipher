@@ -10,7 +10,7 @@ package io.github.jhdcruz.kipher.common
  *
  * @constructor creates a new [Exception] with the entire exception
  */
-class KipherException : Exception {
+class KipherException : RuntimeException {
     constructor(e: Throwable?) : super(e)
     constructor(message: String, e: Throwable?) : super(message, e)
 }
