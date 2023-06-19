@@ -1,6 +1,7 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
+import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -107,6 +108,26 @@ internal class AesEncryptionTest {
 
         assertThrows<KipherException> {
             gcmEncryption.encrypt(message, invalidKey, aad)
+        }
+    }
+
+    @Test
+    fun `test authenticated encryption with same AAD as separator`() {
+        val gcmEncryption = GcmEncryption()
+
+        // gcmEncryption companion object
+        val aad = AuthenticatedEncryption.aadSeparator
+
+        val encrypted = gcmEncryption.encrypt(
+            data = message,
+            aad = aad
+        )
+
+        assertDoesNotThrow {
+            gcmEncryption.decrypt(
+                encrypted = encrypted.getValue("data"),
+                key = encrypted.getValue("key")
+            )
         }
     }
 
