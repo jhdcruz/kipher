@@ -12,14 +12,14 @@ lint:
         - markdownlint
         - prettier
     enabled:
-        - renovate@35.115.2
+        - renovate@35.121.0
         - yamllint@1.32.0
         - shfmt@3.5.0
-        - gitleaks@8.16.4
+        - gitleaks@8.17.0
         - taplo@0.7.0
         - ktlint@0.49.1
         - git-diff-check
-        - actionlint@1.6.24
+        - actionlint@1.6.25
         - shellcheck@0.9.0
         - detekt-gradle@SYSTEM
     ignore:
