@@ -36,17 +36,16 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      * This is useful for **advanced use cases** if you want finer control
      * over what to do with the outputs.
      *
-     * If you want to encrypt data without worrying about `iv`, use [encrypt] instead
+     * If you want to encrypt data without worrying about `iv`, use [encrypt] instead.
      *
-     * @return [Map] containing the `data`, `key`, and `iv`
+     * @return [Map] containing the `data`, `iv`, and `key`
      * @throws KipherException
      */
     @Throws(KipherException::class)
-    @JvmOverloads
     fun encryptBare(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray,
-        @NotNull iv: ByteArray = generateIv(),
+        @NotNull iv: ByteArray,
+        @NotNull key: ByteArray
     ): Map<String, ByteArray> {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -57,8 +56,8 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             }.let { cipherText ->
                 mapOf(
                     "data" to cipherText,
-                    "key" to key,
                     "iv" to iv,
+                    "key" to key,
                 )
             }
         } catch (e: GeneralSecurityException) {
@@ -75,8 +74,8 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     @Throws(KipherException::class)
     fun decryptBare(
         @NotNull encrypted: ByteArray,
-        @NotNull key: ByteArray,
-        @NotNull iv: ByteArray
+        @NotNull iv: ByteArray,
+        @NotNull key: ByteArray
     ): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -107,6 +106,7 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     ): Map<String, ByteArray> {
         return encryptBare(
             data = data,
+            iv = generateIv(),
             key = key
         ).let { encrypted ->
             // concat iv and data
@@ -122,8 +122,8 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             // optional and automatically be generated for
             // every encryption, if omitted
             mapOf(
-                "key" to key,
                 "data" to concatData,
+                "key" to key,
             )
         }
     }
@@ -143,8 +143,8 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         extract(encrypted).let { data ->
             return decryptBare(
                 encrypted = data.getValue("data"),
-                key = key,
-                iv = data.getValue("iv")
+                iv = data.getValue("iv"),
+                key = key
             )
         }
     }

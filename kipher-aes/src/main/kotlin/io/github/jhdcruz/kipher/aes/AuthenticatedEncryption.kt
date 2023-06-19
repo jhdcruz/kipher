@@ -36,10 +36,13 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     /**
      * Encrypts the provided [data] along with [aad] (if provided) using [key].
      *
-     * This is useful for **advanced use cases** if you want finer control
-     * over what to do with the outputs.
+     * This is useful for **advanced use cases** if you want finer control.
      *
-     * If you want to encrypt data without worrying about `iv` and `aad`, use [encrypt] instead
+     * If you want to encrypt data without worrying about `iv` and `aad`,
+     * use [encrypt] instead
+     *
+     * This does not return with [key] since it's supposed to be provided,
+     * unlike [encrypt] which generates a new key for each encryption.
      *
      * @return [Map] containing the `iv`, `data` (encrypted), and `aad`.
      * @throws KipherException
@@ -48,9 +51,9 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     @JvmOverloads
     fun encryptBare(
         @NotNull data: ByteArray,
+        @NotNull iv: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull iv: ByteArray = generateIv(),
-        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull aad: ByteArray = byteArrayOf()
     ): Map<String, ByteArray> {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -67,8 +70,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 doFinal(data)
             }.let { encrypted ->
                 mapOf(
-                    "iv" to iv,
                     "data" to encrypted,
+                    "iv" to iv,
                     "aad" to aad
                 )
             }
@@ -87,8 +90,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     @JvmOverloads
     fun decryptBare(
         @NotNull encrypted: ByteArray,
-        @NotNull key: ByteArray,
         @NotNull iv: ByteArray,
+        @NotNull key: ByteArray,
         @NotNull aad: ByteArray = byteArrayOf(),
     ): ByteArray {
         return try {
@@ -120,12 +123,12 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     @JvmOverloads
     fun encrypt(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray = generateKey(),
-        @NotNull aad: ByteArray = byteArrayOf()
+        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull key: ByteArray = generateKey()
     ): Map<String, ByteArray> {
-
         val result = encryptBare(
             data = data,
+            iv = generateIv(),
             key = key,
             aad = aad
         )
@@ -175,7 +178,13 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         extract(encrypted).let { data ->
             return decryptBare(
                 encrypted = data.getValue("data"),
+                iv = data.getValue("iv"),
                 key = key,
+                aad = data.getValue("aad")
+            )
+        }
+    }
+
                 iv = data.getValue("iv"),
                 aad = data.getValue("aad")
             )
@@ -217,8 +226,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 val aadValueIndex = aadIndex + aadSeparator.size
 
                 encrypted.copyOfRange(aadValueIndex, encrypted.size)
-                    // trim trailing zeros/spaces
-                    .dropLastWhile { it == 0.toByte() }.toByteArray()
+                    .dropLastWhile { it == 0.toByte() } // trim trailing zeros/spaces
+                    .toByteArray()
             }
 
             val cipherText = encrypted.copyOfRange(AUTHENTICATED_IV_LENGTH, aadSeparatorIndex)
