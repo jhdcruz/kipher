@@ -149,8 +149,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             // optional and automatically be generated for
             // every encryption, if omitted
             mapOf(
-                "key" to key,
-                "data" to concatData
+                "data" to concatData,
+                "key" to key
             )
         }
     }
