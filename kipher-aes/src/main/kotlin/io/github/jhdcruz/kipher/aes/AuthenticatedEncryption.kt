@@ -73,7 +73,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 )
             }
         } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+            throw KipherException("Error encrypting file", e)
         }
     }
 
@@ -105,7 +105,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 doFinal(encrypted)
             }
         } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+            throw KipherException("Error decrypting file", e)
         }
     }
 
@@ -123,35 +123,42 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         @NotNull key: ByteArray = generateKey(),
         @NotNull aad: ByteArray = byteArrayOf()
     ): Map<String, ByteArray> {
-        return encryptBare(
+
+        val result = encryptBare(
             data = data,
             key = key,
             aad = aad
-        ).let { encrypted ->
-            // calculate size of encrypted data based on aad availability
-            val encryptedSize = encrypted.values.sumOf { it.size + aadSeparator.size }
+        )
 
-            // concatenate iv, cipher text, and aad
-            val concatData = ByteBuffer.allocate(encryptedSize).run {
-                put(encrypted["iv"])
-                put(encrypted["data"])
+        return try {
+            result.let { encrypted ->
+                // calculate size of encrypted data based on aad availability
+                val encryptedSize = encrypted.values.sumOf { it.size + aadSeparator.size }
 
-                // This shouldn't be a problem since AADs are not
-                // supposed to be encrypted or a secret anyway, I guess
-                // https://crypto.stackexchange.com/a/35730
-                put(aadSeparator)
-                put(encrypted["aad"])
+                // concatenate iv, cipher text, and aad
+                val concatData = ByteBuffer.allocate(encryptedSize).run {
+                    put(encrypted["iv"])
+                    put(encrypted["data"])
 
-                array()
+                    // This shouldn't be a problem since AADs are not
+                    // supposed to be encrypted or a secret anyway, I guess
+                    // https://crypto.stackexchange.com/a/35730
+                    put(aadSeparator)
+                    put(encrypted["aad"])
+
+                    array()
+                }
+
+                // we also return the key here since key can be
+                // optional and automatically be generated for
+                // every encryption, if omitted
+                mapOf(
+                    "data" to concatData,
+                    "key" to key
+                )
             }
-
-            // we also return the key here since key can be
-            // optional and automatically be generated for
-            // every encryption, if omitted
-            mapOf(
-                "data" to concatData,
-                "key" to key
-            )
+        } catch (e: IndexOutOfBoundsException) {
+            throw KipherException("Error concatenating encryption details", e)
         }
     }
 
@@ -160,10 +167,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      *
      * This method assumes that the [encrypted] data is in `[iv, data, aad]` format,
      * presumably encrypted using [encrypt]
-     *
-     * @throws KipherException
      */
-    @Throws(KipherException::class)
     fun decrypt(
         @NotNull encrypted: ByteArray,
         @NotNull key: ByteArray,

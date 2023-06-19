@@ -62,7 +62,7 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 )
             }
         } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+            throw KipherException("Error encrypting file", e)
         }
     }
 
@@ -87,7 +87,7 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 doFinal(encrypted)
             }
         } catch (e: GeneralSecurityException) {
-            throw KipherException(e)
+            throw KipherException("Error decrypting file", e)
         }
     }
 
