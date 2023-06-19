@@ -46,11 +46,20 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
     }
 
     /**
-     * Extracts the encryption details from the [encrypted] data.
+     * Concatenate the encryption details from a [Map] data.
+     *
+     * @return [ByteArray] Concatenated data
+     */
+    abstract fun Map<String, ByteArray>.concat(): ByteArray
+
+    /**
+     * Extracts the encryption details from the [ByteArray] data.
+     *
+     * Presumably encrypted using `encrypt() functions`
      *
      * @return [Map] of encryption details (such as iv, data, etc.)
      */
-    abstract fun extract(encrypted: ByteArray): Map<String, ByteArray>
+    abstract fun ByteArray.extract(): Map<String, ByteArray>
 
     companion object {
         /** Default key size value */

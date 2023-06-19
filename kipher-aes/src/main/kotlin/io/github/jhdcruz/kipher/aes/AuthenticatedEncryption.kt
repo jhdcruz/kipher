@@ -39,7 +39,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      * This is useful for **advanced use cases** if you want finer control.
      *
      * If you want to encrypt data without worrying about `iv` and `aad`,
-     * use [encrypt] instead
+     * use [encrypt] instead.
      *
      * This does not return with [key] since it's supposed to be provided,
      * unlike [encrypt] which generates a new key for each encryption.
@@ -118,6 +118,9 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      * This method already generates a new key for each encryption.
      * [generateKey] is optional.
      *
+     * If you want to use custom keys, and leave [aad] empty,
+     * pass an empty [Byte] instead of `null`.
+     *
      * @return Concatenated encrypted data in `[iv, data, aad]` format
      */
     @JvmOverloads
@@ -126,63 +129,39 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         @NotNull aad: ByteArray = byteArrayOf(),
         @NotNull key: ByteArray = generateKey()
     ): Map<String, ByteArray> {
-        val result = encryptBare(
+        val encrypted = encryptBare(
             data = data,
             iv = generateIv(),
             key = key,
             aad = aad
+        ).concat()
+
+        return mapOf(
+            "data" to encrypted,
+            "key" to key
         )
-
-        return try {
-            result.let { encrypted ->
-                // calculate size of encrypted data based on aad availability
-                val encryptedSize = encrypted.values.sumOf { it.size + aadSeparator.size }
-
-                // concatenate iv, cipher text, and aad
-                val concatData = ByteBuffer.allocate(encryptedSize).run {
-                    put(encrypted["iv"])
-                    put(encrypted["data"])
-
-                    // This shouldn't be a problem since AADs are not
-                    // supposed to be encrypted or a secret anyway, I guess
-                    // https://crypto.stackexchange.com/a/35730
-                    put(aadSeparator)
-                    put(encrypted["aad"])
-
-                    array()
-                }
-
-                // we also return the key here since key can be
-                // optional and automatically be generated for
-                // every encryption, if omitted
-                mapOf(
-                    "data" to concatData,
-                    "key" to key
-                )
-            }
-        } catch (e: IndexOutOfBoundsException) {
-            throw KipherException("Error concatenating encryption details", e)
-        }
     }
 
     /**
      * Decrypts [encrypted] data using [key].
      *
      * This method assumes that the [encrypted] data is in `[iv, data, aad]` format,
-     * presumably encrypted using [encrypt]
+     * presumably encrypted using [encrypt].
      */
     fun decrypt(
         @NotNull encrypted: ByteArray,
         @NotNull key: ByteArray,
     ): ByteArray {
-        extract(encrypted).let { data ->
-            return decryptBare(
-                encrypted = data.getValue("data"),
-                iv = data.getValue("iv"),
-                key = key,
-                aad = data.getValue("aad")
-            )
-        }
+        encrypted
+            .extract()
+            .let { data ->
+                return decryptBare(
+                    encrypted = data.getValue("data"),
+                    iv = data.getValue("iv"),
+                    key = key,
+                    aad = data.getValue("aad")
+                )
+            }
     }
 
     /**
@@ -190,37 +169,67 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      *
      * This method assumes that [encrypted] is a [Map] that contains
      * concatenated encrypted data in `[iv, data, aad]` format
-     * and `key`, presumably encrypted using [encrypt]
+     * and `key`, presumably encrypted using [encrypt].
      */
     fun decrypt(encrypted: Map<String, ByteArray>): ByteArray {
-        val concatData = encrypted.getValue("data")
         val key = encrypted.getValue("key")
+        val concatData = encrypted.getValue("data")
 
-        extract(concatData).let { data ->
-            return decryptBare(
-                encrypted = data.getValue("data"),
-                iv = data.getValue("iv"),
-                key = key,
-                aad = data.getValue("aad")
-            )
+        concatData
+            .extract()
+            .let { data ->
+                return decryptBare(
+                    encrypted = data.getValue("data"),
+                    iv = data.getValue("iv"),
+                    key = key,
+                    aad = data.getValue("aad")
+                )
+            }
+    }
+
+    /**
+     * Concatenate the encryption details from a [Map] data.
+     *
+     * @return [ByteArray] Concatenated data
+     */
+    @Throws(KipherException::class)
+    override fun Map<String, ByteArray>.concat(): ByteArray {
+        return try {
+            val encryptedSize = this.values.sumOf { it.size + aadSeparator.size }
+
+            // concatenate iv, cipher text, and aad
+            ByteBuffer.allocate(encryptedSize).run {
+                put(this@concat["iv"])
+                put(this@concat["data"])
+
+                // This shouldn't be a problem since AADs are not
+                // supposed to be encrypted or a secret anyway, I guess
+                // https://crypto.stackexchange.com/a/35730
+                put(aadSeparator)
+                put(this@concat["aad"])
+
+                array()
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            throw KipherException("Error concatenating encryption details", e)
         }
     }
 
     /**
-     * Extracts the `iv`, `data`, and `aad` from the [encrypted] data.
+     * Extracts the `iv`, `data`, and `aad` from a [ByteArray] data.
      *
-     * This can only extract data encrypted using [encrypt] or [encryptBare]
+     * This can only extract data encrypted using [encrypt] or [encryptBare].
      *
      * If you want to extract data encrypted outside of `Kipher`, you have to extract them
-     * manually based on how they are structured
+     * manually based on how they are structured.
      *
      * @return [Map] containing the `iv`, `data`, and `aad`.
      */
     @Throws(KipherException::class)
-    override fun extract(@NotNull encrypted: ByteArray): Map<String, ByteArray> {
+    override fun ByteArray.extract(): Map<String, ByteArray> {
         return try {
             // get iv from the first 12 bytes
-            val iv = encrypted.copyOfRange(0, AUTHENTICATED_IV_LENGTH)
+            val iv = this.copyOfRange(0, AUTHENTICATED_IV_LENGTH)
 
             // TODO: Refactor or refine finding the AAD, this can
             //       can potentially conflict with an AAD that contains
@@ -230,8 +239,8 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
             // find the index of aad and check if its equal
             // bytes as the aadSeparator
-            val aadSeparatorIndex = encrypted.indices.first { i ->
-                encrypted
+            val aadSeparatorIndex = this.indices.first { i ->
+                this
                     .sliceArray(i until i + aadSeparator.size)
                     .contentEquals(aadSeparator)
             }
@@ -240,12 +249,12 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             val aad = aadSeparatorIndex.let { aadIndex ->
                 val aadValueIndex = aadIndex + aadSeparator.size
 
-                encrypted.copyOfRange(aadValueIndex, encrypted.size)
+                this.copyOfRange(aadValueIndex, this.size)
                     .dropLastWhile { it == 0.toByte() } // trim trailing zeros/spaces
                     .toByteArray()
             }
 
-            val cipherText = encrypted.copyOfRange(AUTHENTICATED_IV_LENGTH, aadSeparatorIndex)
+            val cipherText = this.copyOfRange(AUTHENTICATED_IV_LENGTH, aadSeparatorIndex)
 
             mapOf(
                 "iv" to iv,

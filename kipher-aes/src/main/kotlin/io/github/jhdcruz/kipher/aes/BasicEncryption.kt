@@ -33,10 +33,13 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     /**
      * Encrypts the provided [data] using the provided [key].
      *
-     * This is useful for **advanced use cases** if you want finer control
-     * over what to do with the outputs.
+     * This is useful for **advanced use cases** if you want finer control.
      *
-     * If you want to encrypt data without worrying about `iv`, use [encrypt] instead.
+     * If you want to encrypt data without worrying about `iv` and `key,
+     * use [encrypt] instead.
+     *
+     * This does not return with [key] since it's supposed to be provided,
+     * unlike [encrypt] which generates a new key for each encryption.
      *
      * @return [Map] containing the `data`, `iv`, and `key`
      * @throws KipherException
@@ -56,8 +59,7 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             }.let { cipherText ->
                 mapOf(
                     "data" to cipherText,
-                    "iv" to iv,
-                    "key" to key,
+                    "iv" to iv
                 )
             }
         } catch (e: GeneralSecurityException) {
@@ -80,7 +82,6 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
 
-            // use the provided iv
             cipher.run {
                 init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv))
                 doFinal(encrypted)
@@ -104,28 +105,16 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         @NotNull data: ByteArray,
         @NotNull key: ByteArray = generateKey(),
     ): Map<String, ByteArray> {
-        return encryptBare(
+        val encrypted = encryptBare(
             data = data,
             iv = generateIv(),
             key = key
-        ).let { encrypted ->
-            // concat iv and data
-            val concatData = ByteBuffer.allocate(
-                encrypted.getValue("iv").size + encrypted.getValue("data").size
-            ).run {
-                put(encrypted["iv"])
-                put(encrypted["data"])
-                array()
-            }
+        ).concat()
 
-            // we also return the key here since key can be
-            // optional and automatically be generated for
-            // every encryption, if omitted
-            mapOf(
-                "data" to concatData,
-                "key" to key,
-            )
-        }
+        return mapOf(
+            "data" to encrypted,
+            "key" to key,
+        )
     }
 
     /**
@@ -133,20 +122,20 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      *
      * This method assumes that the [encrypted] data is in `[iv, data]` format,
      * presumably encrypted using [encrypt]
-     *
-     * @throws KipherException
      */
     fun decrypt(
         @NotNull encrypted: ByteArray,
         @NotNull key: ByteArray
     ): ByteArray {
-        extract(encrypted).let { data ->
-            return decryptBare(
-                encrypted = data.getValue("data"),
-                iv = data.getValue("iv"),
-                key = key
-            )
-        }
+        encrypted
+            .extract()
+            .let { data ->
+                return decryptBare(
+                    encrypted = data.getValue("data"),
+                    iv = data.getValue("iv"),
+                    key = key
+                )
+            }
     }
 
     /**
@@ -157,20 +146,43 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      * and `key`, presumably encrypted using [encrypt]
      */
     fun decrypt(@NotNull encrypted: Map<String, ByteArray>): ByteArray {
-        val concatData = encrypted.getValue("data")
         val key = encrypted.getValue("key")
+        val concatData = encrypted.getValue("data")
 
-        extract(concatData).let { data ->
-            return decryptBare(
-                encrypted = data.getValue("data"),
-                iv = data.getValue("iv"),
-                key = key
-            )
+        concatData
+            .extract()
+            .let { data ->
+                return decryptBare(
+                    encrypted = data.getValue("data"),
+                    iv = data.getValue("iv"),
+                    key = key
+                )
+            }
+    }
+
+    /**
+     * Concatenate the encryption details from a [Map] data.
+     *
+     * @return [ByteArray] Concatenated data in `[iv, data]` format
+     */
+    @Throws(KipherException::class)
+    override fun Map<String, ByteArray>.concat(): ByteArray {
+        return try {
+            val encryptedSize = this.values.sumOf { it.size }
+
+            // concatenate iv, cipher text, and aad
+            ByteBuffer.allocate(encryptedSize).run {
+                put(this@concat["iv"])
+                put(this@concat["data"])
+                array()
+            }
+        } catch (e: IndexOutOfBoundsException) {
+            throw KipherException("Error concatenating encryption details", e)
         }
     }
 
     /**
-     * Extracts the `iv` and `data` from the [encrypted] data.
+     * Extracts the `iv` and `data` from the [ByteArray] data.
      *
      * This can only extract data encrypted using [encrypt] or [encryptBare]
      *
@@ -180,11 +192,11 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      * @return [Map] containing the `iv`, `data`
      */
     @Throws(KipherException::class)
-    override fun extract(@NotNull encrypted: ByteArray): Map<String, ByteArray> {
+    override fun ByteArray.extract(): Map<String, ByteArray> {
         return try {
             // get iv from the first 12 bytes
-            val iv = encrypted.copyOfRange(0, BASIC_IV_LENGTH)
-            val cipherText = encrypted.copyOfRange(BASIC_IV_LENGTH, encrypted.size)
+            val iv = this.copyOfRange(0, BASIC_IV_LENGTH)
+            val cipherText = this.copyOfRange(BASIC_IV_LENGTH, this.size)
 
             mapOf(
                 "iv" to iv,
