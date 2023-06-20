@@ -28,6 +28,16 @@ internal const val AUTHENTICATED_IV_LENGTH: Int = 12
 sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
     /**
+     * Prefix that separates the data and AAD.
+     *
+     * Allows setting custom AAD separator in cases
+     * where there is similarity conflict with the
+     * separator, although very unlikely.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    var aadSeparator: ByteArray = "aad=".toByteArray()
+
+    /**
      * Generates a random 12 byte `iv`.
      */
     @Suppress("MemberVisibilityCanBePrivate")
@@ -269,10 +279,5 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
                 e
             )
         }
-    }
-
-    companion object {
-        /** Prefix that separates the data and AAD. */
-        var aadSeparator: ByteArray = "aad=".toByteArray()
     }
 }
