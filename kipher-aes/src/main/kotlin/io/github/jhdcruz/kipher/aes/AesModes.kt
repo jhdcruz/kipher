@@ -5,7 +5,7 @@
 
 package io.github.jhdcruz.kipher.aes
 
-/** Available AES encryption [mode]s */
+/** Available AES encryption [mode]s. */
 enum class AesModes(val mode: String) {
     CBC("AES/CBC/PKCS7Padding"),
     CTR("AES/CTR/NoPadding"),

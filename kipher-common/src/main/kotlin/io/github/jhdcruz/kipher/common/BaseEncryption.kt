@@ -11,10 +11,10 @@ import java.security.Security
 import javax.crypto.Cipher
 
 /**
- * Base encryption class that provides common methods and properties
- * across kipher modules/
+ * Base encryption class that provides common methods
+ * and properties across kipher modules.
  *
- * Sets up [BouncyCastleProvider]
+ * Sets up [BouncyCastleProvider].
  */
 abstract class BaseEncryption {
 
@@ -23,9 +23,9 @@ abstract class BaseEncryption {
         Security.addProvider(BouncyCastleProvider())
     }
 
-    /** secure random number generator */
+    /** secure random number generator. */
     val randomize = SecureRandom()
 
-    /** Set cipher type and modes, including provider */
+    /** Set cipher type and modes, including provider. */
     abstract val cipher: Cipher
 }

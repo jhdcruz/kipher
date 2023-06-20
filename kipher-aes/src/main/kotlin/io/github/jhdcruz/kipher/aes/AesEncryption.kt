@@ -62,7 +62,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
     abstract fun ByteArray.extract(): Map<String, ByteArray>
 
     companion object {
-        /** Default key size value */
+        /** Default key size value. */
         const val DEFAULT_KEY_SIZE: Int = 256
     }
 }

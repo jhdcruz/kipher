@@ -17,7 +17,7 @@ abstract class KipherBuildProperties @Inject constructor(
     private val providers: ProviderFactory,
 ) {
     /**
-     * Version to be used for builds
+     * Version to be used for builds.
      */
     @Suppress("MemberVisibilityCanBePrivate")
     val compilerVersion: Provider<JavaLanguageVersion> =

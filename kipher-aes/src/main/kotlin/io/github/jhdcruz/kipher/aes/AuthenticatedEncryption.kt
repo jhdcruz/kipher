@@ -267,7 +267,7 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     }
 
     companion object {
-        /** Prefix that separates the data and AAD */
+        /** Prefix that separates the data and AAD. */
         var aadSeparator: ByteArray = "aad=".toByteArray()
     }
 }
