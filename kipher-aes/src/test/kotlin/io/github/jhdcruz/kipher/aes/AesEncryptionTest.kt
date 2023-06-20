@@ -112,8 +112,7 @@ internal class AesEncryptionTest {
     fun `test authenticated encryption with same AAD as separator`() {
         val gcmEncryption = GcmEncryption()
 
-        // gcmEncryption companion object
-        val aad = AuthenticatedEncryption.aadSeparator
+        val aad = gcmEncryption.aadSeparator
 
         val encrypted = gcmEncryption.encrypt(
             data = message,
