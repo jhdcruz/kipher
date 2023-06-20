@@ -8,7 +8,9 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.BaseEncryption
+import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
+import java.security.InvalidParameterException
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
@@ -29,7 +31,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
     override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
 
     /**
-     * Generate a random IV based on [length]
+     * Generate a random IV based on [length].
      */
     fun generateIv(@NotNull length: Int): ByteArray {
         return ByteArray(length).also {
@@ -44,10 +46,15 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
      *
      * `encrypt()` functions already generates a new key for each encryption.
      */
+    @Throws(KipherException::class)
     fun generateKey(@NotNull keySize: Int = DEFAULT_KEY_SIZE): ByteArray {
-        return keyGenerator.run {
-            init(keySize, randomize)
-            generateKey().encoded
+        return try {
+            keyGenerator.run {
+                init(keySize, randomize)
+                generateKey().encoded
+            }
+        } catch (e: InvalidParameterException) {
+            throw KipherException("Invalid key size given", e)
         }
     }
 
