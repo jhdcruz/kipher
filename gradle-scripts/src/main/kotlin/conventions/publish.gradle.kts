@@ -60,24 +60,6 @@ publishing {
 
     repositories {
         repositories {
-//            maven {
-//                name = "mavenCentral"
-//
-//                val releasesRepoUrl =
-//                    URI.create("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-//                val snapshotsRepoUrl =
-//                    URI.create("https://oss.sonatype.org/content/repositories/snapshots/")
-//
-//                url = if (version.toString()
-//                        .endsWith("SNAPSHOT")
-//                ) snapshotsRepoUrl else releasesRepoUrl
-//
-//                credentials {
-//                    username = System.getenv("SONATYPE_NEXUS_USERNAME")
-//                    password = System.getenv("SONATYPE_NEXUS_PASSWORD")
-//                }
-//            }
-
             maven {
                 name = "GitHubPackages"
                 url = uri("https://maven.pkg.github.com/jhdcruz/kipher")

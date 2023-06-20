@@ -11,5 +11,5 @@ dependencies {
     implementation(libs.bin.compat.validator)
     implementation(libs.detekt)
     implementation(libs.dokka)
-    implementation(libs.kotlin.gradle)
+    implementation(libs.gradle.kotlin)
 }

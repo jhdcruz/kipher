@@ -6,6 +6,7 @@ import java.util.Calendar
 
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.publish.plugin)
     alias(libs.plugins.detekt)
     alias(libs.plugins.dokka)
 }
@@ -21,8 +22,10 @@ dependencies {
     dokkaPlugin(libs.dokka.versioning)
 }
 
-// dokka uses this to determine versioned docs
-rootProject.version = rootProject.property("VERSION")
+group = rootProject.property("GROUP")
+    ?: throw GradleException("Project group property is missing")
+
+version = rootProject.property("VERSION")
     ?: throw GradleException("Project version property is missing")
 
 tasks {
@@ -51,6 +54,18 @@ tasks {
                 "© ${Calendar.getInstance().get(Calendar.YEAR)}" +
                     " Kipher Author & Contributors | " +
                     "Licensed under <a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>The Apache 2.0 License</a>"
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+
+            username.set(System.getenv("SONATYPE_USER"))
+            password.set(System.getenv("SONATYPE_PASS"))
         }
     }
 }

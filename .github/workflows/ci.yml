@@ -49,8 +49,8 @@ jobs:
       - name: Gradle build
         run: ./gradlew build --scan
 
-      - name: Publish snapshots
-        run: ./gradlew publish
+      - name: Publish snapshots on GPR
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
 
       - name: Gradle dependency submission
         uses: mikepenz/gradle-dependency-submission@main
