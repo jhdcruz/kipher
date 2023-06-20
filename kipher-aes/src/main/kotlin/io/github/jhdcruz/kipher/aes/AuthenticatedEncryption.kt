@@ -25,7 +25,7 @@ internal const val AUTHENTICATED_IV_LENGTH: Int = 12
  *
  * @param aesMode Custom AES mode from [AesModes].
  */
-open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
+sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
     /**
      * Generates a random 12 byte `iv`.

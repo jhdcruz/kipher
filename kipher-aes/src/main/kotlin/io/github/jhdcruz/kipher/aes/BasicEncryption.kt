@@ -22,7 +22,7 @@ internal const val BASIC_IV_LENGTH: Int = 16
  *
  * @param aesMode Custom AES mode from [AesModes].
  */
-open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
+sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
     /**
      * Generates a random 16 byte `iv`.
