@@ -2,8 +2,12 @@
 
 [![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%1E1E1E&label=Coverage&logo=codacy&style=flat-square)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard)
 
-Abstracted cryptographic library for straightforward & hassle-free cryptographic
-operations for JVM applications.
+**Abstracted cryptographic library for straightforward & hassle-free cryptographic
+operations for JVM applications.**
+
+This library compliments with Java's JCE but does not necessarily aim for 1:1
+functionality & compatibility, this library is in some form **opinionated**
+but tries to offer customizablility as much as possible.
 
 ### Features:
 
@@ -25,6 +29,21 @@ operations for JVM applications.
 > If you don't know which one to use, stick with the `recommended`
 > based on your chosen encryption method.
 
+## Requirements
+
+Minimum requirements to use the library:
+
+- Kotlin 1.7+
+- Java 8+
+
+> **Note**
+>
+> If your project uses earlier JDK 8, you might need
+> [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
+> for the library to function properly.
+>
+> *See more: https://stackoverflow.com/a/3864276*
+
 ## Usage
 
 > [API documentation](https://jhdcruz.github.io/kipher/)
@@ -33,8 +52,6 @@ Unfortunately, **The library is not yet available in Maven Central.**
 
 <details>
 <summary>Other ways to use the library</summary>
-
-These methods are untested, but should work.
 
 - You can use [JitPack](https://jitpack.io/) to add the library in your project.
 
@@ -48,13 +65,12 @@ These methods are untested, but should work.
     - [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse)
     - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
     - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
-  > This method also requires `kipher-common`.
+
+  > This method doesn't include all the necessary dependencies.
 
 </details>
 
 ### Kotlin
-
-Using the library in kotlin is as easy as importing it:
 
 ```kotlin
 import io.github.jhdcruz.kipher.aes.GcmEncryption
@@ -125,7 +141,7 @@ class EncryptionTest {
         val encryptionUtils = CbcEncryption()
 
         val data = "sample data".encodeToByteArray()
-        val secretKey: ByteArray = encryptionUtils.generateKey(128)
+        val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
 
         val encrypted = gcmEncryption.encrypt(
             data = message,
@@ -139,24 +155,16 @@ class EncryptionTest {
 }
 ```
 
-> **Note**
->
-> If your project uses earlier JDK 8, you might need
-> [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
-> for the library to function properly.
->
-> *See more: https://stackoverflow.com/a/3864276*
-
 #### Methods
 
-There are 4 methods you'll primarily use:
+There are 2 methods you'll primarily use:
 
 - `encrypt`
 - `decrypt`
 
-These are the most easy and straightforward methods you'll use,
-but they rely on internal implementation, which means **you cannot
-decrypt a data that was encrypted by a different method or library**.
+Easy and straightforward methods, but relies on internal implementation.
+
+**You cannot decrypt a data that was encrypted by a different method or library**.
 Unless they use the same internal implementation as this library.
 
 ##### Advanced Usage/Methods
@@ -164,10 +172,11 @@ Unless they use the same internal implementation as this library.
 - `encryptBare`
 - `decryptBare`
 
-The parameters requires all the necessary data for the encryption/decryption process
-individually such as IV, key, AADs, whatever that is applicable. Here **you can decrypt
-data that was encrypted by a different method or library**. Unless they involve a different
-or custom implementation of the encryption/decryption process.
+Requires all the necessary data for the encryption/decryption process,
+such as IV, key, AADs, whatever that is applicable.
+
+**You can decrypt data that was encrypted by a different method or library**.
+Unless they involve a different or custom implementation of the encryption/decryption process.
 
 ## Compatibility
 
