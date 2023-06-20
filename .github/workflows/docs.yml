@@ -65,6 +65,11 @@ jobs:
           name: docs
           path: ./docs/api
 
+      - name: Remove snapshots version
+        run: |
+          cd ./docs/api
+          rm -rf **/older/*-SNAPSHOT
+
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
