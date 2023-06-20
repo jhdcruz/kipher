@@ -13,7 +13,6 @@ env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
   build:
@@ -37,9 +36,7 @@ jobs:
       - uses: gradle/gradle-build-action@v2
 
       - name: Gradle build
-        run: ./gradlew clean build --scan sonar --info
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew clean build --scan
 
       - name: Get version from tag
         id: tag_name
