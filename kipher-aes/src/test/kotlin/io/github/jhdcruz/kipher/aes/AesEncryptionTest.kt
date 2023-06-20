@@ -1,8 +1,11 @@
 package io.github.jhdcruz.kipher.aes
 
 import io.github.jhdcruz.kipher.common.KipherException
+import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -25,7 +28,7 @@ internal class AesEncryptionTest {
         assertEquals(32, key.size)
     }
 
-    @Test
+    @RepeatedTest(5)
     fun `test key randomization`() {
         val cbcEncryption = CbcEncryption()
 
@@ -70,7 +73,6 @@ internal class AesEncryptionTest {
             encrypted = encrypted["data"]!!,
             key = encrypted["key"]!!
         )
-
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
@@ -150,11 +152,12 @@ internal class AesEncryptionTest {
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
-    @Test
-    fun `test encryption with invalid custom key size`() {
+    @ParameterizedTest
+    @ValueSource(ints = [1, 69, 100, 125, 500])
+    fun `test encryption with invalid custom key size`(keySize: Int) {
         val gcmEncryption = GcmEncryption()
 
-        val secretKey = gcmEncryption.generateKey(69)
+        val secretKey = gcmEncryption.generateKey(keySize)
 
         assertThrows<KipherException> {
             gcmEncryption.encrypt(message, secretKey, aad)

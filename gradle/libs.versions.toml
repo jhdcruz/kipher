@@ -1,10 +1,10 @@
 [versions]
+annotations = "24.0.1"
 bin-compat = "0.13.2"
 bouncycastle = "1.74"
 detekt = "1.23.0"
 dokka = "1.8.20"
 kotlin = "1.8.22"
-annotations = "24.0.1"
 
 [plugins]
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

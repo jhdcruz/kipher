@@ -8,6 +8,7 @@ plugins {
 
 dependencies {
     testImplementation(kotlin("test-junit5"))
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
 }
 
 kotlin {
