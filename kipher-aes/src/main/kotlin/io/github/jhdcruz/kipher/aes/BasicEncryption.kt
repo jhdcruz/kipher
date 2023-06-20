@@ -169,11 +169,12 @@ open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     override fun Map<String, ByteArray>.concat(): ByteArray {
         return try {
             val encryptedSize = this.values.sumOf { it.size }
+            val context = this // reference inside run
 
             // concatenate iv, cipher text, and aad
             ByteBuffer.allocate(encryptedSize).run {
-                put(this@concat["iv"])
-                put(this@concat["data"])
+                put(context["iv"])
+                put(context["data"])
                 array()
             }
         } catch (e: IndexOutOfBoundsException) {

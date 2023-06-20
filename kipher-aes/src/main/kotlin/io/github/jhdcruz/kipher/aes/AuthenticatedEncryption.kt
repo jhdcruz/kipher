@@ -196,21 +196,22 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     override fun Map<String, ByteArray>.concat(): ByteArray {
         return try {
             val encryptedSize = this.values.sumOf { it.size + aadSeparator.size }
+            val context = this // reference inside run
 
             // concatenate iv, cipher text, and aad
             ByteBuffer.allocate(encryptedSize).run {
-                put(this@concat["iv"])
-                put(this@concat["data"])
+                put(context["iv"])
+                put(context["data"])
 
                 // This shouldn't be a problem since AADs are not
                 // supposed to be encrypted or a secret anyway, I guess
                 // https://crypto.stackexchange.com/a/35730
                 put(aadSeparator)
-                put(this@concat["aad"])
+                put(context["aad"])
 
                 array()
             }
-        } catch (e: IndexOutOfBoundsException) {
+        } catch (e: IllegalArgumentException) {
             throw KipherException("Error concatenating encryption details", e)
         }
     }
