@@ -5,6 +5,10 @@ on:
     tags:
       - "**"
 
+concurrency:
+  group: release
+  cancel-in-progress: true
+
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19

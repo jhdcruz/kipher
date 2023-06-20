@@ -8,6 +8,10 @@ env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
 
+concurrency:
+  group: chores
+  cancel-in-progress: true
+
 jobs:
   trunk-upgrade:
     name: trunk-upgrade
