@@ -262,8 +262,12 @@ open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 "data" to cipherText,
                 "aad" to aad
             )
-        } catch (e: Exception) {
-            throw KipherException("Error extracting encryption details from provided file", e)
+        } catch (e: IndexOutOfBoundsException) {
+            throw KipherException(
+                "Error extracting encryption details from provided file\n" +
+                    "This encrypted data might not be encrypted using Kipher.",
+                e
+            )
         }
     }
 
