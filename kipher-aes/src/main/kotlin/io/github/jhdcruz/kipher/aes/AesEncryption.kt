@@ -28,8 +28,14 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
 
     override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
 
-    // Generate a random iv based on encryption mode used.
-    abstract fun generateIv(): ByteArray
+    /**
+     * Generate a random IV based on [length]
+     */
+    fun generateIv(@NotNull length: Int): ByteArray {
+        return ByteArray(length).also {
+            randomize.nextBytes(it)
+        }
+    }
 
     /** Generate a secret key.
      *

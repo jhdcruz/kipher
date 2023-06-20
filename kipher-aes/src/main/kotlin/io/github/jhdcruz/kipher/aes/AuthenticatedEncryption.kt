@@ -27,11 +27,11 @@ internal const val AUTHENTICATED_IV_LENGTH: Int = 12
  */
 open class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
-    override fun generateIv(): ByteArray {
-        return ByteArray(AUTHENTICATED_IV_LENGTH).also {
-            randomize.nextBytes(it)
-        }
-    }
+    /**
+     * Generates a random 12 byte `iv`.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun generateIv(): ByteArray = generateIv(AUTHENTICATED_IV_LENGTH)
 
     /**
      * Encrypts the provided [data] along with [aad] (if provided) using [key].

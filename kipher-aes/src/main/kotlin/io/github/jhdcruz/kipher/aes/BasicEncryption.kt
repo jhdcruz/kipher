@@ -24,11 +24,11 @@ internal const val BASIC_IV_LENGTH: Int = 16
  */
 open class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
-    override fun generateIv(): ByteArray {
-        return ByteArray(BASIC_IV_LENGTH).also {
-            randomize.nextBytes(it)
-        }
-    }
+    /**
+     * Generates a random 16 byte `iv`.
+     */
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun generateIv(): ByteArray = generateIv(BASIC_IV_LENGTH)
 
     /**
      * Encrypts the provided [data] using the provided [key].
