@@ -13,6 +13,8 @@ env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
 jobs:
   build:
@@ -68,16 +70,12 @@ jobs:
 
       - name: Publish release on GPR
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
-        env:
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish release on Sonatype
         run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
         env:
-          # Sonatype credentials are acquired from env (System.getenv)
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
 
   docs:
     uses: .github/workflows/docs.yml
