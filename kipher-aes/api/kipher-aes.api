@@ -24,9 +24,8 @@ public class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
 	public static fun values ()[Lio/github/jhdcruz/kipher/aes/AesModes;
 }
 
-public class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
-	public static final field Companion Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption$Companion;
-	public fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;)V
+public abstract class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun concat (Ljava/util/Map;)[B
 	public final fun decrypt (Ljava/util/Map;)[B
 	public final fun decrypt ([B[B)[B
@@ -42,15 +41,12 @@ public class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jh
 	public static synthetic fun encryptBare$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[B[BILjava/lang/Object;)Ljava/util/Map;
 	public fun extract ([B)Ljava/util/Map;
 	public final fun generateIv ()[B
-}
-
-public final class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption$Companion {
 	public final fun getAadSeparator ()[B
 	public final fun setAadSeparator ([B)V
 }
 
-public class io/github/jhdcruz/kipher/aes/BasicEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
-	public fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;)V
+public abstract class io/github/jhdcruz/kipher/aes/BasicEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun concat (Ljava/util/Map;)[B
 	public final fun decrypt (Ljava/util/Map;)[B
 	public final fun decrypt ([B[B)[B
