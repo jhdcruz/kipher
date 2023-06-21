@@ -52,6 +52,12 @@ jobs:
       - name: Publish snapshots on GPR
         run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
 
+      - name: Publish snapshots on Sonatype
+        run: ./gradlew publishToSonatype
+        with:
+          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
+
       - name: Gradle dependency submission
         uses: mikepenz/gradle-dependency-submission@main
         with:
