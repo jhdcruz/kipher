@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- RSA encryption, decryption, signing, and verification
+#### AES
+
+- HMAC Support
 
 ### Changed
 
@@ -20,6 +22,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Security
+
+## [1.0.0] - 2023-06-22
+
+### Added
+
+- Initial usable release
+
+---
 
 ## [0.8.0] - 2023-05-27
 
