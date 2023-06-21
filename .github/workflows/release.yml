@@ -78,3 +78,7 @@ jobs:
           # Sonatype credentials are acquired from env (System.getenv)
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  docs:
+    uses: .github/workflows/docs.yml
+    secrets: inherit
