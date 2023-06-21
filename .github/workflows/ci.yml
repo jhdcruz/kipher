@@ -54,7 +54,7 @@ jobs:
 
       - name: Publish snapshots on Sonatype
         run: ./gradlew publishToSonatype
-        with:
+        env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
 

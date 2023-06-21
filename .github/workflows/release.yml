@@ -78,5 +78,5 @@ jobs:
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
 
   docs:
-    uses: .github/workflows/docs.yml
+    uses: ./.github/workflows/docs.yml
     secrets: inherit
