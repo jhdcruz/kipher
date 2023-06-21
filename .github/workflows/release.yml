@@ -35,6 +35,9 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
 
+      - name: cut SNAPSHOT on gradle.properties version
+        run: sed -i "s/-SNAPSHOT//" gradle.properties
+
       - name: Gradle build
         run: ./gradlew clean build --scan
 
@@ -63,11 +66,15 @@ jobs:
           artifacts: |
             kipher-*/build/libs/*.jar
 
-      - name: cut SNAPSHOT on gradle.properties version
-        run: sed -i "s/-SNAPSHOT//" gradle.properties
-
-      - name: Publish package
-        run: ./gradlew publish
+      - name: Publish release on GPR
+        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
         env:
+          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Publish release on Sonatype
+        run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
+        env:
+          # Sonatype credentials are acquired from env (System.getenv)
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
