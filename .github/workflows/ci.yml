@@ -55,8 +55,8 @@ jobs:
       - name: Publish snapshots on Sonatype
         run: ./gradlew publishToSonatype
         env:
-          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
 
       - name: Gradle dependency submission
         uses: mikepenz/gradle-dependency-submission@main
