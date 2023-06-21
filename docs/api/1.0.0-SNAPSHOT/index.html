@@ -58,7 +58,8 @@
     <div class="cover ">
       <h1 class="">Kipher</h1>
       <p class="paragraph"><a href="https://app.codacy.com/gh/jhdcruz/kipher/dashboard"></a></p>
-      <p class="paragraph">Abstracted cryptographic library for straightforward & hassle-free cryptographic operations for JVM applications.</p>
+      <p class="paragraph"><strong>Abstracted cryptographic library for straightforward </strong>&<strong> hassle-free cryptographic operations for JVM applications.</strong></p>
+      <p class="paragraph">This library compliments with Java's JCE but does not necessarily aim for 1:1 functionality & compatibility, this library is in some form <strong>opinionated</strong> but tries to offer customizablility as much as possible.</p>
       <h3 class=""> Features:</h3>
       <h4 class=""> Encryption</h4>
       <ul>
@@ -93,14 +94,28 @@
         <p class="paragraph"><strong>Note</strong></p>
         <p class="paragraph">If you don't know which one to use, stick with the <code class="lang-kotlin">recommended</code> based on your chosen encryption method.</p>
       </blockquote>
+      <h2 class=""> Requirements</h2>
+      <p class="paragraph">Minimum requirements to use the library:</p>
+      <ul>
+        <li>
+          <p class="paragraph">Kotlin 1.7+</p>
+        </li>
+        <li>
+          <p class="paragraph">Java 8+</p>
+        </li>
+      </ul>
+      <blockquote class="quotation">
+        <p class="paragraph"><strong>Note</strong></p>
+        <p class="paragraph">If your project uses earlier JDK 8, you might need <a href="https://www.oracle.com/java/technologies/javase-jce-all-downloads.html">Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files</a> for the library to function properly.</p>
+        <p class="paragraph"><i>See more: https://stackoverflow.com/a/3864276</i></p>
+      </blockquote>
       <h2 class=""> Usage</h2>
       <blockquote class="quotation">
         <p class="paragraph"><a href="https://jhdcruz.github.io/kipher/">API documentation</a></p>
       </blockquote>
       <p class="paragraph">Unfortunately, <strong>The library is not yet available in Maven Central.</strong></p>
 <details>
-<summary>Other ways to use the library</summary>      <p class="paragraph">These methods are untested, but should work.</p>
-      <ul>
+<summary>Other ways to use the library</summary>      <ul>
         <li>
           <p class="paragraph">You can use <a href="https://jitpack.io/">JitPack</a> to add the library in your project.</p>
         </li>
@@ -129,12 +144,11 @@
             </li>
           </ul>
           <blockquote class="quotation">
-            <p class="paragraph">This method also requires <code class="lang-kotlin">kipher-common</code>.</p>
+            <p class="paragraph">This method doesn't include all the necessary dependencies.</p>
           </blockquote>
         </li>
       </ul>
 </details>      <h3 class=""> Kotlin</h3>
-      <p class="paragraph">Using the library in kotlin is as easy as importing it:</p>
       <div class="sample-container">
         <pre><code class="block lang-kotlin" theme="idea">import io.github.jhdcruz.kipher.aes.GcmEncryption<br><br>class EncryptionTest {<br>    fun main() {<br>        val encryptionUtils = GcmEncryption()<br><br>        val data = &quot;sample data&quot;.encodeToByteArray()<br>        val aad = &quot;sample aad&quot;.encodeToByteArray()<br><br>        // named parameters are recommended, but optional<br>        val encrypted = gcmEncryption.encrypt(<br>            data = message,<br>            aad = aad,<br>        ) // returns Map&lt;String, ByteArray&gt; of [data, key]<br><br>        val decrypted = gcmEncryption.decrypt(encrypted)<br><br>        // or<br><br>        val decrypted = gcmEncryption.decrypt(<br>            encrypted = encrypted.getValue(&quot;data&quot;),<br>            key = encrypted.getValue(&quot;key&quot;)<br>        )<br><br>        println(decryptedPass.toString(), Charsets.UTF_8) // outputs &quot;sample data&quot;<br>    }<br>}</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
@@ -148,17 +162,12 @@
         </span></div>
       <h3 class=""> Using different key size</h3>
       <div class="sample-container">
-        <pre><code class="block lang-kotlin" theme="idea">import io.github.jhdcruz.kipher.aes.GcmEncryption<br><br>class EncryptionTest {<br>    fun main() {<br>        val encryptionUtils = CbcEncryption()<br><br>        val data = &quot;sample data&quot;.encodeToByteArray()<br>        val secretKey: ByteArray = encryptionUtils.generateKey(128)<br><br>        val encrypted = gcmEncryption.encrypt(<br>            data = message,<br>            key = secretKey<br>        )<br><br>        val decrypted = gcmEncryption.decrypt(encrypted)<br><br>        println(decryptedPass.toString(), Charsets.UTF_8) // outputs &quot;sample data&quot;<br>    }<br>}</code></pre>
+        <pre><code class="block lang-kotlin" theme="idea">import io.github.jhdcruz.kipher.aes.GcmEncryption<br><br>class EncryptionTest {<br>    fun main() {<br>        val encryptionUtils = CbcEncryption()<br><br>        val data = &quot;sample data&quot;.encodeToByteArray()<br>        val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one<br><br>        val encrypted = gcmEncryption.encrypt(<br>            data = message,<br>            key = secretKey<br>        )<br><br>        val decrypted = gcmEncryption.decrypt(encrypted)<br><br>        println(decryptedPass.toString(), Charsets.UTF_8) // outputs &quot;sample data&quot;<br>    }<br>}</code></pre>
 <span class="top-right-position"><span class="copy-icon"></span>
           <div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div>
         </span></div>
-      <blockquote class="quotation">
-        <p class="paragraph"><strong>Note</strong></p>
-        <p class="paragraph">If your project uses earlier JDK 8, you might need <a href="https://www.oracle.com/java/technologies/javase-jce-all-downloads.html">Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files</a> for the library to function properly.</p>
-        <p class="paragraph"><i>See more: https://stackoverflow.com/a/3864276</i></p>
-      </blockquote>
       <h4 class=""> Methods</h4>
-      <p class="paragraph">There are 4 methods you'll primarily use:</p>
+      <p class="paragraph">There are 2 methods you'll primarily use:</p>
       <ul>
         <li>
           <p class="paragraph"><code class="lang-kotlin">encrypt</code></p>
@@ -167,7 +176,8 @@
           <p class="paragraph"><code class="lang-kotlin">decrypt</code></p>
         </li>
       </ul>
-      <p class="paragraph">These are the most easy and straightforward methods you'll use, but they rely on internal implementation, which means <strong>you cannot decrypt a data that was encrypted by a different method or library</strong>. Unless they use the same internal implementation as this library.</p>
+      <p class="paragraph">Easy and straightforward methods, but relies on internal implementation.</p>
+      <p class="paragraph"><strong>You cannot decrypt a data that was encrypted by a different method or library</strong>. Unless they use the same internal implementation as this library.</p>
       <h5 class=""> Advanced Usage/Methods</h5>
       <ul>
         <li>
@@ -177,7 +187,8 @@
           <p class="paragraph"><code class="lang-kotlin">decryptBare</code></p>
         </li>
       </ul>
-      <p class="paragraph">The parameters requires all the necessary data for the encryption/decryption process individually such as IV, key, AADs, whatever that is applicable. Here <strong>you can decrypt data that was encrypted by a different method or library</strong>. Unless they involve a different or custom implementation of the encryption/decryption process.</p>
+      <p class="paragraph">Requires all the necessary data for the encryption/decryption process, such as IV, key, AADs, whatever that is applicable.</p>
+      <p class="paragraph"><strong>You can decrypt data that was encrypted by a different method or library</strong>. Unless they involve a different or custom implementation of the encryption/decryption process.</p>
       <h2 class=""> Compatibility</h2>
       <p class="paragraph">I strive for backward-compatibility <strong>as much as possible</strong>, but due to the nature of this library being a cryptographic library, even a very small change can introduce a breaking change incompatible with previous versions.</p>
       <p class="paragraph">The library will follow semantic versioning where breaking changes bumps the major version, this way developers know that something might not work should they update.</p>
