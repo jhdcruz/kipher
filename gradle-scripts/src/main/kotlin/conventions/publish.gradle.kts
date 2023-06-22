@@ -12,12 +12,13 @@ project.version = project.property("VERSION")
 project.group = project.property("GROUP")
     ?: throw GradleException("Project group property is missing")
 
+// Sonatype publishing is configured in root build.gradle.kts
 publishing {
     publications {
         create<MavenPublication>("maven") {
             artifactId = project.property("ARTIFACT_ID").toString()
+            version = project.property("VERSION").toString()
             groupId = rootProject.property("GROUP").toString()
-            version = rootProject.property("VERSION").toString()
 
             from(components["java"])
 
