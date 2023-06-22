@@ -55,11 +55,19 @@ Minimum requirements to use the library:
 
 ### Gradle
 
+> **Early Preview:**
+> 
+> Currently only available in [snapshot](#snapshots) version.
+
 ```kotlin
 implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & version
 ```
 
 ### Maven
+
+> **Early Preview:**
+>
+> Currently only available in [snapshot](#snapshots) version.
 
 ```xml
 <dependency>
@@ -70,6 +78,8 @@ implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & 
 ```
 
 ### Snapshots
+
+#### Gradle
 
 ```kotlin
 repositories {
@@ -82,8 +92,19 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jhdcruz:kipher-$module:$version-SNAPSHOT")
+    implementation("io.github.jhdcruz:kipher-aes:1.0.0-SNAPSHOT")
 }
+```
+
+#### Maven
+
+```xml
+<repositories>
+    <repository>
+        <id>sonatype-snapshots</id>
+        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+</repositories>
 ```
 
 > **Warning**
