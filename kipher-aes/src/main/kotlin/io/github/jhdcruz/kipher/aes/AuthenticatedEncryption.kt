@@ -63,7 +63,7 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
         @NotNull data: ByteArray,
         @NotNull iv: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull aad: ByteArray = byteArrayOf()
+        @NotNull aad: ByteArray = byteArrayOf(),
     ): Map<String, ByteArray> {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -82,7 +82,7 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
                 mapOf(
                     "data" to encrypted,
                     "iv" to iv,
-                    "aad" to aad
+                    "aad" to aad,
                 )
             }
         } catch (e: GeneralSecurityException) {
@@ -137,18 +137,18 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
     fun encrypt(
         @NotNull data: ByteArray,
         @NotNull aad: ByteArray = byteArrayOf(),
-        @NotNull key: ByteArray = generateKey()
+        @NotNull key: ByteArray = generateKey(),
     ): Map<String, ByteArray> {
         val encrypted = encryptBare(
             data = data,
             iv = generateIv(),
             key = key,
-            aad = aad
+            aad = aad,
         ).concat()
 
         return mapOf(
             "data" to encrypted,
-            "key" to key
+            "key" to key,
         )
     }
 
@@ -169,7 +169,7 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
                     encrypted = data.getValue("data"),
                     iv = data.getValue("iv"),
                     key = key,
-                    aad = data.getValue("aad")
+                    aad = data.getValue("aad"),
                 )
             }
     }
@@ -192,7 +192,7 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
                     encrypted = data.getValue("data"),
                     iv = data.getValue("iv"),
                     key = key,
-                    aad = data.getValue("aad")
+                    aad = data.getValue("aad"),
                 )
             }
     }
@@ -270,13 +270,13 @@ sealed class AuthenticatedEncryption(aesMode: AesModes) : AesEncryption(aesMode)
             mapOf(
                 "iv" to iv,
                 "data" to cipherText,
-                "aad" to aad
+                "aad" to aad,
             )
         } catch (e: IndexOutOfBoundsException) {
             throw KipherException(
                 "Error extracting encryption details from provided file\n" +
                     "This encrypted data might not be encrypted using Kipher.",
-                e
+                e,
             )
         }
     }

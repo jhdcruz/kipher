@@ -12,7 +12,6 @@ import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
 import java.security.InvalidParameterException
 import java.security.Provider
-import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
 // Constants

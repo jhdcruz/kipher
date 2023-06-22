@@ -22,7 +22,7 @@ import javax.crypto.Cipher
  */
 abstract class BaseEncryption @JvmOverloads constructor(
     @NotNull transformation: String,
-    @Nullable provider: Provider? = null
+    @Nullable provider: Provider? = null,
 ) {
 
     init {
@@ -40,7 +40,7 @@ abstract class BaseEncryption @JvmOverloads constructor(
                 "Error setting up crypto policy.\n" +
                     "Please make sure you have the unlimited strength policy files installed: " +
                     "https://www.oracle.com/java/technologies/javase-jce-all-downloads.html",
-                e
+                e,
             )
         }
     }

@@ -48,7 +48,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     fun encryptBare(
         @NotNull data: ByteArray,
         @NotNull iv: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): Map<String, ByteArray> {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -59,7 +59,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             }.let { cipherText ->
                 mapOf(
                     "data" to cipherText,
-                    "iv" to iv
+                    "iv" to iv,
                 )
             }
         } catch (e: GeneralSecurityException) {
@@ -77,7 +77,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
     fun decryptBare(
         @NotNull encrypted: ByteArray,
         @NotNull iv: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, ALGORITHM)
@@ -108,7 +108,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
         val encrypted = encryptBare(
             data = data,
             iv = generateIv(),
-            key = key
+            key = key,
         ).concat()
 
         return mapOf(
@@ -125,7 +125,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
      */
     fun decrypt(
         @NotNull encrypted: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): ByteArray {
         encrypted
             .extract()
@@ -133,7 +133,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 return decryptBare(
                     encrypted = data.getValue("data"),
                     iv = data.getValue("iv"),
-                    key = key
+                    key = key,
                 )
             }
     }
@@ -155,7 +155,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
                 return decryptBare(
                     encrypted = data.getValue("data"),
                     iv = data.getValue("iv"),
-                    key = key
+                    key = key,
                 )
             }
     }
@@ -201,7 +201,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
 
             mapOf(
                 "iv" to iv,
-                "data" to cipherText
+                "data" to cipherText,
             )
         } catch (e: Exception) {
             throw KipherException("Error extracting encryption details from provided file", e)

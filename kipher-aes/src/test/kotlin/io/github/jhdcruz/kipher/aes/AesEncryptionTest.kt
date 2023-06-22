@@ -55,7 +55,7 @@ internal class AesEncryptionTest {
 
         val encrypted = gcmEncryption.encrypt(
             data = message,
-            aad = aad
+            aad = aad,
         )
 
         val decrypted = gcmEncryption.decrypt(encrypted)
@@ -71,7 +71,7 @@ internal class AesEncryptionTest {
 
         val decrypted = gcmEncryption.decrypt(
             encrypted = encrypted["data"]!!,
-            key = encrypted["key"]!!
+            key = encrypted["key"]!!,
         )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
@@ -86,7 +86,7 @@ internal class AesEncryptionTest {
             data = message,
             iv = gcmEncryption.generateIv(),
             key = secretKey,
-            aad = aad
+            aad = aad,
         )
 
         assertThrows<KipherException> {
@@ -94,7 +94,7 @@ internal class AesEncryptionTest {
                 encrypted["data"]!!,
                 encrypted["iv"]!!,
                 secretKey,
-                "invalid-aad".encodeToByteArray()
+                "invalid-aad".encodeToByteArray(),
             )
         }
     }
@@ -116,13 +116,13 @@ internal class AesEncryptionTest {
 
         val encrypted = gcmEncryption.encrypt(
             data = message,
-            aad = aad
+            aad = aad,
         )
 
         assertDoesNotThrow {
             gcmEncryption.decrypt(
                 encrypted = encrypted.getValue("data"),
-                key = encrypted.getValue("key")
+                key = encrypted.getValue("key"),
             )
         }
     }
@@ -145,7 +145,7 @@ internal class AesEncryptionTest {
 
         val decrypted = cbcEncryption.decrypt(
             encrypted = encrypted["data"]!!,
-            key = encrypted["key"]!!
+            key = encrypted["key"]!!,
         )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))

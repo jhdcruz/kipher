@@ -47,7 +47,7 @@ publishing {
                     url.convention(rootProject.property("POM_SCM_URL").toString())
                     connection.convention(rootProject.property("POM_SCM_CONNECTION").toString())
                     developerConnection.convention(
-                        rootProject.property("POM_SCM_DEV_CONNECTION").toString()
+                        rootProject.property("POM_SCM_DEV_CONNECTION").toString(),
                     )
                 }
 

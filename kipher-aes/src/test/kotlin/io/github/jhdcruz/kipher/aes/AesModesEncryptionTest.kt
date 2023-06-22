@@ -54,7 +54,6 @@ internal class AesModesEncryptionTest {
         val encrypted = cfbEncryption.encrypt(message)
         val decrypted = cfbEncryption.decrypt(encrypted)
 
-
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
 
