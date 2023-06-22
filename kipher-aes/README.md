@@ -110,10 +110,10 @@ import java.security.Security
 class Main {
     fun main() {
         // ! must be declared before any AES methods !
-        provider: Provider = Security.getProvider("SunJCE")
+        val provider: Provider = Security.getProvider("SunJCE")
         AesEncryption.Companion.setProvider(provider)
 
-        encryptionUtils = GcmEncryption()
+        val encryptionUtils = GcmEncryption()
 
         println(encryptionUtils.getCipher().getProvider()) // outputs "SunJCE $version"
     }
@@ -126,7 +126,7 @@ class Main {
 >
 > There is currently no way to change the provider for a single/specified instance.
 
-#### Methods
+### Methods
 
 - `encrypt`
 - `decrypt`
@@ -135,6 +135,8 @@ Easy and straightforward methods, but relies on internal implementation.
 
 **You cannot decrypt a data that was encrypted by a different method or library**.
 Unless they use the same internal implementation as this library.
+
+#### Advanced Usage
 
 - `encryptBare`
 - `decryptBare`
@@ -146,8 +148,9 @@ such as IV, key, AADs, whatever that is applicable.
 Unless they involve a different or custom implementation of the
 encryption/decryption process.
 
+#### Utilities
+
 | Method    | Description                                                                 |
 | --------- | --------------------------------------------------------------------------- |
 | `extract` | Get the encryption details from an encrypted data encrypted using kipher.   |
 | `concat`  | Concatenates the data, iv, and aad (if applicable) into a single ByteArray. |
-```
