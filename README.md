@@ -1,6 +1,6 @@
 # Kipher
 
-[![Codacy coverage](https://img.shields.io/codacy/coverage/79a33e548aff4d96973084c99efaf462?color=%1E1E1E&label=Coverage&logo=codacy&style=flat-square)](https://app.codacy.com/gh/jhdcruz/kipher/dashboard)
+[![Codecov](https://img.shields.io/codecov/c/github/jhdcruz/kipher?token=bCmx2D264p&style=for-the-badge&logo=codecov&label=Coverage&labelColor=black&color=blue)](https://app.codecov.io/gh/jhdcruz/kipher)
 
 **Abstracted cryptographic library for straightforward & hassle-free cryptographic
 operations for JVM applications.**
