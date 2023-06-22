@@ -11,6 +11,7 @@ import io.github.jhdcruz.kipher.common.BaseEncryption
 import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
 import java.security.InvalidParameterException
+import java.security.Provider
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
@@ -25,10 +26,8 @@ internal const val AES_BLOCK_SIZE = 128
  *
  * @param aesMode AES mode used for encryption.
  */
-sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
+sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption(aesMode.mode, provider) {
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
-
-    override val cipher: Cipher = Cipher.getInstance(aesMode.mode, "BC")
 
     /**
      * Generate a random IV based on [length].
@@ -39,7 +38,8 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
         }
     }
 
-    /** Generate a secret key.
+    /**
+     * Generate a secret key.
      *
      * Reusing the same key for multiple encryption is not recommended,
      * and poses security risk.
@@ -68,7 +68,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
     /**
      * Extracts the encryption details from the [ByteArray] data.
      *
-     * Presumably encrypted using `encrypt() functions`
+     * Presumably encrypted using `encrypt()` functions
      *
      * @return [Map] of encryption details (such as iv, data, etc.)
      */
@@ -77,5 +77,12 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption() {
     companion object {
         /** Default key size value. */
         const val DEFAULT_KEY_SIZE: Int = 256
+
+        /**
+         * Set JCE security provider.
+         *
+         * `null` defaults to bouncy castle provider.
+         */
+        var provider: Provider? = null
     }
 }

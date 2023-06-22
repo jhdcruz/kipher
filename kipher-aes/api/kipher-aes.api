@@ -7,10 +7,11 @@ public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhd
 	public final fun generateIv (I)[B
 	public final fun generateKey (I)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
-	public fun getCipher ()Ljavax/crypto/Cipher;
 }
 
 public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
 }
 
 public class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
