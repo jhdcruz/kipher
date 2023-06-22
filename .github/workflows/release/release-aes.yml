@@ -1,12 +1,13 @@
-name: release
+name: release / aes
 
 on:
+  workflow_call:
   push:
     tags:
-      - "**"
+      - "aes-**"
 
 concurrency:
-  group: release
+  group: release-aes
   cancel-in-progress: true
 
 env:
@@ -17,7 +18,7 @@ env:
   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -37,45 +38,51 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
 
-      - name: cut SNAPSHOT on gradle.properties version
-        run: sed -i "s/-SNAPSHOT//" gradle.properties
+      - name: remove SNAPSHOT on gradle.properties version
+        run: |
+          cd kipher-aes
+          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+
+      - name: Get version from gradle.properties
+        id: version_name
+        shell: bash
+        run: |
+          cd kipher-aes
+          echo "version=$(grep '^VERSION=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
 
       - name: Gradle build
-        run: ./gradlew clean build --scan
+        run: ./gradlew kipher-aes:clean kipher-aes:build --scan
 
-      - name: Get version from tag
-        id: tag_name
-        shell: bash
-        run: echo "current_version=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      - name: Publish kipher-aes on GPR
+        run: ./gradlew kipher-aes:publishAllPublicationsToGitHubPackagesRepository
+
+      - name: Publish kipher-aes on Sonatype
+        run: ./gradlew kipher-aes:publishToSonatype kipher-aes:closeSonatypeStagingRepository
+        env:
+          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
 
       - name: Get Changelog Entry
         id: changelog_reader
         uses: mindsers/changelog-reader-action@v2
         with:
           validation_level: warn
-          version: ${{ steps.tag_name.outputs.current_version }}
-          path: ./CHANGELOG.md
+          version: ${{ steps.version_name.outputs.version }}
+          path: docs/CHANGELOG-aes.md
 
       - name: Create release
         uses: ncipollo/release-action@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          tag: ${{ steps.tag_name.outputs.current_version }}
-          name: ${{ steps.changelog_reader.outputs.version }}
+          tag: aes-${{ steps.changelog_reader.outputs.version }}
+          name: kipher-aes ${{ steps.changelog_reader.outputs.version }}
           body: ${{ steps.changelog_reader.outputs.changes }}
           prerelease: ${{ steps.changelog_reader.outputs.status == 'prerelease' }}
           draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
+          allowUpdates: true
+          artifactErrorsFailBuild: false
           artifacts: |
-            kipher-*/build/libs/*.jar
-
-      - name: Publish release on GPR
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository
-
-      - name: Publish release on Sonatype
-        run: ./gradlew publishToSonatype closeAndReleaseSonatypeStagingRepository
-        env:
-          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
-          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
+            kipher-aes/build/libs/*
 
   docs:
     uses: ./.github/workflows/docs.yml

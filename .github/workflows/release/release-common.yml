@@ -1,0 +1,90 @@
+name: release / common
+
+on:
+  push:
+    tags:
+      - "common-**"
+
+concurrency:
+  group: release-common
+  cancel-in-progress: true
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  JDK_VERSION: 19
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+          distribution: temurin
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - uses: gradle/gradle-build-action@v2
+
+      - name: remove SNAPSHOT on each gradle.properties version
+        run: |
+          cd kipher-common
+          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+
+      - name: Get version from kipher-common gradle.properties
+        id: version_name
+        shell: bash
+        run: |
+          cd kipher-common
+          echo "version=$(grep '^VERSION=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
+
+      - name: Gradle build
+        run: ./gradlew kipher-common:clean kipher-common:build --scan
+
+      - name: Publish kipher-common on GPR
+        run: ./gradlew kipher-common:publishAllPublicationsToGitHubPackagesRepository
+
+      - name: Publish kipher-common on Sonatype
+        run: ./gradlew kipher-common:publishToSonatype kipher-common:closeSonatypeStagingRepository
+        env:
+          SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
+
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          validation_level: warn
+          version: ${{ steps.version_name.outputs.version }}
+          path: docs/CHANGELOG-common.md
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          tag: common-${{ steps.changelog_reader.outputs.version }}
+          name: kipher-common ${{ steps.changelog_reader.outputs.version }}
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          prerelease: ${{ steps.changelog_reader.outputs.status == 'prerelease' }}
+          draft: ${{ steps.changelog_reader.outputs.status == 'unreleased' }}
+          allowUpdates: true
+          artifactErrorsFailBuild: false
+          artifacts: |
+            kipher-common/build/libs/*
+
+  # We make a release for all modules since, they all depend
+  # on kipher-common
+  publish-aes:
+    uses: ./.github/workflows/release/release-aes.yml
+    secrets: inherit
