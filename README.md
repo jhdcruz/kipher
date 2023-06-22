@@ -48,7 +48,50 @@ Minimum requirements to use the library:
 
 > [API documentation](https://jhdcruz.github.io/kipher/)
 
-Unfortunately, **The library is not yet available in Maven Central.**
+| Modules                                                                                                                                                                                                                                                           | Description                                          |
+|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------|
+| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-common?style=flat-square&logo=apachemaven&label=kipher-common&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-common) | Common utilities for the library. **(Internal use)** |
+| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-aes?style=flat-square&logo=apachemaven&label=kipher-aes&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-aes)          | AES encryption utilities.                            |
+
+### Gradle
+
+```kotlin
+implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & version
+```
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>io.github.jhdcruz</groupId>
+    <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
+    <version>$version</version>  <!-- Replace $version -->
+</dependency>
+```
+
+### Snapshots
+
+```kotlin
+repositories {
+    mavenCentral()
+
+    // add snapshot repo
+    maven {
+        url("https://s01.oss.sonatype.org/content/repositories/snapshots")
+    }
+}
+
+dependencies {
+    implementation("io.github.jhdcruz:kipher-$module:$version-SNAPSHOT")
+}
+```
+
+> **Warning**
+>
+> Snapshots should be considered unstable and contain breaking changes,
+> they are primarily for testing purposes.
+>
+> **Use at your own risk.**
 
 <details>
 <summary>Other ways to use the library</summary>
@@ -66,7 +109,9 @@ Unfortunately, **The library is not yet available in Maven Central.**
     - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
     - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
 
-  > This method doesn't include all the necessary dependencies.
+> This method doesn't include all the necessary dependencies.
+>
+> Although, the errors will tell you the dependencies you need.
 
 </details>
 
@@ -76,6 +121,7 @@ Unfortunately, **The library is not yet available in Maven Central.**
 import io.github.jhdcruz.kipher.aes.GcmEncryption
 
 class EncryptionTest {
+
     fun main() {
         val encryptionUtils = GcmEncryption()
 
@@ -110,6 +156,7 @@ import io.github.jhdcruz.kipher.aes.GcmEncryption;
 import java.util.Map;
 
 public class Main {
+
     public static void main(String[] args) {
         GcmEncryption encryptionUtils = new GcmEncryption();
 
@@ -137,10 +184,12 @@ public class Main {
 import io.github.jhdcruz.kipher.aes.GcmEncryption
 
 class EncryptionTest {
+
     fun main() {
         val encryptionUtils = CbcEncryption()
 
         val data = "sample data".encodeToByteArray()
+
         val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
 
         val encrypted = gcmEncryption.encrypt(
@@ -190,8 +239,7 @@ this way developers know that something might not work should they update.
 ## Contributing
 
 If you want to contribute to this project, feel free to open an issue or discussion **before**
-opening a pull
-request to avoid wasted efforts.
+opening a pull request to avoid wasted efforts.
 
 ## License
 
@@ -202,8 +250,9 @@ details
 
 ## Disclaimer
 
-**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**, this
-library is primarily made for convenience and ease-of-use, while providing as much security as
-possible out-of-the-box.
+**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**.
 
-> If you found a security issue, please see [reporting a security issue](./SECURITY.md).
+This library is primarily made for convenience and ease-of-use,
+while providing as much security as possible out-of-the-box.
+
+> If you found a security issue, please [report a security issue](./SECURITY.md).
