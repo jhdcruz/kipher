@@ -1,5 +1,6 @@
 import org.jetbrains.dokka.base.DokkaBase
 import org.jetbrains.dokka.base.DokkaBaseConfiguration
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.dokka.versioning.VersioningConfiguration
 import org.jetbrains.dokka.versioning.VersioningPlugin
 import java.util.Calendar
@@ -27,36 +28,6 @@ group = rootProject.property("GROUP")
 
 version = rootProject.property("VERSION")
     ?: throw GradleException("Project version property is missing")
-
-tasks {
-    dokkaHtmlMultiModule {
-        moduleName.set("Kipher")
-
-        val docVersionsDir = projectDir.resolve("docs/api")
-        val currentVersion = rootProject.version.toString()
-
-        val currentDocsDir = docVersionsDir.resolve(currentVersion)
-        outputDirectory.set(currentDocsDir)
-
-        pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
-            olderVersionsDir = docVersionsDir
-            version = currentVersion
-        }
-
-        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
-            includes.from(
-                files(
-                    "README.md",
-                ),
-            )
-            footerMessage =
-                // get current year
-                "© ${Calendar.getInstance().get(Calendar.YEAR)}" +
-                " Kipher Author & Contributors | " +
-                "Licensed under <a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>The Apache 2.0 License</a>"
-        }
-    }
-}
 
 nexusPublishing {
     repositories {
@@ -86,5 +57,40 @@ allprojects {
         buildUponDefaultConfig = true
 
         config.setFrom("${rootProject.projectDir}/detekt.yml")
+    }
+}
+
+subprojects {
+    // TODO: Move this into composite builds once dokka
+    //       plugins are available to be used there,
+    tasks.withType<DokkaTask>().configureEach {
+        val docVersionsDir = rootProject.projectDir.resolve("docs/api/${project.name}")
+        val currentVersion = rootProject.version.toString()
+
+        val currentDocsDir = docVersionsDir.resolve(currentVersion)
+        outputDirectory.set(currentDocsDir)
+
+        pluginConfiguration<VersioningPlugin, VersioningConfiguration> {
+            olderVersionsDir = docVersionsDir
+            version = currentVersion
+        }
+
+        pluginConfiguration<DokkaBase, DokkaBaseConfiguration> {
+            footerMessage =
+                // get current year
+                "© ${Calendar.getInstance().get(Calendar.YEAR)}" +
+                    " Kipher Author & Contributors | " +
+                    "Licensed under <a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>The Apache 2.0 License</a>"
+        }
+
+        dokkaSourceSets {
+            configureEach {
+                includes.from(
+                    files(
+                        "README.md"
+                    )
+                )
+            }
+        }
     }
 }
