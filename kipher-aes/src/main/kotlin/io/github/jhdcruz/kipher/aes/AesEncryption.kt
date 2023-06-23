@@ -88,11 +88,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
         /** Default key size value. */
         const val DEFAULT_KEY_SIZE: Int = 256
 
-        /**
-         * Set JCE security provider.
-         *
-         * `null` defaults to bouncy castle provider.
-         */
+        /** Set JCE security provider. */
         var provider: Provider = BouncyCastleProvider()
     }
 }
