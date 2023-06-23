@@ -26,9 +26,6 @@ dependencies {
 group = rootProject.property("GROUP")
     ?: throw GradleException("Project group property is missing")
 
-version = rootProject.property("VERSION")
-    ?: throw GradleException("Project version property is missing")
-
 nexusPublishing {
     repositories {
         sonatype {
