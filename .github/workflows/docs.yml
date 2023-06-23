@@ -68,12 +68,6 @@ jobs:
           cd ./docs/api/${{ inputs.project }}
           rm -rf **/older/*-SNAPSHOT
 
-      - name: Create link to index.html in root project folder
-        run: |
-          cd ./docs/api/${{ inputs.project }}
-          # create link of index.html in root project folder
-          ln -s $(ls -d */ | head -n 1)/index.html .
-
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -86,3 +80,34 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           directory: ./docs/api/${{ inputs.project }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: ./docs/api
+
+      - name: Get api docs output directory
+        id: docs
+        shell: bash
+        run: |
+          cd docs/api/${{ inputs.project }}
+          echo "api=$(ls -d */ | head -n 1)" >> $GITHUB_OUTPUT
+
+      - name: Publish to cloudflare pages
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ inputs.project }}
+          directory: docs/api/${{ inputs.project }}/${{ steps.docs.outputs.api }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
