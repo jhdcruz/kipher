@@ -1,0 +1,12 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.jhdcruz.kipher.common////PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/index.html
+$dokka.location:io.github.jhdcruz.kipher.common/BaseEncryption///PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-base-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.common/BaseEncryption/BaseEncryption/#kotlin.String#java.security.Provider?/PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-base-encryption/-base-encryption.html
+$dokka.location:io.github.jhdcruz.kipher.common/BaseEncryption/cipher/#/PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-base-encryption/cipher.html
+$dokka.location:io.github.jhdcruz.kipher.common/BaseEncryption/randomize/#/PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-base-encryption/randomize.html
+$dokka.location:io.github.jhdcruz.kipher.common/KipherException///PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-kipher-exception/index.html
+$dokka.location:io.github.jhdcruz.kipher.common/KipherException/KipherException/#kotlin.String#kotlin.Throwable?/PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-kipher-exception/-kipher-exception.html
+$dokka.location:io.github.jhdcruz.kipher.common/KipherException/KipherException/#kotlin.Throwable?/PointingToDeclaration/kipher-common/io.github.jhdcruz.kipher.common/-kipher-exception/-kipher-exception.html
+io.github.jhdcruz.kipher.common
+

@@ -1,0 +1,51 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.jhdcruz.kipher.aes////PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption.Companion///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/-companion/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption.Companion/DEFAULT_KEY_SIZE/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/-companion/-d-e-f-a-u-l-t_-k-e-y_-s-i-z-e.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption.Companion/provider/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/-companion/provider.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption/concat/kotlin.collections.Map[kotlin.String,kotlin.ByteArray]#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/concat.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption/extract/kotlin.ByteArray#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/extract.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption/generateIv/#kotlin.Int/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/generate-iv.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesEncryption/generateKey/#kotlin.Int/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-encryption/generate-key.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes.CBC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/-c-b-c/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes.CCM///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/-c-c-m/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes.CFB///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/-c-f-b/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes.CTR///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/-c-t-r/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes.GCM///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/-g-c-m/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes/mode/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/mode.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes/valueOf/#kotlin.String/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/value-of.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AesModes/values/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-aes-modes/values.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/aadSeparator/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/aad-separator.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/concat/kotlin.collections.Map[kotlin.String,kotlin.ByteArray]#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/concat.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/decrypt/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/decrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/decrypt/#kotlin.collections.Map[kotlin.String,kotlin.ByteArray]/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/decrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/decryptBare/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/decrypt-bare.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/encrypt/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/encrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/encryptBare/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/encrypt-bare.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/extract/kotlin.ByteArray#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/extract.html
+$dokka.location:io.github.jhdcruz.kipher.aes/AuthenticatedEncryption/generateIv/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-authenticated-encryption/generate-iv.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/concat/kotlin.collections.Map[kotlin.String,kotlin.ByteArray]#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/concat.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/decrypt/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/decrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/decrypt/#kotlin.collections.Map[kotlin.String,kotlin.ByteArray]/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/decrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/decryptBare/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/decrypt-bare.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/encrypt/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/encrypt.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/encryptBare/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/encrypt-bare.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/extract/kotlin.ByteArray#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/extract.html
+$dokka.location:io.github.jhdcruz.kipher.aes/BasicEncryption/generateIv/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-basic-encryption/generate-iv.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CbcEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-cbc-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CbcEncryption/CbcEncryption/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-cbc-encryption/-cbc-encryption.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CcmEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-ccm-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CcmEncryption/CcmEncryption/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-ccm-encryption/-ccm-encryption.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CfbEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-cfb-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CfbEncryption/CfbEncryption/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-cfb-encryption/-cfb-encryption.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CtrEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-ctr-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/CtrEncryption/CtrEncryption/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-ctr-encryption/-ctr-encryption.html
+$dokka.location:io.github.jhdcruz.kipher.aes/GcmEncryption///PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-gcm-encryption/index.html
+$dokka.location:io.github.jhdcruz.kipher.aes/GcmEncryption/GcmEncryption/#/PointingToDeclaration/kipher-aes/io.github.jhdcruz.kipher.aes/-gcm-encryption/-gcm-encryption.html
+io.github.jhdcruz.kipher.aes
+
