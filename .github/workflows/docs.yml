@@ -68,6 +68,12 @@ jobs:
           cd ./docs/api/${{ inputs.project }}
           rm -rf **/older/*-SNAPSHOT
 
+      - name: Create link to index.html in root project folder
+        run: |
+          cd ./docs/api/${{ inputs.project }}
+          # create link of index.html in root project folder
+          ln -s $(ls -d */ | head -n 1)/index.html .
+
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
