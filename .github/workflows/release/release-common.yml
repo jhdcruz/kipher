@@ -83,8 +83,8 @@ jobs:
           artifacts: |
             kipher-common/build/libs/*
 
-  # We make a release for all modules since, they all depend
-  # on kipher-common
-  publish-aes:
-    uses: ./.github/workflows/release/release-aes.yml
+  docs:
+    uses: ./.github/workflows/docs.yml
+    with:
+      project: kipher-common
     secrets: inherit

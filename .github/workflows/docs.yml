@@ -2,19 +2,16 @@ name: docs
 
 on:
   workflow_call:
-  workflow_dispatch:
-  push:
-    tags:
-      - "**"
+    inputs:
+      project:
+        description: 'Project to run the command to.'
+        type: string
+        required: true
 
 permissions:
   contents: write
   pages: write
   id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=4g"
@@ -39,13 +36,13 @@ jobs:
       - name: Dokka build
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: dokkaHtmlMultiModule
+          arguments: ${{ inputs.project }}:dokkaHtml
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: docs
-          path: ./docs/api/
+          path: ./docs/api/${{ inputs.project }}
           if-no-files-found: error
 
   push:
@@ -58,7 +55,7 @@ jobs:
 
         # remove previous versions, new version contains the old ones
       - name: Remove previous versions
-        run: rm -rf docs/api
+        run: rm -rf docs/api/${{ inputs.project }}
 
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -68,53 +65,18 @@ jobs:
 
       - name: Remove snapshots version
         run: |
-          cd ./docs/api
+          cd ./docs/api/${{ inputs.project }}
           rm -rf **/older/*-SNAPSHOT
 
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -f docs/api/
-          git commit -m "docs: generate docs [skip-ci]"
+          git add -f docs/api/${{ inputs.project }}
+          git commit -m "docs(api): generate docs for ${{ inputs.project }} [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: ./docs/api
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-
-      - uses: actions/checkout@v3
-
-      - name: Download artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: docs
-          path: ./docs/api
-
-      - name: Get generate docs directory name
-        id: docs
-        shell: bash
-        run: |
-          cd ./docs/api
-          echo "dir_name=$(find . -mindepth 1 -maxdepth 1 -type d | sed 's/^\.\///')" >> $GITHUB_OUTPUT
-
-      - name: Upload to pages
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: "./docs/api/${{ steps.docs.outputs.dir_name }}"
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
-
+          directory: ./docs/api/${{ inputs.project }}

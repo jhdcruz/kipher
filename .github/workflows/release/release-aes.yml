@@ -86,4 +86,6 @@ jobs:
 
   docs:
     uses: ./.github/workflows/docs.yml
+    with:
+      project: kipher-aes
     secrets: inherit
