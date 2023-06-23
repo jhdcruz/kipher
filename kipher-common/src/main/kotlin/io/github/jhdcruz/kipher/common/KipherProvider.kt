@@ -6,29 +6,23 @@
 package io.github.jhdcruz.kipher.common
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider
-import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.security.Provider
-import java.security.SecureRandom
 import java.security.Security
-import javax.crypto.Cipher
 
 /**
- * Base encryption class that provides common methods
- * and properties across kipher modules.
+ * Provides common methods and properties across kipher modules.
  *
- * @param transformation the name of the transformation.
  * @param provider security provider JCE will use. (defaults to Bouncy Castle)
  */
-abstract class BaseEncryption @JvmOverloads constructor(
-    @NotNull transformation: String,
-    @Nullable provider: Provider? = null,
+open class KipherProvider @JvmOverloads constructor(
+    @Nullable provider: Provider = BouncyCastleProvider(),
 ) {
 
     init {
         try {
             // add bouncy castle as default security provider
-            Security.addProvider(provider ?: BouncyCastleProvider())
+            Security.addProvider(provider)
         } catch (e: SecurityException) {
             throw KipherException("Error setting up provider", e)
         }
@@ -44,14 +38,4 @@ abstract class BaseEncryption @JvmOverloads constructor(
             )
         }
     }
-
-    /** secure random number generator. */
-    val randomize = SecureRandom()
-
-    /**
-     * Set cipher transformation mode and provider (if provided).
-     *
-     * Provider defaults to Bouncy Castle.
-     */
-    val cipher: Cipher = Cipher.getInstance(transformation, provider ?: BouncyCastleProvider())
 }

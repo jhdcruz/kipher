@@ -7,11 +7,14 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.common.BaseEncryption
+import org.bouncycastle.jce.provider.BouncyCastleProvider
+import io.github.jhdcruz.kipher.common.KipherProvider
 import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
 import java.security.InvalidParameterException
 import java.security.Provider
+import java.security.SecureRandom
+import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 
 // Constants
@@ -25,8 +28,16 @@ internal const val AES_BLOCK_SIZE = 128
  *
  * @param aesMode AES mode used for encryption.
  */
-sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption(aesMode.mode, provider) {
+sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider) {
+    private val randomize = SecureRandom()
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
+
+    /**
+     * Set cipher transformation mode and provider (if provided).
+     *
+     * Provider defaults to Bouncy Castle.
+     */
+    val cipher: Cipher = Cipher.getInstance(aesMode.mode, provider)
 
     /**
      * Generate a random IV based on [length].
@@ -82,6 +93,6 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : BaseEncryption(aesMode.
          *
          * `null` defaults to bouncy castle provider.
          */
-        var provider: Provider? = null
+        var provider: Provider = BouncyCastleProvider()
     }
 }
