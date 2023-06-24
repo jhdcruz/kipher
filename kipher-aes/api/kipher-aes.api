@@ -1,4 +1,4 @@
-public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhdcruz/kipher/common/BaseEncryption {
+public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhdcruz/kipher/common/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/aes/AesEncryption$Companion;
 	public static final field DEFAULT_KEY_SIZE I
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
@@ -7,6 +7,7 @@ public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhd
 	public final fun generateIv (I)[B
 	public final fun generateKey (I)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
+	public final fun getCipher ()Ljavax/crypto/Cipher;
 }
 
 public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {
@@ -16,6 +17,7 @@ public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {
 
 public class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
 	public static final field CBC Lio/github/jhdcruz/kipher/aes/AesModes;
+	public static final field CBC7 Lio/github/jhdcruz/kipher/aes/AesModes;
 	public static final field CCM Lio/github/jhdcruz/kipher/aes/AesModes;
 	public static final field CFB Lio/github/jhdcruz/kipher/aes/AesModes;
 	public static final field CTR Lio/github/jhdcruz/kipher/aes/AesModes;
@@ -58,6 +60,10 @@ public abstract class io/github/jhdcruz/kipher/aes/BasicEncryption : io/github/j
 	public final fun encryptBare ([B[B[B)Ljava/util/Map;
 	public fun extract ([B)Ljava/util/Map;
 	public final fun generateIv ()[B
+}
+
+public final class io/github/jhdcruz/kipher/aes/Cbc7Encryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
+	public fun <init> ()V
 }
 
 public final class io/github/jhdcruz/kipher/aes/CbcEncryption : io/github/jhdcruz/kipher/aes/BasicEncryption {

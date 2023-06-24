@@ -1,13 +1,11 @@
-public abstract class io/github/jhdcruz/kipher/common/BaseEncryption {
-	public fun <init> (Ljava/lang/String;)V
-	public fun <init> (Ljava/lang/String;Ljava/security/Provider;)V
-	public synthetic fun <init> (Ljava/lang/String;Ljava/security/Provider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun getCipher ()Ljavax/crypto/Cipher;
-	public final fun getRandomize ()Ljava/security/SecureRandom;
-}
-
 public final class io/github/jhdcruz/kipher/common/KipherException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun <init> (Ljava/lang/Throwable;)V
+}
+
+public class io/github/jhdcruz/kipher/common/KipherProvider {
+	public fun <init> ()V
+	public fun <init> (Ljava/security/Provider;)V
+	public synthetic fun <init> (Ljava/security/Provider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 }
 
