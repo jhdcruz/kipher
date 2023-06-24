@@ -10,6 +10,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 import java.security.Provider
+import java.util.Base64
 
 /**
  * Data authenticity and integrity checks using
@@ -30,6 +31,15 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
     }
 
     /**
+     * Generate hash from [data].
+     */
+    fun generateHashString(@NotNull data: ByteArray): String {
+        val md = MessageDigest.getInstance(mode, provider)
+
+        return md.digest(data).hashString()
+    }
+
+    /**
      *  Verify if [hash] matches with [data].
      */
     fun verifyHash(@NotNull hash: ByteArray, data: ByteArray): Boolean {
@@ -43,11 +53,19 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      */
     fun verifyHash(@NotNull hash: String, data: ByteArray): Boolean {
         return hash.contentEquals(
-            String(generateHash(data))
+            generateHash(data).hashString()
         )
     }
 
     companion object {
+        /** Set JCE security provider. */
         var provider: Provider = BouncyCastleProvider()
+
+        /**
+         * Convert [ByteArray] hash to [String].
+         */
+        fun ByteArray.hashString(): String {
+            return Base64.getEncoder().encodeToString(this)
+        }
     }
 }
