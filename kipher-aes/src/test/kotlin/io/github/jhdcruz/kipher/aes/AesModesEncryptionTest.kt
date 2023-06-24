@@ -10,8 +10,18 @@ internal class AesModesEncryptionTest {
     private val decodeToString = { bytes: ByteArray -> String(bytes, Charsets.UTF_8) }
 
     @Test
-    fun `test CBC encryption`() {
+    fun `test CBC encryption with PKCS5`() {
         val cbcEncryption = CbcEncryption()
+
+        val encrypted = cbcEncryption.encrypt(message)
+        val decrypted = cbcEncryption.decrypt(encrypted)
+
+        assertEquals(decodeToString(message), decodeToString(decrypted))
+    }
+
+    @Test
+    fun `test CBC encryption with PKCS7`() {
+        val cbcEncryption = Cbc7Encryption()
 
         val encrypted = cbcEncryption.encrypt(message)
         val decrypted = cbcEncryption.decrypt(encrypted)
@@ -23,10 +33,11 @@ internal class AesModesEncryptionTest {
     fun `test GCM encryption`() {
         val gcmEncryption = GcmEncryption()
 
-        val encrypted = gcmEncryption.encrypt(
-            data = message,
-            aad = aad,
-        )
+        val encrypted =
+            gcmEncryption.encrypt(
+                data = message,
+                aad = aad,
+            )
 
         val decrypted = gcmEncryption.decrypt(encrypted)
 
@@ -37,10 +48,11 @@ internal class AesModesEncryptionTest {
     fun `test CCM encryption`() {
         val ccmEncryption = CcmEncryption()
 
-        val encrypted = ccmEncryption.encrypt(
-            data = message,
-            aad = aad,
-        )
+        val encrypted =
+            ccmEncryption.encrypt(
+                data = message,
+                aad = aad,
+            )
 
         val decrypted = ccmEncryption.decrypt(encrypted)
 
