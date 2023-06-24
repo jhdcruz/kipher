@@ -15,6 +15,8 @@ env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
   JDK_VERSION: 19
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+  GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
   CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
 
 permissions:
