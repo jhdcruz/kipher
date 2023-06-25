@@ -29,7 +29,8 @@ group = rootProject.property("GROUP")
     ?: throw GradleException("Project group property is missing")
 
 nexusPublishing {
-    repositories {
+    // this = https://github.com/gradle-nexus/publish-plugin/issues/220
+    this.repositories {
         sonatype {
             nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"))
             snapshotRepositoryUrl.set(
