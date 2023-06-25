@@ -1,13 +1,12 @@
 package io.github.jhdcruz.kipher.aes
 
+import io.github.jhdcruz.kipher.aes.AesParams.aad
+import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
+import io.github.jhdcruz.kipher.aes.AesParams.message
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class AesModesEncryptionTest {
-    private val message = "message".encodeToByteArray()
-    private val aad = "metadata".encodeToByteArray()
-
-    private val decodeToString = { bytes: ByteArray -> String(bytes, Charsets.UTF_8) }
 
     @Test
     fun `test CBC encryption with PKCS5`() {
