@@ -13,5 +13,7 @@ internal object AesParams {
     val aad = "metadata".encodeToByteArray()
     val invalidKey = "invalid-key".encodeToByteArray()
 
-    val decodeToString = { bytes: ByteArray -> String(bytes, Charsets.UTF_8) }
+    fun decodeToString(bytes: ByteArray): String {
+        return String(bytes, Charsets.UTF_8)
+    }
 }
