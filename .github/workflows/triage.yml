@@ -21,6 +21,7 @@ jobs:
 
     steps:
       - uses: actions/labeler@v4
+        if: github.event_name == 'pull_request'
         with:
           configuration-path: .github/labels.yml
           sync-labels: true
@@ -28,6 +29,7 @@ jobs:
 
   check:
     name: Trunk Check Annotate
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
 
     steps:
