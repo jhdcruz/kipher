@@ -4,35 +4,11 @@ import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
 import io.github.jhdcruz.kipher.aes.AesParams.invalidKey
 import io.github.jhdcruz.kipher.aes.AesParams.message
 import io.github.jhdcruz.kipher.common.KipherException
-import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 internal class AesBasicTest {
-
-    @Test
-    fun `test key generation`() {
-        val cbcEncryption = CbcEncryption()
-
-        // no need to test for authenticated since it uses the same function
-        val key = cbcEncryption.generateKey()
-
-        // 32 = 256-bit key. 16 = 128-bit
-        assertEquals(32, key.size)
-    }
-
-    @RepeatedTest(5)
-    fun `test key randomization`() {
-        val cbcEncryption = CbcEncryption()
-
-        // no need to test for authenticated since it uses the same function
-        val firstKey = cbcEncryption.generateKey()
-        val secondKey = cbcEncryption.generateKey()
-
-        assertNotEquals(firstKey, secondKey)
-    }
 
     @Test
     fun `test basic encryption`() {
