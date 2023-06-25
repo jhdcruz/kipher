@@ -5,6 +5,8 @@ import io.github.jhdcruz.kipher.aes.AesParams.invalidKey
 import io.github.jhdcruz.kipher.aes.AesParams.message
 import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.params.ParameterizedTest
+import org.junit.jupiter.params.provider.ValueSource
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -29,11 +31,12 @@ internal class AesBasicTest {
         }
     }
 
-    @Test
-    fun `test basic encryption with custom key size`() {
+    @ParameterizedTest
+    @ValueSource(ints = [128, 192, 256])
+    fun `test basic encryption with valid custom key size`(keySize: Int) {
         val cbcEncryption = CbcEncryption()
 
-        val secretKey = cbcEncryption.generateKey(128)
+        val secretKey = cbcEncryption.generateKey(keySize)
         val encrypted = cbcEncryption.encrypt(message, secretKey)
 
         val decrypted = cbcEncryption.decrypt(
@@ -43,4 +46,16 @@ internal class AesBasicTest {
 
         assertEquals(decodeToString(message), decodeToString(decrypted))
     }
+
+    @ParameterizedTest
+    @ValueSource(ints = [1, 69, 100, 125, 500])
+    fun `test encryption with invalid custom key size`(keySize: Int) {
+        val cbcEncryption = CbcEncryption()
+        val secretKey = cbcEncryption.generateKey(keySize)
+
+        assertThrows<KipherException> {
+            cbcEncryption.encrypt(message, secretKey)
+        }
+    }
+
 }

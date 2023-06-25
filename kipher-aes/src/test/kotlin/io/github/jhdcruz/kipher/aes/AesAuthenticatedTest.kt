@@ -85,7 +85,7 @@ internal class AesAuthenticatedTest {
     }
 
     @Test
-    fun `test authenticated encryption with same AAD as separator`() {
+    fun `test authenticated encryption with same AAD as aadSeparator`() {
         val gcmEncryption = GcmEncryption()
 
         val aad = gcmEncryption.aadSeparator
@@ -104,8 +104,24 @@ internal class AesAuthenticatedTest {
     }
 
     @ParameterizedTest
+    @ValueSource(ints = [128, 192, 256])
+    fun `test authenticated encryption with valid custom key size`(keySize: Int) {
+        val gcmEncryption = GcmEncryption()
+
+        val secretKey = gcmEncryption.generateKey(keySize)
+        val encrypted = gcmEncryption.encrypt(message, aad, secretKey)
+
+        val decrypted = gcmEncryption.decrypt(
+            encrypted = encrypted["data"]!!,
+            key = encrypted["key"]!!,
+        )
+
+        assertEquals(decodeToString(message), decodeToString(decrypted))
+    }
+
+    @ParameterizedTest
     @ValueSource(ints = [1, 69, 100, 125, 500])
-    fun `test encryption with invalid custom key size`(keySize: Int) {
+    fun `test authenticated encryption with invalid custom key size`(keySize: Int) {
         val gcmEncryption = GcmEncryption()
 
         val secretKey = gcmEncryption.generateKey(keySize)
