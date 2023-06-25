@@ -42,7 +42,10 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
     /**
      *  Verify if [hash] matches with [data].
      */
-    fun verifyHash(@NotNull hash: ByteArray, data: ByteArray): Boolean {
+    fun verifyHash(
+        @NotNull hash: ByteArray,
+        @NotNull data: ByteArray
+    ): Boolean {
         return hash.contentEquals(
             generateHash(data)
         )
@@ -51,7 +54,10 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
     /**
      *  Verify if [hash] matches with [data].
      */
-    fun verifyHash(@NotNull hash: String, data: ByteArray): Boolean {
+    fun verifyHash(
+        @NotNull hash: String,
+        @NotNull data: ByteArray
+    ): Boolean {
         return hash.contentEquals(
             generateHash(data).hashString()
         )
