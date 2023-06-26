@@ -21,56 +21,77 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     private val mode = digestMode.mode
 
     /**
-     * Generate hash from [data].
+     * Generate hash from multiple [data].
      */
-    fun generateHash(@NotNull data: ByteArray): ByteArray {
+    fun generateHash(@NotNull data: List<ByteArray>): ByteArray {
         val md = MessageDigest.getInstance(mode)
 
-        return md.digest(data)
+        for (item in data) {
+            md.update(item)
+        }
+
+        return md.digest()
     }
 
     /**
      * Generate hash from [data].
      */
-    fun generateHashString(@NotNull data: ByteArray): String {
-        val md = MessageDigest.getInstance(mode)
+    fun generateHash(@NotNull data: ByteArray): ByteArray = generateHash(listOf(data))
 
-        return md.digest(data).hashString()
-    }
+    /**
+     * Generate hash from [data].
+     */
+    fun generateHashString(@NotNull data: ByteArray): String = generateHash(data).hashString()
+
+    /**
+     * Generate hash from multiple [data].
+     */
+    fun generateHashString(@NotNull data: List<ByteArray>): String = generateHash(data).hashString()
 
     /**
      *  Verify if [hash] matches with [data].
      */
     fun verifyHash(
-        @NotNull hash: ByteArray,
-        @NotNull data: ByteArray
-    ): Boolean {
-        return hash.contentEquals(
-            generateHash(data)
-        )
-    }
+        @NotNull data: ByteArray,
+        @NotNull hash: ByteArray
+    ): Boolean = hash.contentEquals(generateHash(data))
+
+    /**
+     *  Verify if [hash] matches with multiple [data].
+     *
+     *  [data] to be verified should be in the same order
+     *  as the original data when the hash was generated.
+     */
+    fun verifyHash(
+        @NotNull data: List<ByteArray>,
+        @NotNull hash: ByteArray
+    ): Boolean = hash.contentEquals(generateHash(data))
+
 
     /**
      *  Verify if [hash] matches with [data].
      */
     fun verifyHash(
-        @NotNull hash: String,
-        @NotNull data: ByteArray
-    ): Boolean {
-        return hash.contentEquals(
-            generateHash(data).hashString()
-        )
-    }
+        @NotNull data: ByteArray,
+        @NotNull hash: String
+    ): Boolean = hash.contentEquals(generateHash(data).hashString())
+
+    /**
+     *  Verify if [hash] matches with multiple [data].
+     *
+     *  [data] to be verified should be in the same order
+     *  as the original data when the hash was generated.
+     */
+    fun verifyHash(
+        @NotNull data: List<ByteArray>,
+        @NotNull hash: String
+    ): Boolean = hash.contentEquals(generateHash(data).hashString())
 
     companion object {
         /** Set JCE security provider. */
         var provider: Provider? = null
 
-        /**
-         * Convert [ByteArray] hash to [String].
-         */
-        fun ByteArray.hashString(): String {
-            return Base64.getEncoder().encodeToString(this)
-        }
+        /** Convert [ByteArray] hash to [String]. */
+        fun ByteArray.hashString(): String = Base64.getEncoder().encodeToString(this)
     }
 }
