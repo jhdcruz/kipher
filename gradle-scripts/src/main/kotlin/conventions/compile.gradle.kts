@@ -1,7 +1,5 @@
 package conventions
 
-import org.jetbrains.dokka.gradle.DokkaTaskPartial
-
 plugins {
     id("conventions.module")
     id("binary-compatibility-validator")

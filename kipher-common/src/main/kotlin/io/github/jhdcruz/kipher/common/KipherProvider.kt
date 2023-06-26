@@ -26,7 +26,7 @@ open class KipherProvider @JvmOverloads constructor(
             // add bouncy castle as default security provider
             Security.insertProviderAt(
                 provider ?: BouncyCastleProvider(),
-                1
+                1,
             )
         } catch (e: SecurityException) {
             throw KipherException("Error setting up provider", e)

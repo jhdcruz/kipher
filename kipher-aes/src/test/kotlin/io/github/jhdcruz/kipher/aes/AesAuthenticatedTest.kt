@@ -32,7 +32,7 @@ internal class AesAuthenticatedTest {
 
         assertEquals(
             decodeToString(message),
-            decodeToString(decrypted)
+            decodeToString(decrypted),
         )
     }
 
@@ -49,7 +49,7 @@ internal class AesAuthenticatedTest {
 
         assertEquals(
             decodeToString(message),
-            decodeToString(decrypted)
+            decodeToString(decrypted),
         )
     }
 
