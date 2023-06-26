@@ -27,21 +27,6 @@ jobs:
           sync-labels: true
           repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-  check:
-    name: Trunk Check Annotate
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Trunk Check
-        uses: trunk-io/trunk-action@main
-        with:
-          post-annotations: true
-          trunk-token: ${{ secrets.TRUNK_TOKEN }}
-
   test:
     uses: ./.github/workflows/test.yml
     secrets: inherit
