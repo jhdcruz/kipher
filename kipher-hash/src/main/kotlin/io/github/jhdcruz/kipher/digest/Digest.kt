@@ -53,7 +53,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
      */
     fun verifyHash(
         @NotNull data: ByteArray,
-        @NotNull hash: ByteArray
+        @NotNull hash: ByteArray,
     ): Boolean = hash.contentEquals(generateHash(data))
 
     /**
@@ -64,16 +64,15 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
      */
     fun verifyHash(
         @NotNull data: List<ByteArray>,
-        @NotNull hash: ByteArray
+        @NotNull hash: ByteArray,
     ): Boolean = hash.contentEquals(generateHash(data))
-
 
     /**
      *  Verify if [hash] matches with [data].
      */
     fun verifyHash(
         @NotNull data: ByteArray,
-        @NotNull hash: String
+        @NotNull hash: String,
     ): Boolean = hash.contentEquals(generateHash(data).hashString())
 
     /**
@@ -84,7 +83,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
      */
     fun verifyHash(
         @NotNull data: List<ByteArray>,
-        @NotNull hash: String
+        @NotNull hash: String,
     ): Boolean = hash.contentEquals(generateHash(data).hashString())
 
     companion object {
