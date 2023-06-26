@@ -6,7 +6,6 @@
 package io.github.jhdcruz.kipher.digest
 
 import io.github.jhdcruz.kipher.common.KipherProvider
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 import java.security.Provider
@@ -25,7 +24,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      * Generate hash from [data].
      */
     fun generateHash(@NotNull data: ByteArray): ByteArray {
-        val md = MessageDigest.getInstance(mode, provider)
+        val md = MessageDigest.getInstance(mode)
 
         return md.digest(data)
     }
@@ -34,7 +33,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      * Generate hash from [data].
      */
     fun generateHashString(@NotNull data: ByteArray): String {
-        val md = MessageDigest.getInstance(mode, provider)
+        val md = MessageDigest.getInstance(mode)
 
         return md.digest(data).hashString()
     }
@@ -65,7 +64,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
 
     companion object {
         /** Set JCE security provider. */
-        var provider: Provider = BouncyCastleProvider()
+        var provider: Provider? = null
 
         /**
          * Convert [ByteArray] hash to [String].

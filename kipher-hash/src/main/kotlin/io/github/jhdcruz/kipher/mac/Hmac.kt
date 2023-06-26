@@ -8,7 +8,6 @@ package io.github.jhdcruz.kipher.mac
 import io.github.jhdcruz.kipher.common.KipherException
 import io.github.jhdcruz.kipher.common.KipherProvider
 import io.github.jhdcruz.kipher.digest.Digest.Companion.hashString
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.jetbrains.annotations.NotNull
 import java.security.InvalidKeyException
 import java.security.Provider
@@ -25,6 +24,7 @@ import javax.crypto.spec.SecretKeySpec
  *
  * @property macMode [MacModes] to be used for HMAC operations.
  */
+@Suppress("MagicNumber")
 class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val mode = macMode.mode
     private val randomize = SecureRandom()
@@ -60,13 +60,12 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull password: String,
         @NotNull withEncryption: Boolean = false
     ): ByteArray {
-        val secretKeyFactory = SecretKeyFactory.getInstance(keyMode.mode, provider)
+        val secretKeyFactory = SecretKeyFactory.getInstance(keyMode.mode)
         val salt = generateSalt()
 
         val keyLength = if (!withEncryption) {
             keyMode.length
         } else {
-            @Suppress("MagicNumber")
             keyMode.length * 2 // Double the length for encryption support
         }
 
@@ -94,7 +93,7 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull key: ByteArray
     ): ByteArray {
         return try {
-            val hmac = Mac.getInstance(mode, provider)
+            val hmac = Mac.getInstance(mode)
             val secretKey = SecretKeySpec(key, mode)
 
             hmac.init(secretKey)
@@ -119,7 +118,7 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull key: ByteArray
     ): ByteArray {
         return try {
-            val hmac = Mac.getInstance(mode, provider)
+            val hmac = Mac.getInstance(mode)
             val secretKey = SecretKeySpec(key, mode)
 
             hmac.init(secretKey)
@@ -214,7 +213,7 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
 
     companion object {
         /** Set JCE security provider. */
-        var provider: Provider = BouncyCastleProvider()
+        var provider: Provider? = null
 
         /**
          * Convert [ByteArray] hash to [String].
