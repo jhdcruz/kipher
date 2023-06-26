@@ -30,14 +30,14 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val randomize = SecureRandom()
 
     /**
-     * Allows you to set custom salt length
+     * Allows you to set custom salt length.
      *
      * Default: `32`
      */
     var saltLength = 32
 
     /**
-     *  Set custom iterations
+     *  Set custom iterations.
      *
      *  Default: `250,000`
      */
@@ -50,9 +50,9 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     }
 
     /**
-     *  Generate a [password]ed PBKDF2 Key
+     *  Generate a [password]ed PBKDF2 key
      *  with support for multiple [keyMode]s,
-     *  and opt-in support for encryption key
+     *  and opt-in support for encryption key.
      */
     @JvmOverloads
     fun generateKey(
@@ -215,9 +215,7 @@ class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         /** Set JCE security provider. */
         var provider: Provider? = null
 
-        /**
-         * Convert [ByteArray] hash to [String].
-         */
+        /** Convert [ByteArray] hash to [String]. */
         fun ByteArray.hashString(): String {
             return Base64.getEncoder().encodeToString(this)
         }
