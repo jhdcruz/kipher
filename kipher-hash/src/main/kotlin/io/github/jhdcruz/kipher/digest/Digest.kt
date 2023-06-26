@@ -17,7 +17,7 @@ import java.util.Base64
  *
  * @property digestMode [DigestModes] to be used for MD operations.
  */
-class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
+sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
     private val mode = digestMode.mode
 
     /**

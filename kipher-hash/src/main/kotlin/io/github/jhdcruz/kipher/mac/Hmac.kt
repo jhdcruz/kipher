@@ -25,7 +25,7 @@ import javax.crypto.spec.SecretKeySpec
  * @property macMode [MacModes] to be used for HMAC operations.
  */
 @Suppress("MagicNumber")
-class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
+sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val mode = macMode.mode
     private val randomize = SecureRandom()
 
