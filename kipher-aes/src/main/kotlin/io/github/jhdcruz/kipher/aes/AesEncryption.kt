@@ -7,7 +7,6 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import org.bouncycastle.jce.provider.BouncyCastleProvider
 import io.github.jhdcruz.kipher.common.KipherProvider
 import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
@@ -33,11 +32,11 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
 
     /**
-     * Set cipher transformation mode and provider (if provided).
+     * Set cipher transformation mode.
      *
      * Provider defaults to Bouncy Castle.
      */
-    val cipher: Cipher = Cipher.getInstance(aesMode.mode, provider)
+    val cipher: Cipher = Cipher.getInstance(aesMode.mode)
 
     /**
      * Generate a random IV based on [length].
@@ -89,6 +88,6 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
         const val DEFAULT_KEY_SIZE: Int = 256
 
         /** Set JCE security provider. */
-        var provider: Provider = BouncyCastleProvider()
+        var provider: Provider? = null
     }
 }

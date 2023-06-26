@@ -13,16 +13,21 @@ import java.security.Security
 /**
  * Provides common methods and properties across kipher modules.
  *
+ * Set `provider` to null to use the default security provider.
+ *
  * @param provider security provider JCE will use. (defaults to Bouncy Castle)
  */
 open class KipherProvider @JvmOverloads constructor(
-    @Nullable provider: Provider = BouncyCastleProvider(),
+    @Nullable provider: Provider? = null,
 ) {
 
     init {
         try {
             // add bouncy castle as default security provider
-            Security.addProvider(provider)
+            Security.insertProviderAt(
+                provider ?: BouncyCastleProvider(),
+                1
+            )
         } catch (e: SecurityException) {
             throw KipherException("Error setting up provider", e)
         }
