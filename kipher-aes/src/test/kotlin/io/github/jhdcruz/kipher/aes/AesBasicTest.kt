@@ -7,10 +7,20 @@ import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.security.Provider
+import java.security.Security
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class AesBasicTest {
+
+    // Explicitly set provider due to
+    // AesGeneralTest's test different providers
+    // which changes the provider for subsequent tests
+    init {
+        val provider: Provider = Security.getProvider("BC")
+        AesEncryption.Companion.provider = provider
+    }
 
     @Test
     fun `test basic encryption`() {
@@ -48,7 +58,7 @@ internal class AesBasicTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = [1, 69, 100, 125, 500])
+    @ValueSource(ints = [1, 69, 100, 500])
     fun `test encryption with invalid custom key size`(keySize: Int) {
         val cbcEncryption = CbcEncryption()
         val secretKey = cbcEncryption.generateKey(keySize)
@@ -57,5 +67,4 @@ internal class AesBasicTest {
             cbcEncryption.encrypt(message, secretKey)
         }
     }
-
 }

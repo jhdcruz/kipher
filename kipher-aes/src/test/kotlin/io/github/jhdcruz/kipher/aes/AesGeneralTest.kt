@@ -41,6 +41,8 @@ internal class AesGeneralTest {
         assertNotEquals(firstKey, secondKey)
     }
 
+    // this has to be run last, since it changes provider
+    // for subsequent tests
     @Test
     fun `test different providers`() {
         val provider: Provider = Security.getProvider("SunJCE")
