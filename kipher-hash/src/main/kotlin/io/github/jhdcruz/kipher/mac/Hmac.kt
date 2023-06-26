@@ -34,14 +34,14 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *
      * Default: `32`
      */
-    var saltLength = 32
+    var saltLength: Int = 32
 
     /**
      *  Set custom iterations.
      *
      *  Default: `250,000`
      */
-    var iterations = 250_000
+    var iterations: Long = 250_000
 
     private fun generateSalt(): ByteArray {
         return ByteArray(saltLength).also {
