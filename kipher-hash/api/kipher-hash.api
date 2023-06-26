@@ -1,10 +1,14 @@
-public final class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/common/KipherProvider {
+public abstract class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/common/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/digest/Digest$Companion;
-	public fun <init> (Lio/github/jhdcruz/kipher/digest/DigestModes;)V
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/digest/DigestModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun generateHash (Ljava/util/List;)[B
 	public final fun generateHash ([B)[B
+	public final fun generateHashString (Ljava/util/List;)Ljava/lang/String;
 	public final fun generateHashString ([B)Ljava/lang/String;
 	public final fun getDigestMode ()Lio/github/jhdcruz/kipher/digest/DigestModes;
-	public final fun verifyHash (Ljava/lang/String;[B)Z
+	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;)Z
+	public final fun verifyHash (Ljava/util/List;[B)Z
+	public final fun verifyHash ([BLjava/lang/String;)Z
 	public final fun verifyHash ([B[B)Z
 }
 
@@ -12,6 +16,10 @@ public final class io/github/jhdcruz/kipher/digest/Digest$Companion {
 	public final fun getProvider ()Ljava/security/Provider;
 	public final fun hashString ([B)Ljava/lang/String;
 	public final fun setProvider (Ljava/security/Provider;)V
+}
+
+public final class io/github/jhdcruz/kipher/digest/DigestMD5 : io/github/jhdcruz/kipher/digest/Digest {
+	public fun <init> ()V
 }
 
 public class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
@@ -25,9 +33,25 @@ public class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
 	public static fun values ()[Lio/github/jhdcruz/kipher/digest/DigestModes;
 }
 
-public final class io/github/jhdcruz/kipher/mac/Hmac : io/github/jhdcruz/kipher/common/KipherProvider {
+public final class io/github/jhdcruz/kipher/digest/DigestSHA224 : io/github/jhdcruz/kipher/digest/Digest {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/digest/DigestSHA256 : io/github/jhdcruz/kipher/digest/Digest {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/digest/DigestSHA384 : io/github/jhdcruz/kipher/digest/Digest {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/digest/DigestSHA512 : io/github/jhdcruz/kipher/digest/Digest {
+	public fun <init> ()V
+}
+
+public abstract class io/github/jhdcruz/kipher/mac/Hmac : io/github/jhdcruz/kipher/common/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/mac/Hmac$Companion;
-	public fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;)V
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public final fun generateHash (Ljava/util/List;[B)[B
 	public final fun generateHash ([B[B)[B
 	public final fun generateHashString (Ljava/util/List;[B)Ljava/lang/String;
@@ -50,6 +74,26 @@ public final class io/github/jhdcruz/kipher/mac/Hmac$Companion {
 	public final fun getProvider ()Ljava/security/Provider;
 	public final fun hashString ([B)Ljava/lang/String;
 	public final fun setProvider (Ljava/security/Provider;)V
+}
+
+public final class io/github/jhdcruz/kipher/mac/HmacMD5 : io/github/jhdcruz/kipher/mac/Hmac {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/mac/HmacSHA224 : io/github/jhdcruz/kipher/mac/Hmac {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/mac/HmacSHA256 : io/github/jhdcruz/kipher/mac/Hmac {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/mac/HmacSHA384 : io/github/jhdcruz/kipher/mac/Hmac {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/mac/HmacSHA512 : io/github/jhdcruz/kipher/mac/Hmac {
+	public fun <init> ()V
 }
 
 public class io/github/jhdcruz/kipher/mac/KeyModes : java/lang/Enum {
