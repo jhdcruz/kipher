@@ -3,20 +3,11 @@ package io.github.jhdcruz.kipher.aes
 import io.github.jhdcruz.kipher.aes.AesParams.aad
 import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
 import io.github.jhdcruz.kipher.aes.AesParams.message
-import java.security.Provider
-import java.security.Security
+import io.github.jhdcruz.kipher.common.KipherProvider
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-internal class AesModesEncryptionTest {
-
-    // Explicitly set provider due to
-    // AesGeneralTest's test different providers
-    // which changes the provider for subsequent tests
-    init {
-        val provider: Provider = Security.getProvider("BC")
-        AesEncryption.Companion.provider = provider
-    }
+internal class AesModesEncryptionTest : KipherProvider() {
 
     @Test
     fun `test CBC encryption with PKCS5`() {

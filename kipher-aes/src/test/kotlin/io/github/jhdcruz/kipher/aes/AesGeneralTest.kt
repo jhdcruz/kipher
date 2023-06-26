@@ -8,14 +8,22 @@ package io.github.jhdcruz.kipher.aes
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import java.security.Provider
-import java.security.Security
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 internal class AesGeneralTest {
+
+    @Test
+    fun `test if default provider is BouncyCastle`() {
+        val gcmEncryption = GcmEncryption()
+        val currentProvider = gcmEncryption.cipher.provider.toString()
+
+        assertTrue {
+            currentProvider.contains("BC", ignoreCase = true)
+        }
+    }
 
     @ParameterizedTest
     @CsvSource(
@@ -39,23 +47,5 @@ internal class AesGeneralTest {
         val secondKey = cbcEncryption.generateKey()
 
         assertNotEquals(firstKey, secondKey)
-    }
-
-    // this has to be run last, since it changes provider
-    // for subsequent tests
-    @Test
-    fun `test different providers`() {
-        val provider: Provider = Security.getProvider("SunJCE")
-        AesEncryption.Companion.provider = provider
-
-        val cbcEncryption = CbcEncryption()
-
-        val currentProvider = cbcEncryption.cipher.provider.toString()
-        val expectedProvider = provider.toString()
-
-        assertTrue {
-            // Check if the current provider is the same as the expected provider
-            currentProvider.contains(expectedProvider, ignoreCase = true)
-        }
     }
 }

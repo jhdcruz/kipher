@@ -7,20 +7,10 @@ import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import java.security.Provider
-import java.security.Security
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 internal class AesBasicTest {
-
-    // Explicitly set provider due to
-    // AesGeneralTest's test different providers
-    // which changes the provider for subsequent tests
-    init {
-        val provider: Provider = Security.getProvider("BC")
-        AesEncryption.Companion.provider = provider
-    }
 
     @Test
     fun `test basic encryption`() {
