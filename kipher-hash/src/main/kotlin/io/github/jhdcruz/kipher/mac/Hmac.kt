@@ -41,7 +41,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *
      *  Default: `250,000`
      */
-    var iterations: Long = 250_000
+    var iterations: Int = 250_000
 
     private fun generateSalt(): ByteArray {
         return ByteArray(saltLength).also {
@@ -58,7 +58,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun generateKey(
         @NotNull keyMode: KeyModes,
         @NotNull password: String,
-        @NotNull withEncryption: Boolean = false
+        @NotNull withEncryption: Boolean = false,
     ): ByteArray {
         val secretKeyFactory = SecretKeyFactory.getInstance(keyMode.mode)
         val salt = generateSalt()
@@ -73,7 +73,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
             password.toCharArray(),
             salt,
             iterations,
-            keyLength
+            keyLength,
         )
 
         val secretKey = secretKeyFactory.generateSecret(keySpec)
@@ -90,7 +90,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     @Throws(KipherException::class)
     fun generateHash(
         @NotNull data: List<ByteArray>,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): ByteArray {
         return try {
             val hmac = Mac.getInstance(mode)
@@ -112,7 +112,6 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         }
     }
 
-
     /**
      *  Generate HMAC for [data] using provided [key].
      *
@@ -122,7 +121,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     @Throws(KipherException::class)
     fun generateHash(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): ByteArray = generateHash(listOf(data), key)
 
     /**
@@ -131,7 +130,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      */
     fun generateHashString(
         @NotNull data: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): String = generateHash(data, key).hashString()
 
     /**
@@ -140,7 +139,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      */
     fun generateHashString(
         @NotNull data: List<ByteArray>,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): String = generateHash(data, key).hashString()
 
     /**
@@ -149,7 +148,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun verifyHash(
         @NotNull data: ByteArray,
         @NotNull hmac: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): Boolean = hmac.contentEquals(generateHash(data, key))
 
     /**
@@ -161,7 +160,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun verifyHash(
         @NotNull data: List<ByteArray>,
         @NotNull hmac: ByteArray,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): Boolean = hmac.contentEquals(generateHash(data, key))
 
     /**
@@ -170,7 +169,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun verifyHash(
         @NotNull data: ByteArray,
         @NotNull hmac: String,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): Boolean = hmac.contentEquals(generateHash(data, key).hashString())
 
     /**
@@ -182,7 +181,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun verifyHash(
         @NotNull data: List<ByteArray>,
         @NotNull hmac: String,
-        @NotNull key: ByteArray
+        @NotNull key: ByteArray,
     ): Boolean = hmac.contentEquals(generateHash(data, key).hashString())
 
     companion object {
@@ -193,4 +192,3 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         fun ByteArray.hashString(): String = Base64.getEncoder().encodeToString(this)
     }
 }
-
