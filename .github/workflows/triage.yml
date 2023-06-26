@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - uses: actions/labeler@v4
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
         with:
           configuration-path: .github/labels.yml
           sync-labels: true
