@@ -19,17 +19,6 @@ internal class AesGeneralTest {
 
     @Test
     @Order(1)
-    fun `test if default provider is BouncyCastle`() {
-        val gcmEncryption = GcmEncryption()
-        val currentProvider = gcmEncryption.cipher.provider.toString()
-
-        assertTrue {
-            currentProvider.contains("BC", ignoreCase = true)
-        }
-    }
-
-    @Test
-    @Order(2)
     fun `test custom provider`() {
         AesEncryption.provider = Security.getProvider("SunJCE")
 
@@ -42,6 +31,17 @@ internal class AesGeneralTest {
 
         // reset to default provider
         AesEncryption.provider = null
+    }
+
+    @Test
+    @Order(2)
+    fun `test if default provider is BouncyCastle`() {
+        val gcmEncryption = GcmEncryption()
+        val currentProvider = gcmEncryption.cipher.provider.toString()
+
+        assertTrue {
+            currentProvider.contains("BC", ignoreCase = true)
+        }
     }
 
     @ParameterizedTest
