@@ -5,9 +5,11 @@
 
 package io.github.jhdcruz.kipher.aes
 
+import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
+import java.security.Security
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -16,6 +18,7 @@ import kotlin.test.assertTrue
 internal class AesGeneralTest {
 
     @Test
+    @Order(1)
     fun `test if default provider is BouncyCastle`() {
         val gcmEncryption = GcmEncryption()
         val currentProvider = gcmEncryption.cipher.provider.toString()
@@ -23,6 +26,22 @@ internal class AesGeneralTest {
         assertTrue {
             currentProvider.contains("BC", ignoreCase = true)
         }
+    }
+
+    @Test
+    @Order(2)
+    fun `test custom provider`() {
+        AesEncryption.provider = Security.getProvider("SunJCE")
+
+        val gcmEncryption = GcmEncryption()
+        val currentProvider = gcmEncryption.cipher.provider.toString()
+
+        assertTrue {
+            currentProvider.contains("SunJCE", ignoreCase = true)
+        }
+
+        // reset to default provider
+        AesEncryption.provider = null
     }
 
     @ParameterizedTest
