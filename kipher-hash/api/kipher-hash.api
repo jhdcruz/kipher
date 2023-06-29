@@ -71,9 +71,13 @@ public abstract class io/github/jhdcruz/kipher/mac/Hmac : io/github/jhdcruz/kiph
 }
 
 public final class io/github/jhdcruz/kipher/mac/Hmac$Companion {
+	public final fun getIterations ()I
 	public final fun getProvider ()Ljava/security/Provider;
+	public final fun getSaltLength ()I
 	public final fun hashString ([B)Ljava/lang/String;
+	public final fun setIterations (I)V
 	public final fun setProvider (Ljava/security/Provider;)V
+	public final fun setSaltLength (I)V
 }
 
 public final class io/github/jhdcruz/kipher/mac/HmacMD5 : io/github/jhdcruz/kipher/mac/Hmac {
@@ -97,6 +101,7 @@ public final class io/github/jhdcruz/kipher/mac/HmacSHA512 : io/github/jhdcruz/k
 }
 
 public class io/github/jhdcruz/kipher/mac/KeyModes : java/lang/Enum {
+	public static final field PBKDF2WithHmacSHA224 Lio/github/jhdcruz/kipher/mac/KeyModes;
 	public static final field PBKDF2WithHmacSHA256 Lio/github/jhdcruz/kipher/mac/KeyModes;
 	public static final field PBKDF2WithHmacSHA384 Lio/github/jhdcruz/kipher/mac/KeyModes;
 	public static final field PBKDF2WithHmacSHA512 Lio/github/jhdcruz/kipher/mac/KeyModes;
