@@ -30,18 +30,14 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val randomize = SecureRandom()
 
     /**
-     * Allows you to set custom salt length.
-     *
-     * Default: `32`
+     * Allows you to set custom salt length per instance.
      */
-    var saltLength: Int = 32
+    var saltLength: Int = Companion.saltLength
 
     /**
-     *  Set custom iterations.
-     *
-     *  Default: `250,000`
+     *  Set custom iterations per instance.
      */
-    var iterations: Int = 250_000
+    var iterations: Int = Companion.iterations
 
     private fun generateSalt(): ByteArray {
         return ByteArray(saltLength).also {
@@ -187,6 +183,20 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     companion object {
         /** Set JCE security provider. */
         var provider: Provider? = null
+
+        /**
+         * Allows you to set custom salt length.
+         *
+         * Default: `32`
+         */
+        var saltLength: Int = 32
+
+        /**
+         *  Set custom iterations.
+         *
+         *  Default: `250,000`
+         */
+        var iterations: Int = 250_000
 
         /** Convert [ByteArray] hash to [String]. */
         fun ByteArray.hashString(): String = Base64.getEncoder().encodeToString(this)
