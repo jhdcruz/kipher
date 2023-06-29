@@ -5,4 +5,7 @@
 
 package io.github.jhdcruz.kipher.mac
 
+/**
+ * HMAC authentication using SHA-224.
+ */
 class HmacSHA224 : Hmac(MacModes.HmacSHA224)
