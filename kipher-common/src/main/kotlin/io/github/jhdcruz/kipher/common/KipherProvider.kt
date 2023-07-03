@@ -21,11 +21,13 @@ open class KipherProvider @JvmOverloads constructor(
     @Nullable provider: Provider? = null,
 ) {
 
+    private var currentProvider = provider ?: Companion.provider
+
     init {
         try {
             // add bouncy castle as default security provider
             Security.insertProviderAt(
-                provider ?: BouncyCastleProvider(),
+                currentProvider,
                 1,
             )
         } catch (e: SecurityException) {
@@ -36,11 +38,24 @@ open class KipherProvider @JvmOverloads constructor(
             Security.setProperty("crypto.policy", "unlimited")
         } catch (e: SecurityException) {
             throw KipherException(
-                "Error setting up crypto policy.\n" +
-                    "Please make sure you have the unlimited strength policy files installed: " +
-                    "https://www.oracle.com/java/technologies/javase-jce-all-downloads.html",
+                "Error setting up crypto policy.\n" + "Please make sure you have the unlimited strength policy files installed: " + "https://www.oracle.com/java/technologies/javase-jce-all-downloads.html",
                 e,
             )
         }
+    }
+
+    companion object {
+        /**
+         * Allow setting of custom provider globally
+         * throughout kipher modules that uses JCE.
+         *
+         * Set to null to use the default security provider.
+         */
+        var provider: Provider? = BouncyCastleProvider()
+            set(value) {
+                if (value != null) {
+                    field = value
+                }
+            }
     }
 }
