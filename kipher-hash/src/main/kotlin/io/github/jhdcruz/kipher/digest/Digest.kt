@@ -22,6 +22,9 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
 
     /**
      * Generate hash from multiple [data].
+     *
+     * If you want a string representation of the hash, use [generateHashString],
+     * or use [hashString] on the resulting [ByteArray] hash.
      */
     fun generateHash(@NotNull data: List<ByteArray>): ByteArray {
         val md = MessageDigest.getInstance(mode)
@@ -35,6 +38,9 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
 
     /**
      * Generate hash from [data].
+     *
+     * If you want a string representation of the hash, use [generateHashString],
+     * or use [hashString] on the resulting [ByteArray] hash.
      */
     fun generateHash(@NotNull data: ByteArray): ByteArray = generateHash(listOf(data))
 
