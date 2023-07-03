@@ -9,6 +9,7 @@ import io.github.jhdcruz.kipher.common.KipherException
 import io.github.jhdcruz.kipher.common.KipherProvider
 import io.github.jhdcruz.kipher.hash.HashUtils.toHexString
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import java.security.InvalidKeyException
 import java.security.Provider
 import java.security.SecureRandom
@@ -50,31 +51,43 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *  with support for multiple [keyMode]s,
      *  and opt-in support for encryption key.
      */
-    @JvmOverloads
-    fun generateKey(
+    fun generatePbkdfKey(
         @NotNull keyMode: KeyModes,
-        @NotNull password: String,
-        @NotNull withEncryption: Boolean = false,
+        @Nullable password: String,
     ): ByteArray {
-        val secretKeyFactory = SecretKeyFactory.getInstance(keyMode.mode)
+        val keyFactory = SecretKeyFactory.getInstance(keyMode.mode)
         val salt = generateSalt()
-
-        val keyLength = if (!withEncryption) {
-            keyMode.length
-        } else {
-            keyMode.length * 2 // Double the length for encryption support
-        }
 
         val keySpec = PBEKeySpec(
             password.toCharArray(),
             salt,
             iterations,
-            keyLength,
+            keyMode.length,
         )
 
-        val secretKey = secretKeyFactory.generateSecret(keySpec)
+        val secretKey = keyFactory.generateSecret(keySpec)
 
         return secretKey.encoded
+    }
+
+    /**
+     * Generate a generic HMAC key based on [keyMode].
+     *
+     * For PBKDF2 key with HMACs, use [generatePbkdfKey].
+     */
+    fun generateKey(
+        @NotNull keyMode: MacModes,
+    ): ByteArray {
+        val key = ByteArray(keyMode.length).also {
+            randomize.nextBytes(it)
+        }
+
+        val keySpec = SecretKeySpec(
+            key,
+            macMode.mode,
+        )
+
+        return keySpec.encoded
     }
 
     /**
