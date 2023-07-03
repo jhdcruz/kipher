@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.digest
+package io.github.jhdcruz.kipher.hash.digest
 
 import io.github.jhdcruz.kipher.common.KipherProvider
+import io.github.jhdcruz.kipher.hash.HashUtils.toHexString
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 import java.security.Provider
-import java.util.Base64
 
 /**
  * Data authenticity and integrity checks using
@@ -24,7 +24,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
      * Generate hash from multiple [data].
      *
      * If you want a string representation of the hash, use [generateHashString],
-     * or use [hashString] on the resulting [ByteArray] hash.
+     * or use [toHexString] on the resulting [ByteArray] hash.
      */
     fun generateHash(@NotNull data: List<ByteArray>): ByteArray {
         val md = MessageDigest.getInstance(mode)
@@ -40,19 +40,20 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
      * Generate hash from [data].
      *
      * If you want a string representation of the hash, use [generateHashString],
-     * or use [hashString] on the resulting [ByteArray] hash.
+     * or use [toHexString] on the resulting [ByteArray] hash.
      */
     fun generateHash(@NotNull data: ByteArray): ByteArray = generateHash(listOf(data))
 
     /**
      * Generate hash from [data].
      */
-    fun generateHashString(@NotNull data: ByteArray): String = generateHash(data).hashString()
+    fun generateHashString(@NotNull data: ByteArray): String = generateHash(data).toHexString()
 
     /**
      * Generate hash from multiple [data].
      */
-    fun generateHashString(@NotNull data: List<ByteArray>): String = generateHash(data).hashString()
+    fun generateHashString(@NotNull data: List<ByteArray>): String =
+        generateHash(data).toHexString()
 
     /**
      * Verify if [actual] data matches with [expected] hash.
@@ -79,7 +80,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: ByteArray,
         @NotNull expected: String,
-    ): Boolean = expected.contentEquals(generateHash(actual).hashString())
+    ): Boolean = expected.contentEquals(generateHash(actual).toHexString())
 
     /**
      * Verify if multiple [actual] data matches with [expected] hash.
@@ -90,13 +91,10 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: List<ByteArray>,
         @NotNull expected: String,
-    ): Boolean = expected.contentEquals(generateHash(actual).hashString())
+    ): Boolean = expected.contentEquals(generateHash(actual).toHexString())
 
     companion object {
         /** Set JCE security provider. */
         var provider: Provider? = null
-
-        /** Convert [ByteArray] hash to [String]. */
-        fun ByteArray.hashString(): String = Base64.getEncoder().encodeToString(this)
     }
 }

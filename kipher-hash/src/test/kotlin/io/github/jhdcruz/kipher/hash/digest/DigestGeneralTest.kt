@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.digest
+package io.github.jhdcruz.kipher.hash.digest
 
 import kotlin.test.Test
 import kotlin.test.assertFalse

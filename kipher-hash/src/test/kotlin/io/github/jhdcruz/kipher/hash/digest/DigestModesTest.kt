@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.digest
+package io.github.jhdcruz.kipher.hash.digest
 
-import io.github.jhdcruz.kipher.mac.Hmac.Companion.hashString
+import io.github.jhdcruz.kipher.hash.HashUtils.toHexString
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -19,7 +19,7 @@ internal class DigestModesTest {
 
         val hash = digest.generateHash(data)
 
-        println(hash.hashString())
+        println(hash.toHexString())
 
         assertTrue {
             digest.verifyHash(data, hash)
@@ -32,7 +32,7 @@ internal class DigestModesTest {
 
         val hash = digest.generateHash(data)
 
-        println(hash.hashString())
+        println(hash.toHexString())
 
         assertTrue {
             digest.verifyHash(data, hash)
@@ -45,7 +45,7 @@ internal class DigestModesTest {
 
         val hash = digest.generateHash(data)
 
-        println(hash.hashString())
+        println(hash.toHexString())
 
         assertTrue {
             digest.verifyHash(data, hash)
@@ -58,7 +58,7 @@ internal class DigestModesTest {
 
         val hash = digest.generateHash(data)
 
-        println(hash.hashString())
+        println(hash.toHexString())
 
         assertTrue {
             digest.verifyHash(data, hash)
@@ -71,7 +71,7 @@ internal class DigestModesTest {
 
         val hash = digest.generateHash(data)
 
-        println(hash.hashString())
+        println(hash.toHexString())
 
         assertTrue {
             digest.verifyHash(data, hash)

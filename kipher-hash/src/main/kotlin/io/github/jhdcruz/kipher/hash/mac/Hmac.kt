@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.mac
+package io.github.jhdcruz.kipher.hash.mac
 
 import io.github.jhdcruz.kipher.common.KipherException
 import io.github.jhdcruz.kipher.common.KipherProvider
-import io.github.jhdcruz.kipher.digest.Digest.Companion.hashString
+import io.github.jhdcruz.kipher.hash.HashUtils.toHexString
 import org.jetbrains.annotations.NotNull
 import java.security.InvalidKeyException
 import java.security.Provider
@@ -81,7 +81,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *  Generate HMAC for multiple [data] using provided [key].
      *
      *  If you want a string representation use [generateHashString]
-     *  instead, or manually invoke [hashString] on the output.
+     *  instead, or manually invoke [toHexString] on the output.
      */
     @Throws(KipherException::class)
     fun generateHash(
@@ -112,7 +112,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *  Generate HMAC for [data] using provided [key].
      *
      *  If you want a string representation use [generateHashString]
-     *  instead, or manually invoke [hashString] on the output.
+     *  instead, or manually invoke [toHexString] on the output.
      */
     @Throws(KipherException::class)
     fun generateHash(
@@ -127,7 +127,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun generateHashString(
         @NotNull data: ByteArray,
         @NotNull key: ByteArray,
-    ): String = generateHash(data, key).hashString()
+    ): String = generateHash(data, key).toHexString()
 
     /**
      *  Generate HMAC for multiple [data] using provided [key]
@@ -136,7 +136,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     fun generateHashString(
         @NotNull data: List<ByteArray>,
         @NotNull key: ByteArray,
-    ): String = generateHash(data, key).hashString()
+    ): String = generateHash(data, key).toHexString()
 
     /**
      * Verify [hmac] from [data] using provided [key].
@@ -166,7 +166,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull data: ByteArray,
         @NotNull hmac: String,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key).hashString())
+    ): Boolean = hmac.contentEquals(generateHash(data, key).toHexString())
 
     /**
      * Verify [hmac] from multiple [data] using provided [key].
@@ -178,7 +178,7 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull data: List<ByteArray>,
         @NotNull hmac: String,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key).hashString())
+    ): Boolean = hmac.contentEquals(generateHash(data, key).toHexString())
 
     companion object {
         /** Set JCE security provider. */
@@ -197,8 +197,5 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
          *  Default: `250,000`
          */
         var iterations: Int = 250_000
-
-        /** Convert [ByteArray] hash to [String]. */
-        fun ByteArray.hashString(): String = Base64.getEncoder().encodeToString(this)
     }
 }

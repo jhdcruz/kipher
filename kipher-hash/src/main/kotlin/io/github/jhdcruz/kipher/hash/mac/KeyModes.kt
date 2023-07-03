@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.mac
+package io.github.jhdcruz.kipher.hash.mac
 
 /** Available PBKDF2 key [mode]s and their bit [length]s. */
 @Suppress("MagicNumber")
