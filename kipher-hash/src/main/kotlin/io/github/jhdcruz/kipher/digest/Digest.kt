@@ -49,42 +49,42 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun generateHashString(@NotNull data: List<ByteArray>): String = generateHash(data).hashString()
 
     /**
-     *  Verify if [hash] matches with [data].
+     * Verify if [actual] data matches with [expected] hash.
      */
     fun verifyHash(
-        @NotNull data: ByteArray,
-        @NotNull hash: ByteArray,
-    ): Boolean = hash.contentEquals(generateHash(data))
+        @NotNull actual: ByteArray,
+        @NotNull expected: ByteArray,
+    ): Boolean = expected.contentEquals(generateHash(actual))
 
     /**
-     *  Verify if [hash] matches with multiple [data].
+     * Verify if multiple [actual] data matches with [expected] hash.
      *
-     *  [data] to be verified should be in the same order
-     *  as the original data when the hash was generated.
+     * The list of [actual] data to be verified should be in the same order
+     * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull data: List<ByteArray>,
-        @NotNull hash: ByteArray,
-    ): Boolean = hash.contentEquals(generateHash(data))
+        @NotNull actual: List<ByteArray>,
+        @NotNull expected: ByteArray,
+    ): Boolean = expected.contentEquals(generateHash(actual))
 
     /**
-     *  Verify if [hash] matches with [data].
+     * Verify if [actual] data matches with [expected] hash.
      */
     fun verifyHash(
-        @NotNull data: ByteArray,
-        @NotNull hash: String,
-    ): Boolean = hash.contentEquals(generateHash(data).hashString())
+        @NotNull actual: ByteArray,
+        @NotNull expected: String,
+    ): Boolean = expected.contentEquals(generateHash(actual).hashString())
 
     /**
-     *  Verify if [hash] matches with multiple [data].
+     * Verify if multiple [actual] data matches with [expected] hash.
      *
-     *  [data] to be verified should be in the same order
-     *  as the original data when the hash was generated.
+     * The list of [actual] data to be verified should be in the same order
+     * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull data: List<ByteArray>,
-        @NotNull hash: String,
-    ): Boolean = hash.contentEquals(generateHash(data).hashString())
+        @NotNull actual: List<ByteArray>,
+        @NotNull expected: String,
+    ): Boolean = expected.contentEquals(generateHash(actual).hashString())
 
     companion object {
         /** Set JCE security provider. */
