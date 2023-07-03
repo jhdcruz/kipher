@@ -7,7 +7,6 @@ public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhd
 	public final fun generateIv (I)[B
 	public final fun generateKey (I)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
-	public final fun getCipher ()Ljavax/crypto/Cipher;
 }
 
 public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {

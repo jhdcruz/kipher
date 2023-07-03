@@ -31,12 +31,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
     private val randomize = SecureRandom()
     private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(ALGORITHM)
 
-    /**
-     * Set cipher transformation mode.
-     *
-     * Provider defaults to Bouncy Castle.
-     */
-    val cipher: Cipher = Cipher.getInstance(aesMode.mode)
+    internal val cipher: Cipher = Cipher.getInstance(aesMode.mode)
 
     /**
      * Generate a random IV based on [length].
