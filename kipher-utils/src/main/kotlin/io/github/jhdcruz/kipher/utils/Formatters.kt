@@ -12,6 +12,14 @@ object Formatters {
 
     /** Convert [ByteArray] hash to hexadecimal [String]. */
     fun ByteArray.toHexString(): String {
-        return String.format("%02x", this)
+        val builder = StringBuilder()
+
+        for (byte in this) {
+            builder.append(
+                String.format("%02x", byte)
+            )
+        }
+
+        return builder.toString()
     }
 }

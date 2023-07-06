@@ -53,7 +53,7 @@ internal class DigestTest {
     fun `test different hash modes`(mode: DigestModes) {
         val digest = Digest(mode)
 
-        val actualBytes = digest.generateHashString("test".encodeToByteArray())
+        val actualBytes = digest.generateHashString(dataList)
 
         println("$mode = $actualBytes")
 
