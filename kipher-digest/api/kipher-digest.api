@@ -1,0 +1,60 @@
+public final class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/common/KipherProvider {
+	public static final field Companion Lio/github/jhdcruz/kipher/digest/Digest$Companion;
+	public fun <init> (Lio/github/jhdcruz/kipher/digest/DigestModes;)V
+	public final fun generateHash (Ljava/util/List;)[B
+	public final fun generateHash ([B)[B
+	public final fun generateHashString (Ljava/util/List;)Ljava/lang/String;
+	public final fun generateHashString ([B)Ljava/lang/String;
+	public final fun getDigestMode ()Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;)Z
+	public final fun verifyHash (Ljava/util/List;[B)Z
+	public final fun verifyHash ([BLjava/lang/String;)Z
+	public final fun verifyHash ([B[B)Z
+}
+
+public final class io/github/jhdcruz/kipher/digest/Digest$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
+}
+
+public class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
+	public static final field KECCAK_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field KECCAK_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field KECCAK_288 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field KECCAK_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field KECCAK_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field MD5 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field RIPEMD128 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field RIPEMD160 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field RIPEMD256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field RIPEMD320 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHAKE_128 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHAKE_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_3_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_3_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_3_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_3_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SHA_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_1024_1024 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_1024_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_1024_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_256_128 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_256_160 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_256_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_256_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_128 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_160 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SKEIN_512_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field SM3 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field WHIRLPOOL Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static fun values ()[Lio/github/jhdcruz/kipher/digest/DigestModes;
+}
+
