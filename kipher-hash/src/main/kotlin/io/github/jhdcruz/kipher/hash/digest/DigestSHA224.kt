@@ -8,4 +8,4 @@ package io.github.jhdcruz.kipher.hash.digest
 /**
  * Cryptographic hashing using SHA-224.
  */
-class DigestSHA224 : Digest(DigestModes.SHA224)
+class DigestSHA224 : Digest(DigestModes.SHA_224)

@@ -77,4 +77,56 @@ internal class DigestModesTest {
             digest.verifyHash(data, hash)
         }
     }
+
+    @Test
+    fun `test SHA3-224 hash generation`() {
+        val digest = DigestSHA3_224()
+
+        val hash = digest.generateHash(data)
+
+        println(hash.toHexString())
+
+        assertTrue {
+            digest.verifyHash(data, hash)
+        }
+    }
+
+    @Test
+    fun `test SHA3-256 hash generation`() {
+        val digest = DigestSHA3_256()
+
+        val hash = digest.generateHash(data)
+
+        println(hash.toHexString())
+
+        assertTrue {
+            digest.verifyHash(data, hash)
+        }
+    }
+
+    @Test
+    fun `test SHA3-384 hash generation`() {
+        val digest = DigestSHA3_384()
+
+        val hash = digest.generateHash(data)
+
+        println(hash.toHexString())
+
+        assertTrue {
+            digest.verifyHash(data, hash)
+        }
+    }
+
+    @Test
+    fun `test SHA3-512 hash generation`() {
+        val digest = DigestSHA3_512()
+
+        val hash = digest.generateHash(data)
+
+        println(hash.toHexString())
+
+        assertTrue {
+            digest.verifyHash(data, hash)
+        }
+    }
 }

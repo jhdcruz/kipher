@@ -61,7 +61,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: ByteArray,
         @NotNull expected: ByteArray,
-    ): Boolean = expected.contentEquals(generateHash(actual))
+    ): Boolean = generateHash(actual).contentEquals(expected)
 
     /**
      * Verify if multiple [actual] data matches with [expected] hash.
@@ -72,7 +72,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: List<ByteArray>,
         @NotNull expected: ByteArray,
-    ): Boolean = expected.contentEquals(generateHash(actual))
+    ): Boolean = generateHash(actual).contentEquals(expected)
 
     /**
      * Verify if [actual] data matches with [expected] hash.
@@ -80,7 +80,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: ByteArray,
         @NotNull expected: String,
-    ): Boolean = expected.contentEquals(generateHash(actual).toHexString())
+    ): Boolean = generateHash(actual).toHexString().contentEquals(expected)
 
     /**
      * Verify if multiple [actual] data matches with [expected] hash.
@@ -91,7 +91,7 @@ sealed class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provi
     fun verifyHash(
         @NotNull actual: List<ByteArray>,
         @NotNull expected: String,
-    ): Boolean = expected.contentEquals(generateHash(actual).toHexString())
+    ): Boolean = generateHash(actual).toHexString().contentEquals(expected)
 
     companion object {
         /** Set JCE security provider. */
