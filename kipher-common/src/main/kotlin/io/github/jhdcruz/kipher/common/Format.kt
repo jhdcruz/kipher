@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.utils
+package io.github.jhdcruz.kipher.common
 
 /**
  * Helper methods for formatting.
  */
-object Formatters {
+object Format {
 
     /** Convert [ByteArray] hash to hexadecimal [String]. */
     fun ByteArray.toHexString(): String {
@@ -16,7 +16,7 @@ object Formatters {
 
         for (byte in this) {
             builder.append(
-                String.format("%02x", byte)
+                String.format("%02x", byte),
             )
         }
 

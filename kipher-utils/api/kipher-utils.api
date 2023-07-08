@@ -1,5 +1,0 @@
-public final class io/github/jhdcruz/kipher/utils/Formatters {
-	public static final field INSTANCE Lio/github/jhdcruz/kipher/utils/Formatters;
-	public final fun toHexString ([B)Ljava/lang/String;
-}
-

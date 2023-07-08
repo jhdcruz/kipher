@@ -5,8 +5,8 @@
 
 package io.github.jhdcruz.kipher.digest
 
+import io.github.jhdcruz.kipher.common.Format.toHexString
 import io.github.jhdcruz.kipher.common.KipherProvider
-import io.github.jhdcruz.kipher.utils.Formatters.toHexString
 import org.jetbrains.annotations.NotNull
 import java.security.MessageDigest
 import java.security.Provider

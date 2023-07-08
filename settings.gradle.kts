@@ -37,5 +37,4 @@ include(
     "kipher-aes",
     "kipher-digest",
     "kipher-mac",
-    "kipher-utils",
 )
