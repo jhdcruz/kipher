@@ -13,15 +13,15 @@ lint:
         - prettier
         - shellcheck
     enabled:
-        - checkov@2.3.309
-        - trivy@0.42.1
-        - trufflehog@3.42.0
-        - renovate@35.144.2
+        - checkov@2.3.314
+        - trivy@0.43.0
+        - trufflehog@3.43.0
+        - renovate@36.1.9
         - yamllint@1.32.0
         - shfmt@3.6.0
         - gitleaks@8.17.0
         - taplo@0.7.0
-        - ktlint@0.49.1
+        - ktlint@0.50.0
         - git-diff-check
         - actionlint@1.6.25
         - detekt-gradle@SYSTEM
