@@ -55,7 +55,8 @@ internal class DigestTest {
 
         val actualBytes = digest.generateHashString(dataList)
 
-        println("$mode = $actualBytes")
+        // print output and length in json like form
+        println("$mode = $actualBytes, length = ${actualBytes.length}")
 
         assertTrue {
             digest.verifyHash(dataList, actualBytes)

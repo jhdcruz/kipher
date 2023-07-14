@@ -12,6 +12,17 @@ package io.github.jhdcruz.kipher.digest
  */
 @Suppress("unused")
 enum class DigestModes(val mode: String) {
+    BLAKE_2B_160("BLAKE2B-160"),
+    BLAKE_2B_256("BLAKE2B-256"),
+    BLAKE_2B_384("BLAKE2B-384"),
+    BLAKE_2B_512("BLAKE2B-512"),
+
+    BLAKE_2S_128("BLAKE2S-128"),
+    BLAKE_2S_160("BLAKE2S-160"),
+    BLAKE_2S_224("BLAKE2S-224"),
+
+    BLAKE_3_256("BLAKE3-256"),
+
     KECCAK_224("Keccak-224"),
     KECCAK_256("Keccak-256"),
     KECCAK_288("Keccak-288"),
