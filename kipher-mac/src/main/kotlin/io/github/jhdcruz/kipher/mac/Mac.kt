@@ -34,7 +34,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     var saltLength: Int = Companion.saltLength
 
     /**
-     *  Set custom iterations per instance.
+     * Set custom iterations per instance.
      */
     var iterations: Int = Companion.iterations
 
@@ -68,12 +68,14 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     }
 
     /**
-     * Generate a generic HMAC key based on current mode.
+     * Generate a key based on current mode,
+     * or by providing a custom [keyLength].
      *
      * For using PBKDF2 key with HMACs, provide [KeyModes] instead.
      */
-    fun generateKey(): ByteArray {
-        val key = ByteArray(mode.length).also {
+    @JvmOverloads
+    fun generateKey(@Nullable keyLength: Int? = null): ByteArray {
+        val key = ByteArray(keyLength ?: mode.length).also {
             randomize.nextBytes(it)
         }
 
@@ -97,18 +99,17 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull key: ByteArray,
     ): ByteArray {
         return try {
-            val hmac = Mac.getInstance(mode)
+            val mac = Mac.getInstance(mode)
             val secretKey = SecretKeySpec(key, mode)
 
-            hmac.init(secretKey)
+            mac.init(secretKey)
 
             // for multiple data authentication
-            // example usage is IV, and cipher-text from AES encryption
             for (item in data) {
-                hmac.update(item)
+                mac.update(item)
             }
 
-            hmac.doFinal()
+            mac.doFinal()
         } catch (e: InvalidKeyException) {
             throw KipherException("inappropriate key for initializing MAC", e)
         } catch (e: IllegalStateException) {
