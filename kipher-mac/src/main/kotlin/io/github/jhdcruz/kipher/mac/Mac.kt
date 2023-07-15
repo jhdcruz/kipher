@@ -24,7 +24,7 @@ import javax.crypto.spec.SecretKeySpec
  *
  * @property macMode [MacModes] to be used for HMAC operations.
  */
-sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
+class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val mode = macMode.mode
     private val randomize = SecureRandom()
 
@@ -45,9 +45,8 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     }
 
     /**
-     *  Generate a [password]ed PBKDF2 key
-     *  with support for multiple [keyMode]s,
-     *  and opt-in support for encryption key.
+     * Generate a password-based encryption key
+     * based on [keyMode] and [password].
      */
     fun generateKey(
         @NotNull keyMode: KeyModes,
@@ -69,20 +68,18 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     }
 
     /**
-     * Generate a generic HMAC key based on [keyMode].
+     * Generate a generic HMAC key based on current mode.
      *
      * For using PBKDF2 key with HMACs, provide [KeyModes] instead.
      */
-    fun generateKey(
-        @NotNull keyMode: MacModes,
-    ): ByteArray {
-        val key = ByteArray(keyMode.length).also {
+    fun generateKey(): ByteArray {
+        val key = ByteArray(mode.length).also {
             randomize.nextBytes(it)
         }
 
         val keySpec = SecretKeySpec(
             key,
-            macMode.mode,
+            mode,
         )
 
         return keySpec.encoded
@@ -150,46 +147,46 @@ sealed class Hmac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     ): String = generateHash(data, key).toHexString()
 
     /**
-     * Verify [hmac] from [data] using provided [key].
+     * Verify if [data] matches [expected] hash using provided [key].
      */
     fun verifyHash(
         @NotNull data: ByteArray,
-        @NotNull hmac: ByteArray,
+        @NotNull expected: ByteArray,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key))
+    ): Boolean = generateHash(data, key).contentEquals(expected)
 
     /**
-     * Verify [hmac] from multiple [data] using provided [key].
+     * Verify if [data] matches [expected] hash using provided [key].
      *
      * [data] to be verified should be in the same order
      * as the original data when the hash was generated.
      */
     fun verifyHash(
         @NotNull data: List<ByteArray>,
-        @NotNull hmac: ByteArray,
+        @NotNull expected: ByteArray,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key))
+    ): Boolean = generateHash(data, key).contentEquals(expected)
 
     /**
-     * Verify [hmac] from [data] using provided [key].
+     * Verify if [data] matches [expected] hash using provided [key].
      */
     fun verifyHash(
         @NotNull data: ByteArray,
-        @NotNull hmac: String,
+        @NotNull expected: String,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key).toHexString())
+    ): Boolean = generateHash(data, key).toHexString().contentEquals(expected)
 
     /**
-     * Verify [hmac] from multiple [data] using provided [key].
+     * Verify if multiple [data] matches [expected] hash using provided [key].
      *
-     * [data] to be verified should be in the same order
+     * list of [data] to be verified should be in the same order
      * as the original data when the hash was generated.
      */
     fun verifyHash(
         @NotNull data: List<ByteArray>,
-        @NotNull hmac: String,
+        @NotNull expected: String,
         @NotNull key: ByteArray,
-    ): Boolean = hmac.contentEquals(generateHash(data, key).toHexString())
+    ): Boolean = generateHash(data, key).toHexString().contentEquals(expected)
 
     companion object {
         /** Set JCE security provider. */
