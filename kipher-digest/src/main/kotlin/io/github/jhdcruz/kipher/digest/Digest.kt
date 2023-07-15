@@ -55,42 +55,42 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
         generateHash(data).toHexString()
 
     /**
-     * Verify if [actual] data matches with [expected] hash.
+     * Verify if [data] matches the [expected] hash.
      */
     fun verifyHash(
-        @NotNull actual: ByteArray,
+        @NotNull data: ByteArray,
         @NotNull expected: ByteArray,
-    ): Boolean = generateHash(actual).contentEquals(expected)
+    ): Boolean = generateHash(data).contentEquals(expected)
 
     /**
-     * Verify if multiple [actual] data matches with [expected] hash.
+     * Verify if multiple [data] matches the [expected] hash.
      *
-     * The list of [actual] data to be verified should be in the same order
+     * The list of [data] to be verified should be in the same order
      * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull actual: List<ByteArray>,
+        @NotNull data: List<ByteArray>,
         @NotNull expected: ByteArray,
-    ): Boolean = generateHash(actual).contentEquals(expected)
+    ): Boolean = generateHash(data).contentEquals(expected)
 
     /**
-     * Verify if [actual] data matches with [expected] hash.
+     * Verify if [data] matches the [expected] hash.
      */
     fun verifyHash(
-        @NotNull actual: ByteArray,
+        @NotNull data: ByteArray,
         @NotNull expected: String,
-    ): Boolean = generateHash(actual).toHexString().contentEquals(expected)
+    ): Boolean = generateHash(data).toHexString().contentEquals(expected)
 
     /**
-     * Verify if multiple [actual] data matches with [expected] hash.
+     * Verify if multiple [data] matches the [expected] hash.
      *
-     * The list of [actual] data to be verified should be in the same order
+     * The list of [data] to be verified should be in the same order
      * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull actual: List<ByteArray>,
+        @NotNull data: List<ByteArray>,
         @NotNull expected: String,
-    ): Boolean = generateHash(actual).toHexString().contentEquals(expected)
+    ): Boolean = generateHash(data).toHexString().contentEquals(expected)
 
     companion object {
         /** Set JCE security provider. */
