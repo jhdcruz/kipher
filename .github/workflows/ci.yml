@@ -68,6 +68,8 @@ jobs:
             :kipher-coverage
             :kipher-common
             :kipher-aes
+            :kipher-digest
+            :kipher-mac
           gradle-build-configuration: |-
             compileClasspath
 
