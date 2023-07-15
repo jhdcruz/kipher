@@ -11,7 +11,6 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-
 internal class DigestTest {
 
     private val dataList: List<ByteArray> = listOf(
