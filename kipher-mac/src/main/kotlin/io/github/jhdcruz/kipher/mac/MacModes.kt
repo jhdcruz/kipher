@@ -24,6 +24,6 @@ enum class MacModes(val mode: String, val length: Int) {
     HmacTiger("HmacTiger", 64),
     HmacWhirlpool("HmacWhirlpool", 64),
 
-    Kmac128("KMAC128", 64),
-    Kmac256("KMAC256", 64),
+    Kmac128("KMAC128", 32),
+    Kmac256("KMAC256", 32),
 }
