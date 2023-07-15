@@ -1,52 +1,3 @@
-public abstract class io/github/jhdcruz/kipher/mac/Hmac : io/github/jhdcruz/kipher/common/KipherProvider {
-	public static final field Companion Lio/github/jhdcruz/kipher/mac/Hmac$Companion;
-	public synthetic fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public final fun generateHash (Ljava/util/List;[B)[B
-	public final fun generateHash ([B[B)[B
-	public final fun generateHashString (Ljava/util/List;[B)Ljava/lang/String;
-	public final fun generateHashString ([B[B)Ljava/lang/String;
-	public final fun generateKey (Lio/github/jhdcruz/kipher/mac/KeyModes;Ljava/lang/String;)[B
-	public final fun generateKey (Lio/github/jhdcruz/kipher/mac/MacModes;)[B
-	public final fun getIterations ()I
-	public final fun getMacMode ()Lio/github/jhdcruz/kipher/mac/MacModes;
-	public final fun getSaltLength ()I
-	public final fun setIterations (I)V
-	public final fun setSaltLength (I)V
-	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;[B)Z
-	public final fun verifyHash (Ljava/util/List;[B[B)Z
-	public final fun verifyHash ([BLjava/lang/String;[B)Z
-	public final fun verifyHash ([B[B[B)Z
-}
-
-public final class io/github/jhdcruz/kipher/mac/Hmac$Companion {
-	public final fun getIterations ()I
-	public final fun getProvider ()Ljava/security/Provider;
-	public final fun getSaltLength ()I
-	public final fun setIterations (I)V
-	public final fun setProvider (Ljava/security/Provider;)V
-	public final fun setSaltLength (I)V
-}
-
-public final class io/github/jhdcruz/kipher/mac/HmacMD5 : io/github/jhdcruz/kipher/mac/Hmac {
-	public fun <init> ()V
-}
-
-public final class io/github/jhdcruz/kipher/mac/HmacSHA224 : io/github/jhdcruz/kipher/mac/Hmac {
-	public fun <init> ()V
-}
-
-public final class io/github/jhdcruz/kipher/mac/HmacSHA256 : io/github/jhdcruz/kipher/mac/Hmac {
-	public fun <init> ()V
-}
-
-public final class io/github/jhdcruz/kipher/mac/HmacSHA384 : io/github/jhdcruz/kipher/mac/Hmac {
-	public fun <init> ()V
-}
-
-public final class io/github/jhdcruz/kipher/mac/HmacSHA512 : io/github/jhdcruz/kipher/mac/Hmac {
-	public fun <init> ()V
-}
-
 public class io/github/jhdcruz/kipher/mac/KeyModes : java/lang/Enum {
 	public static final field PBKDF2WithHmacSHA224 Lio/github/jhdcruz/kipher/mac/KeyModes;
 	public static final field PBKDF2WithHmacSHA256 Lio/github/jhdcruz/kipher/mac/KeyModes;
@@ -58,12 +9,49 @@ public class io/github/jhdcruz/kipher/mac/KeyModes : java/lang/Enum {
 	public static fun values ()[Lio/github/jhdcruz/kipher/mac/KeyModes;
 }
 
+public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/common/KipherProvider {
+	public static final field Companion Lio/github/jhdcruz/kipher/mac/Mac$Companion;
+	public fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;)V
+	public final fun generateHash (Ljava/util/List;[B)[B
+	public final fun generateHash ([B[B)[B
+	public final fun generateHashString (Ljava/util/List;[B)Ljava/lang/String;
+	public final fun generateHashString ([B[B)Ljava/lang/String;
+	public final fun generateKey ()[B
+	public final fun generateKey (Lio/github/jhdcruz/kipher/mac/KeyModes;Ljava/lang/String;)[B
+	public final fun getIterations ()I
+	public final fun getMacMode ()Lio/github/jhdcruz/kipher/mac/MacModes;
+	public final fun getSaltLength ()I
+	public final fun setIterations (I)V
+	public final fun setSaltLength (I)V
+	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;[B)Z
+	public final fun verifyHash (Ljava/util/List;[B[B)Z
+	public final fun verifyHash ([BLjava/lang/String;[B)Z
+	public final fun verifyHash ([B[B[B)Z
+}
+
+public final class io/github/jhdcruz/kipher/mac/Mac$Companion {
+	public final fun getIterations ()I
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun getSaltLength ()I
+	public final fun setIterations (I)V
+	public final fun setProvider (Ljava/security/Provider;)V
+	public final fun setSaltLength (I)V
+}
+
 public class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
+	public static final field HmacGOST Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacMD5 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacRIPEMD128 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacRIPEMD160 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA1 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacSHA224 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacSHA256 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacSHA384 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacSHA512 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacTiger Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacWhirlpool Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Kmac128 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Kmac256 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public final fun getLength ()I
 	public final fun getMode ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/mac/MacModes;

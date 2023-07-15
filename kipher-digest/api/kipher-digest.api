@@ -18,6 +18,14 @@ public final class io/github/jhdcruz/kipher/digest/Digest$Companion {
 }
 
 public class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
+	public static final field BLAKE_2B_160 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2B_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2B_384 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2B_512 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2S_128 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2S_160 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_2S_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
+	public static final field BLAKE_3_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
 	public static final field KECCAK_224 Lio/github/jhdcruz/kipher/digest/DigestModes;
 	public static final field KECCAK_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
 	public static final field KECCAK_288 Lio/github/jhdcruz/kipher/digest/DigestModes;
