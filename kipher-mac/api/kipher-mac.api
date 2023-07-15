@@ -18,6 +18,8 @@ public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/c
 	public final fun generateHashString ([B[B)Ljava/lang/String;
 	public final fun generateKey ()[B
 	public final fun generateKey (Lio/github/jhdcruz/kipher/mac/KeyModes;Ljava/lang/String;)[B
+	public final fun generateKey (Ljava/lang/Integer;)[B
+	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/mac/Mac;Ljava/lang/Integer;ILjava/lang/Object;)[B
 	public final fun getIterations ()I
 	public final fun getMacMode ()Lio/github/jhdcruz/kipher/mac/MacModes;
 	public final fun getSaltLength ()I
