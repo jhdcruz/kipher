@@ -11,7 +11,8 @@ but tries to offer customizablility as much as possible.
 
 ### Features:
 
-- [Bouncy Castle](https://bouncycastle.org/) Security Provider <sup>([Configurable](#using_different_security_provider))</sup>
+- [Bouncy Castle](https://bouncycastle.org/) Security
+  Provider <sup>([Configurable](#using-different-security-provider))</sup>
 
 - [AES](./kipher-aes/README.md) (GCM, CCM, CBC, etc.)
 - [Message Digests](./kipher-digest/README.md) (MD5, SHA, SHA3, etc.)
@@ -48,7 +49,7 @@ Minimum requirements to use the library:
 ### Gradle
 
 > **Early Preview:**
-> 
+>
 > Currently only available in [snapshot](#snapshots) version.
 
 ```kotlin
@@ -62,6 +63,7 @@ implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & 
 > Currently only available in [snapshot](#snapshots) version.
 
 ```xml
+
 <dependency>
     <groupId>io.github.jhdcruz</groupId>
     <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
@@ -91,6 +93,7 @@ dependencies {
 #### Maven
 
 ```xml
+
 <repositories>
     <repository>
         <id>sonatype-snapshots</id>
