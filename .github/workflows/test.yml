@@ -40,14 +40,14 @@ jobs:
         run: ./gradlew clean test --stacktrace
 
       - name: Codacy coverage report
-        if: matrix.os == 'ubuntu-latest' && matrix.java == 19 && github.ref == 'refs/heads/main'
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: codacy/codacy-coverage-reporter-action@v1
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: ./kipher-coverage/build/reports/jacoco/testCodeCoverageReport/testCodeCoverageReport.xml
 
       - name: Codecov coverage report
-        if: matrix.os == 'ubuntu-latest' && matrix.java == 19 && github.ref == 'refs/heads/main'
+        if: matrix.os == 'ubuntu-latest' && matrix.java == 19
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

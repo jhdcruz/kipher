@@ -1,3 +1,8 @@
+public final class io/github/jhdcruz/kipher/common/Format {
+	public static final field INSTANCE Lio/github/jhdcruz/kipher/common/Format;
+	public final fun toHexString ([B)Ljava/lang/String;
+}
+
 public final class io/github/jhdcruz/kipher/common/KipherException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun <init> (Ljava/lang/Throwable;)V

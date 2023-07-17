@@ -11,23 +11,14 @@ but tries to offer customizablility as much as possible.
 
 ### Features:
 
-#### Encryption
+- [Bouncy Castle](https://bouncycastle.org/) Security
+  Provider <sup>([Configurable](#using-different-security-provider))</sup>
 
-- [Bouncy Castle](https://bouncycastle.org/) Security Provider
-
-- AES
-    - `AES/GCM/NoPadding` _(Recommended)_
-    - `AES/CCM/NoPadding`
-    - `AES/CBC/PKCS7Padding`
-    - `AES/CTR/NoPadding`
-    - `AES/CFB/NoPadding`
+- [AES](./kipher-aes/README.md) (GCM, CCM, CBC, etc.)
+- [Message Digests](./kipher-digest/README.md) (MD5, SHA, SHA3, etc.)
+- [MACs](./kipher-mac/README.md) (HMAC, etc.)
 
 - and more to be implemented...
-
-> **Note**
->
-> If you don't know which one to use, stick with the `recommended`
-> based on your chosen encryption method.
 
 ## Requirements
 
@@ -51,12 +42,14 @@ Minimum requirements to use the library:
 | Modules                                                                                                                                                                                                                                                           | Description                                          |
 |:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------|
 | ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-common?style=flat-square&logo=apachemaven&label=kipher-common&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-common) | Common utilities for the library. **(Internal use)** |
-| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-aes?style=flat-square&logo=apachemaven&label=kipher-aes&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-aes)          | AES encryption utilities.                            |
+| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-aes?style=flat-square&logo=apachemaven&label=kipher-aes&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-aes)          | Data encryption using AES.                           |
+| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest) | Cryptographic hash functions (SHAs, MD5s, etc.).     |
+| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=flat-square&logo=apachemaven&label=kipher-mac&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac)          | Data integrity and authentication using MACs.        |
 
 ### Gradle
 
 > **Early Preview:**
-> 
+>
 > Currently only available in [snapshot](#snapshots) version.
 
 ```kotlin
@@ -70,11 +63,16 @@ implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & 
 > Currently only available in [snapshot](#snapshots) version.
 
 ```xml
-<dependency>
-    <groupId>io.github.jhdcruz</groupId>
-    <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-    <version>$version</version>  <!-- Replace $version -->
-</dependency>
+
+<depenedencies>
+    <!-- ... -->
+
+    <dependency>
+        <groupId>io.github.jhdcruz</groupId>
+        <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
+        <version>$version</version>  <!-- Replace $version -->
+    </dependency>
+</depenedencies>
 ```
 
 ### Snapshots
@@ -99,12 +97,27 @@ dependencies {
 #### Maven
 
 ```xml
-<repositories>
-    <repository>
-        <id>sonatype-snapshots</id>
-        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-</repositories>
+
+<project>
+    <!-- ... -->
+
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- ... -->
+
+        <dependency>
+            <groupId>io.github.jhdcruz</groupId>
+            <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
+            <version>$version</version>  <!-- Replace $version -->
+        </dependency>
+    </dependencies>
+</project>
 ```
 
 > **Warning**
@@ -153,11 +166,11 @@ class EncryptionTest {
         val encrypted = gcmEncryption.encrypt(
             data = message,
             aad = aad,
-        ) // returns Map<String, ByteArray> of [data, key]
+        ) // returns Map<String, ByteArray>
 
         val decrypted = gcmEncryption.decrypt(encrypted)
 
-        // or
+        // or, individually
 
         val decrypted = gcmEncryption.decrypt(
             encrypted = encrypted.getValue("data"),
@@ -187,7 +200,7 @@ public class Main {
 
         byte[] val = encryptionUtils.decrypt(encrypted);
 
-        // or
+        // or, individually
 
         byte[] val = encryptionUtils.decrypt(
             encrypted.get("data"),
@@ -225,28 +238,120 @@ class EncryptionTest {
 }
 ```
 
-#### Methods
+### Using different security provider
 
-There are 2 methods you'll primarily use:
+Default security provider is set to [Bouncy Castle](https://bouncycastle.org/).
 
-- `encrypt`
-- `decrypt`
+> **Note**
+>
+> Changing provider has to be done **before** using any of the library
+> functions/methods.
 
-Easy and straightforward methods, but relies on internal implementation.
+#### Module-specific Provider
 
-**You cannot decrypt a data that was encrypted by a different method or library**.
-Unless they use the same internal implementation as this library.
+##### Kotlin
 
-##### Advanced Usage/Methods
+```kotlin
+import io.github.jhdcruz.kipher.aes.AesEncryption
+import io.github.jhdcruz.kipher.aes.GcmEncryption
 
-- `encryptBare`
-- `decryptBare`
+import java.security.Provider
+import java.security.Security
 
-Requires all the necessary data for the encryption/decryption process,
-such as IV, key, AADs, whatever that is applicable.
+class Main {
+    fun main() {
+        // must be declared only once before using any AES methods 
+        // or at the beginning of the app's main method or such.
+        val provider: Provider = Security.getProvider("SunJCE")
+        AesEncryption.provider = provider
 
-**You can decrypt data that was encrypted by a different method or library**.
-Unless they involve a different or custom implementation of the encryption/decryption process.
+        val encryptionUtils = GcmEncryption()
+        // and so on, so forth
+    }
+}
+```
+
+##### Java (Non-kotlin)
+
+```java
+import io.github.jhdcruz.kipher.aes.AesEncryption;
+import io.github.jhdcruz.kipher.aes.GcmEncryption;
+
+import java.security.Provider;
+import java.security.Security;
+
+// For other JVM-based languages,
+// adjust syntax based on language
+
+class Main {
+    public static void main(String[] args) {
+        // must be declared only once before using any AES methods 
+        // or at the beginning of the app's main method or such.
+        Provider provider = Security.getProvider("SunJCE");
+        AesEncryption.Companion.setProvider(provider);
+
+        GcmEncryption encryptionUtils = GcmEncryption();
+        // and so on, so forth
+    }
+}
+```
+
+#### Global Provider
+
+If desired, it is also possible to change provider that affects the entire library
+modules.
+
+##### Kotlin
+
+```kotlin
+import io.github.jhdcruz.kipher.aes.GcmEncryption
+import io.github.jhdcruz.kipher.common.KipherProvider
+
+import java.security.Provider
+import java.security.Security
+
+class Main {
+    fun main() {
+        // must be declared only once before using any library functions
+        // or at the beginning of the app's main method or such.
+        val provider: Provider = Security.getProvider("SunJCE")
+        KipherProvider.provider = provider
+
+        val encryptionUtils = GcmEncryption()
+        // and so on, so forth
+    }
+}
+```
+
+##### Java (Non-kotlin)
+
+```java
+import io.github.jhdcruz.kipher.aes.GcmEncryption;
+import io.github.jhdcruz.kipher.common.KipherProvider;
+
+import java.security.Provider;
+import java.security.Security;
+
+// For other JVM-based languages,
+// adjust syntax based on language
+
+class Main {
+    public static void main(String[] args) {
+        // must be declared only once before using any AES methods 
+        // or at the beginning of the app's main method or such.
+        Provider provider = Security.getProvider("SunJCE");
+        KipherProvider.Companion.setProvider(provider);
+
+        GcmEncryption encryptionUtils = GcmEncryption();
+        // and so on, so forth
+    }
+}
+```
+
+> **Warning**
+>
+> `provider` value is tied to the class itself, keep in mind when using the library
+> functions/methods in parallel with different providers.
 
 ## Compatibility
 
@@ -254,8 +359,15 @@ I strive for backward-compatibility **as much as possible**, but due to the natu
 being a cryptographic library, even a very small change can introduce a breaking change incompatible
 with previous versions.
 
-The library will follow semantic versioning where breaking changes bumps the major version,
-this way developers know that something might not work should they update.
+### Versioning
+
+The library will follow semantic versioning where every breaking changes bumps the major version
+regardless of how small the change is, this way developers know that something will not work should
+they update.
+
+> **Note**
+>
+> Each modules are independently versioned to avoid version bumps between unrelated module/s.
 
 ## Contributing
 

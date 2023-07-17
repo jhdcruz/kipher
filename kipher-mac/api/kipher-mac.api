@@ -1,0 +1,43 @@
+public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/common/KipherProvider {
+	public static final field Companion Lio/github/jhdcruz/kipher/mac/Mac$Companion;
+	public fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;)V
+	public final fun generateHash (Ljava/util/List;[B)[B
+	public final fun generateHash ([B[B)[B
+	public final fun generateHashString (Ljava/util/List;[B)Ljava/lang/String;
+	public final fun generateHashString ([B[B)Ljava/lang/String;
+	public final fun generateKey ()[B
+	public final fun generateKey (Ljava/lang/Integer;)[B
+	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/mac/Mac;Ljava/lang/Integer;ILjava/lang/Object;)[B
+	public final fun getMacMode ()Lio/github/jhdcruz/kipher/mac/MacModes;
+	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;[B)Z
+	public final fun verifyHash (Ljava/util/List;[B[B)Z
+	public final fun verifyHash ([BLjava/lang/String;[B)Z
+	public final fun verifyHash ([B[B[B)Z
+}
+
+public final class io/github/jhdcruz/kipher/mac/Mac$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
+}
+
+public class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
+	public static final field HmacGOST Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacMD5 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacRIPEMD128 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacRIPEMD160 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA1 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA224 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA256 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA384 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacSHA512 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacTiger Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field HmacWhirlpool Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Kmac128 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Kmac256 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Poly1305 Lio/github/jhdcruz/kipher/mac/MacModes;
+	public final fun getLength ()I
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static fun values ()[Lio/github/jhdcruz/kipher/mac/MacModes;
+}
+
