@@ -26,4 +26,6 @@ enum class MacModes(val mode: String, val length: Int) {
 
     Kmac128("KMAC128", 32),
     Kmac256("KMAC256", 32),
+
+    Poly1305("Poly1305", 32),
 }
