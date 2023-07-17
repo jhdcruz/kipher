@@ -13,9 +13,8 @@ import org.jetbrains.annotations.Nullable
 import java.security.InvalidKeyException
 import java.security.Provider
 import java.security.SecureRandom
+import javax.crypto.KeyGenerator
 import javax.crypto.Mac
-import javax.crypto.SecretKeyFactory
-import javax.crypto.spec.PBEKeySpec
 import javax.crypto.spec.SecretKeySpec
 
 /**
@@ -29,62 +28,17 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     private val randomize = SecureRandom()
 
     /**
-     * Allows you to set custom salt length per instance.
-     */
-    var saltLength: Int = Companion.saltLength
-
-    /**
-     * Set custom iterations per instance.
-     */
-    var iterations: Int = Companion.iterations
-
-    private fun generateSalt(): ByteArray {
-        return ByteArray(saltLength).also {
-            randomize.nextBytes(it)
-        }
-    }
-
-    /**
-     * Generate a password-based encryption key
-     * based on [keyMode] and [password].
-     */
-    fun generateKey(
-        @NotNull keyMode: KeyModes,
-        @Nullable password: String,
-    ): ByteArray {
-        val keyFactory = SecretKeyFactory.getInstance(keyMode.mode)
-        val salt = generateSalt()
-
-        val keySpec = PBEKeySpec(
-            password.toCharArray(),
-            salt,
-            iterations,
-            keyMode.length,
-        )
-
-        val secretKey = keyFactory.generateSecret(keySpec)
-
-        return secretKey.encoded
-    }
-
-    /**
      * Generate a key based on current mode,
      * or by providing a custom [keyLength].
-     *
-     * For using PBKDF2 key with HMACs, provide [KeyModes] instead.
      */
     @JvmOverloads
     fun generateKey(@Nullable keyLength: Int? = null): ByteArray {
-        val key = ByteArray(keyLength ?: mode.length).also {
-            randomize.nextBytes(it)
+        val keyGenerator = KeyGenerator.getInstance(mode)
+
+        return keyGenerator.run {
+            init(keyLength ?: mode.length, randomize)
+            generateKey().encoded
         }
-
-        val keySpec = SecretKeySpec(
-            key,
-            mode,
-        )
-
-        return keySpec.encoded
     }
 
     /**
@@ -111,7 +65,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
 
             mac.doFinal()
         } catch (e: InvalidKeyException) {
-            throw KipherException("inappropriate key for initializing MAC", e)
+            throw KipherException(e)
         } catch (e: IllegalStateException) {
             throw KipherException(e)
         }
@@ -192,21 +146,5 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     companion object {
         /** Set JCE security provider. */
         var provider: Provider? = null
-
-        /**
-         * Allows you to set custom salt length.
-         *
-         * Default: `32`
-         */
-        @Suppress("MagicNumber")
-        var saltLength: Int = 32
-
-        /**
-         *  Set custom iterations.
-         *
-         *  Default: `250,000`
-         */
-        @Suppress("MagicNumber")
-        var iterations: Int = 250_000
     }
 }

@@ -52,16 +52,16 @@ internal class MacTest {
     @ParameterizedTest
     @EnumSource(MacModes::class)
     fun `test different hash modes`(mode: MacModes) {
-        val hmac = Mac(mode)
-        val key = hmac.generateKey()
+        val mac = Mac(mode)
+        val key = mac.generateKey()
 
-        val actualBytes = hmac.generateHashString(dataList, key)
+        val actualBytes = mac.generateHashString(dataList, key)
 
         // print output and length in json like form
         println("$mode = $actualBytes, length = ${actualBytes.length}")
 
         assertTrue {
-            hmac.verifyHash(dataList, actualBytes, key)
+            mac.verifyHash(dataList, actualBytes, key)
         }
     }
 }
