@@ -64,11 +64,15 @@ implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & 
 
 ```xml
 
-<dependency>
-    <groupId>io.github.jhdcruz</groupId>
-    <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-    <version>$version</version>  <!-- Replace $version -->
-</dependency>
+<depenedencies>
+    <!-- ... -->
+
+    <dependency>
+        <groupId>io.github.jhdcruz</groupId>
+        <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
+        <version>$version</version>  <!-- Replace $version -->
+    </dependency>
+</depenedencies>
 ```
 
 ### Snapshots
@@ -94,12 +98,26 @@ dependencies {
 
 ```xml
 
-<repositories>
-    <repository>
-        <id>sonatype-snapshots</id>
-        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-    </repository>
-</repositories>
+<project>
+    <!-- ... -->
+
+    <repositories>
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- ... -->
+
+        <dependency>
+            <groupId>io.github.jhdcruz</groupId>
+            <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
+            <version>$version</version>  <!-- Replace $version -->
+        </dependency>
+    </dependencies>
+</project>
 ```
 
 > **Warning**
@@ -148,11 +166,11 @@ class EncryptionTest {
         val encrypted = gcmEncryption.encrypt(
             data = message,
             aad = aad,
-        ) // returns Map<String, ByteArray> of [data, key]
+        ) // returns Map<String, ByteArray>
 
         val decrypted = gcmEncryption.decrypt(encrypted)
 
-        // or
+        // or, individually
 
         val decrypted = gcmEncryption.decrypt(
             encrypted = encrypted.getValue("data"),
@@ -182,7 +200,7 @@ public class Main {
 
         byte[] val = encryptionUtils.decrypt(encrypted);
 
-        // or
+        // or, individually
 
         byte[] val = encryptionUtils.decrypt(
             encrypted.get("data"),
@@ -223,8 +241,6 @@ class EncryptionTest {
 ### Using different security provider
 
 Default security provider is set to [Bouncy Castle](https://bouncycastle.org/).
-
-However it is possible to change the provider to a different one:
 
 > **Note**
 >
@@ -345,13 +361,13 @@ with previous versions.
 
 ### Versioning
 
-> **Note**
->
-> Each modules are independently versioned to avoid version bumps between unrelated module/s.
-
 The library will follow semantic versioning where every breaking changes bumps the major version
 regardless of how small the change is, this way developers know that something will not work should
 they update.
+
+> **Note**
+>
+> Each modules are independently versioned to avoid version bumps between unrelated module/s.
 
 ## Contributing
 
