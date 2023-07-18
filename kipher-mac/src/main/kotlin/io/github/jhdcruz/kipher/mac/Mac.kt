@@ -33,9 +33,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      */
     @JvmOverloads
     fun generateKey(@Nullable keyLength: Int? = null): ByteArray {
-        val keyGenerator = KeyGenerator.getInstance(mode)
-
-        return keyGenerator.run {
+        return KeyGenerator.getInstance(mode).run {
             init(keyLength ?: mode.length, randomize)
             generateKey().encoded
         }
