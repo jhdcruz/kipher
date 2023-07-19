@@ -4,7 +4,6 @@ public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhd
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public abstract fun concat (Ljava/util/Map;)[B
 	public abstract fun extract ([B)Ljava/util/Map;
-	public final fun generateIv (I)[B
 	public final fun generateKey (I)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
 }
