@@ -35,6 +35,7 @@ include(
     "kipher-coverage",
     "kipher-common",
     "kipher-aes",
+    "kipher-chacha",
     "kipher-digest",
     "kipher-mac",
 )
