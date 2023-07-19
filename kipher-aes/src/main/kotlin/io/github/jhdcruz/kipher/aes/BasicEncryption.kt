@@ -171,7 +171,7 @@ sealed class BasicEncryption(aesMode: AesModes) : AesEncryption(aesMode) {
             val encryptedSize = this.values.sumOf { it.size }
             val context = this // reference inside run
 
-            // concatenate iv, cipher text, and aad
+            // concatenate iv, cipher text
             ByteBuffer.allocate(encryptedSize).run {
                 put(context["iv"])
                 put(context["data"])
