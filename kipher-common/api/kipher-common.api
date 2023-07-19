@@ -3,6 +3,21 @@ public final class io/github/jhdcruz/kipher/common/Format {
 	public final fun toHexString ([B)Ljava/lang/String;
 }
 
+public abstract class io/github/jhdcruz/kipher/common/KipherEncryption : io/github/jhdcruz/kipher/common/KipherProvider {
+	public static final field Companion Lio/github/jhdcruz/kipher/common/KipherEncryption$Companion;
+	public fun <init> (Ljava/lang/String;Ljava/security/Provider;)V
+	public abstract fun concat (Ljava/util/Map;)[B
+	public abstract fun extract ([B)Ljava/util/Map;
+	public final fun generateIv (I)[B
+	public final fun generateKey (I)[B
+	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/common/KipherEncryption;IILjava/lang/Object;)[B
+}
+
+public final class io/github/jhdcruz/kipher/common/KipherEncryption$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
+}
+
 public final class io/github/jhdcruz/kipher/common/KipherException : java/lang/RuntimeException {
 	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
 	public fun <init> (Ljava/lang/Throwable;)V

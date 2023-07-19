@@ -1,11 +1,6 @@
-public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhdcruz/kipher/common/KipherProvider {
+public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhdcruz/kipher/common/KipherEncryption {
 	public static final field Companion Lio/github/jhdcruz/kipher/aes/AesEncryption$Companion;
-	public static final field DEFAULT_KEY_SIZE I
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public abstract fun concat (Ljava/util/Map;)[B
-	public abstract fun extract ([B)Ljava/util/Map;
-	public final fun generateKey (I)[B
-	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
 }
 
 public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {

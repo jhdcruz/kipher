@@ -1,0 +1,37 @@
+public final class io/github/jhdcruz/kipher/chacha/ChaCha20 : io/github/jhdcruz/kipher/chacha/ChaChaEncryption {
+	public fun <init> ()V
+}
+
+public abstract class io/github/jhdcruz/kipher/chacha/ChaChaEncryption : io/github/jhdcruz/kipher/common/KipherEncryption {
+	public static final field Companion Lio/github/jhdcruz/kipher/chacha/ChaChaEncryption$Companion;
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/chacha/ChaChaModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun concat (Ljava/util/Map;)[B
+	public final fun decrypt (Ljava/util/Map;)[B
+	public final fun decrypt ([B[B)[B
+	public final fun decryptBare ([B[B[B)[B
+	public final fun encrypt ([B)Ljava/util/Map;
+	public final fun encrypt ([B[B)Ljava/util/Map;
+	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/chacha/ChaChaEncryption;[B[BILjava/lang/Object;)Ljava/util/Map;
+	public final fun encryptBare ([B[B[B)Ljava/util/Map;
+	public fun extract ([B)Ljava/util/Map;
+	public final fun generateIv ()[B
+}
+
+public final class io/github/jhdcruz/kipher/chacha/ChaChaEncryption$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
+}
+
+public class io/github/jhdcruz/kipher/chacha/ChaChaModes : java/lang/Enum {
+	public static final field ChaCha20 Lio/github/jhdcruz/kipher/chacha/ChaChaModes;
+	public static final field ChaChaPoly Lio/github/jhdcruz/kipher/chacha/ChaChaModes;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/chacha/ChaChaModes;
+	public static fun values ()[Lio/github/jhdcruz/kipher/chacha/ChaChaModes;
+}
+
+public final class io/github/jhdcruz/kipher/chacha/ChaChaPoly : io/github/jhdcruz/kipher/chacha/ChaChaEncryption {
+	public fun <init> ()V
+	public final fun extractWithMac ([B)Ljava/util/Map;
+}
+
