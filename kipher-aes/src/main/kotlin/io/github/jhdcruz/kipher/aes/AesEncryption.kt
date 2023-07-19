@@ -3,14 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-@file:JvmSynthetic
-
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.common.KipherException
 import io.github.jhdcruz.kipher.common.KipherProvider
 import org.jetbrains.annotations.NotNull
-import java.security.InvalidParameterException
 import java.security.Provider
 import java.security.SecureRandom
 import javax.crypto.Cipher
@@ -36,7 +32,7 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
     /**
      * Generate a random IV based on [length].
      */
-    fun generateIv(@NotNull length: Int): ByteArray {
+    internal fun generateIv(@NotNull length: Int): ByteArray {
         return ByteArray(length).also {
             randomize.nextBytes(it)
         }
@@ -50,15 +46,10 @@ sealed class AesEncryption(@NotNull aesMode: AesModes) : KipherProvider(provider
      *
      * `encrypt()` functions already generates a new key for each encryption.
      */
-    @Throws(KipherException::class)
     fun generateKey(@NotNull keySize: Int = DEFAULT_KEY_SIZE): ByteArray {
-        return try {
-            keyGenerator.run {
-                init(keySize, randomize)
-                generateKey().encoded
-            }
-        } catch (e: InvalidParameterException) {
-            throw KipherException("Invalid key size given", e)
+        return keyGenerator.run {
+            init(keySize, randomize)
+            generateKey().encoded
         }
     }
 
