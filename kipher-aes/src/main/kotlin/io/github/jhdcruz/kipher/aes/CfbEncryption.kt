@@ -7,7 +7,5 @@ package io.github.jhdcruz.kipher.aes
 
 /**
  * AES Encryption using CFB mode.
- *
- * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  */
-class CfbEncryption : BasicEncryption(AesModes.CFB)
+class CfbEncryption : AesBasic(AesModes.Basic.CFB)

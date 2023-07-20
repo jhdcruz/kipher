@@ -8,7 +8,7 @@ package io.github.jhdcruz.kipher.aes
 /**
  * Sample AES parameters for testing.
  */
-internal object AesParams {
+internal object AesTestParams {
     val message = "message".encodeToByteArray()
     val aad = "metadata".encodeToByteArray()
     val invalidKey = "invalid-key".encodeToByteArray()

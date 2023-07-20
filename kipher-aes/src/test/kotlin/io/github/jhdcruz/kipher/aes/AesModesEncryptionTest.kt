@@ -1,8 +1,8 @@
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.aes.AesParams.aad
-import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
-import io.github.jhdcruz.kipher.aes.AesParams.message
+import io.github.jhdcruz.kipher.aes.AesTestParams.aad
+import io.github.jhdcruz.kipher.aes.AesTestParams.decodeToString
+import io.github.jhdcruz.kipher.aes.AesTestParams.message
 import io.github.jhdcruz.kipher.common.KipherProvider
 import kotlin.test.Test
 import kotlin.test.assertEquals

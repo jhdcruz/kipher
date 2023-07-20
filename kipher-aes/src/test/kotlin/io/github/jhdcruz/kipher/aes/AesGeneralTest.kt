@@ -8,25 +8,13 @@ package io.github.jhdcruz.kipher.aes
 import org.junit.jupiter.api.RepeatedTest
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
-import kotlin.test.assertTrue
 
 internal class AesGeneralTest {
-
-    @Test
-    fun `test if default provider is BouncyCastle`() {
-        val gcmEncryption = GcmEncryption()
-        val currentProvider = gcmEncryption.cipher.provider.toString()
-
-        assertTrue {
-            currentProvider.contains("BC", ignoreCase = true)
-        }
-    }
-
     @ParameterizedTest
     @CsvSource(
+        // key length, bits
         "16, 128",
         "24, 192",
         "32, 256",
@@ -35,7 +23,6 @@ internal class AesGeneralTest {
         val cbcEncryption = CbcEncryption()
         val key = cbcEncryption.generateKey(keyLength)
 
-        // 32 = 256-bit key. 16 = 128-bit
         assertEquals(bits, key.size)
     }
 

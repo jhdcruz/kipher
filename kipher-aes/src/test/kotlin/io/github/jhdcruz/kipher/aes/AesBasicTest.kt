@@ -1,8 +1,8 @@
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
-import io.github.jhdcruz.kipher.aes.AesParams.invalidKey
-import io.github.jhdcruz.kipher.aes.AesParams.message
+import io.github.jhdcruz.kipher.aes.AesTestParams.decodeToString
+import io.github.jhdcruz.kipher.aes.AesTestParams.invalidKey
+import io.github.jhdcruz.kipher.aes.AesTestParams.message
 import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest

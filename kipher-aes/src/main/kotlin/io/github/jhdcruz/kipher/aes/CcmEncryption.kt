@@ -7,7 +7,5 @@ package io.github.jhdcruz.kipher.aes
 
 /**
  * AES Encryption using CCM mode.
- *
- * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  */
-class CcmEncryption : AuthenticatedEncryption(AesModes.CCM)
+class CcmEncryption : AesAEAD(AesModes.AEAD.CCM)

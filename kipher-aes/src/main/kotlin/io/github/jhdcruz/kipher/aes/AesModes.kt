@@ -5,14 +5,23 @@
 
 package io.github.jhdcruz.kipher.aes
 
-/** Available AES encryption [mode]s. */
-enum class AesModes(val mode: String) {
-    CBC("AES/CBC/PKCS5Padding"), // Compatibility with SunJCE
-    CBC7("AES/CBC/PKCS7Padding"),
-    CTR("AES/CTR/NoPadding"),
-    CFB("AES/CFB/NoPadding"),
+/** Available AES encryption modes. */
+enum class AesModes {
+    ;
 
-    // Authenticated encryption modes.
-    GCM("AES/GCM/NoPadding"),
-    CCM("AES/CCM/NoPadding"),
+    /** AES Basic encryption modes. */
+    enum class Basic(val mode: String) {
+        /** Compatibility with SunJCE's PCKS7 Padding. */
+        CBC("AES/CBC/PKCS5Padding"),
+
+        CBC7("AES/CBC/PKCS7Padding"),
+        CTR("AES/CTR/NoPadding"),
+        CFB("AES/CFB/NoPadding"),
+    }
+
+    /** AES Authenticated encryption modes. */
+    enum class AEAD(val mode: String) {
+        GCM("AES/GCM/NoPadding"),
+        CCM("AES/CCM/NoPadding"),
+    }
 }

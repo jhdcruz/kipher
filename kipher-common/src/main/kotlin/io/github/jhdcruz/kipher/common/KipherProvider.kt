@@ -20,7 +20,6 @@ import java.security.Security
 open class KipherProvider @JvmOverloads constructor(
     @Nullable provider: Provider? = null,
 ) {
-
     private var currentProvider = provider ?: Companion.provider
 
     init {
@@ -38,7 +37,11 @@ open class KipherProvider @JvmOverloads constructor(
             Security.setProperty("crypto.policy", "unlimited")
         } catch (e: SecurityException) {
             throw KipherException(
-                "Error setting up crypto policy.\n" + "Please make sure you have the unlimited strength policy files installed: " + "https://www.oracle.com/java/technologies/javase-jce-all-downloads.html",
+                """
+                Error setting up crypto policy.
+                Please make sure you have the unlimited strength policy files installed:
+                https://www.oracle.com/java/technologies/javase-jce-all-downloads.html
+                """,
                 e,
             )
         }

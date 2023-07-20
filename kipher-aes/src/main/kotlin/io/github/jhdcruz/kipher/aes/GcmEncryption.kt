@@ -7,7 +7,5 @@ package io.github.jhdcruz.kipher.aes
 
 /**
  * AES Encryption using GCM mode.
- *
- * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  */
-class GcmEncryption : AuthenticatedEncryption(AesModes.GCM)
+class GcmEncryption : AesAEAD(AesModes.AEAD.GCM)

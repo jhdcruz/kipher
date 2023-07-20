@@ -5,12 +5,11 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.aes.AesParams.aad
-import io.github.jhdcruz.kipher.aes.AesParams.decodeToString
-import io.github.jhdcruz.kipher.aes.AesParams.invalidKey
-import io.github.jhdcruz.kipher.aes.AesParams.message
+import io.github.jhdcruz.kipher.aes.AesTestParams.aad
+import io.github.jhdcruz.kipher.aes.AesTestParams.decodeToString
+import io.github.jhdcruz.kipher.aes.AesTestParams.invalidKey
+import io.github.jhdcruz.kipher.aes.AesTestParams.message
 import io.github.jhdcruz.kipher.common.KipherException
-import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -84,25 +83,6 @@ internal class AesAuthenticatedTest {
         }
     }
 
-    @Test
-    fun `test authenticated encryption with same AAD as aadSeparator`() {
-        val gcmEncryption = GcmEncryption()
-
-        val aad = gcmEncryption.aadSeparator
-
-        val encrypted = gcmEncryption.encrypt(
-            data = message,
-            aad = aad,
-        )
-
-        assertDoesNotThrow {
-            gcmEncryption.decrypt(
-                encrypted = encrypted.getValue("data"),
-                key = encrypted.getValue("key"),
-            )
-        }
-    }
-
     @ParameterizedTest
     @ValueSource(ints = [128, 192, 256])
     fun `test authenticated encryption with valid custom key size`(keySize: Int) {
@@ -114,6 +94,7 @@ internal class AesAuthenticatedTest {
         val decrypted = gcmEncryption.decrypt(
             encrypted = encrypted["data"]!!,
             key = encrypted["key"]!!,
+            aad = encrypted["aad"]!!,
         )
 
         assertEquals(decodeToString(message), decodeToString(decrypted))

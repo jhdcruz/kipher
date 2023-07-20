@@ -7,7 +7,5 @@ package io.github.jhdcruz.kipher.aes
 
 /**
  * AES Encryption using CTR mode.
- *
- * To support most use-cases, all returned data are raw [ByteArray]s instead of [String]s.
  */
-class CtrEncryption : BasicEncryption(AesModes.CTR)
+class CtrEncryption : AesBasic(AesModes.Basic.CTR)
