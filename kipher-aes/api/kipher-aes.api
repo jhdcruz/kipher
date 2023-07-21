@@ -1,86 +1,65 @@
-public abstract class io/github/jhdcruz/kipher/aes/AesEncryption : io/github/jhdcruz/kipher/common/KipherProvider {
-	public static final field Companion Lio/github/jhdcruz/kipher/aes/AesEncryption$Companion;
-	public static final field DEFAULT_KEY_SIZE I
-	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public abstract fun concat (Ljava/util/Map;)[B
-	public abstract fun extract ([B)Ljava/util/Map;
-	public final fun generateKey (I)[B
-	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/aes/AesEncryption;IILjava/lang/Object;)[B
+public abstract class io/github/jhdcruz/kipher/aes/AesAEAD : io/github/jhdcruz/kipher/encryption/symmetric/AEAD {
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes$AEAD;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getIvLength ()I
 }
 
-public final class io/github/jhdcruz/kipher/aes/AesEncryption$Companion {
-	public final fun getProvider ()Ljava/security/Provider;
-	public final fun setProvider (Ljava/security/Provider;)V
+public final class io/github/jhdcruz/kipher/aes/AesAEADKt {
+	public static final field AUTHENTICATED_IV_LENGTH I
 }
 
-public class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
-	public static final field CBC Lio/github/jhdcruz/kipher/aes/AesModes;
-	public static final field CBC7 Lio/github/jhdcruz/kipher/aes/AesModes;
-	public static final field CCM Lio/github/jhdcruz/kipher/aes/AesModes;
-	public static final field CFB Lio/github/jhdcruz/kipher/aes/AesModes;
-	public static final field CTR Lio/github/jhdcruz/kipher/aes/AesModes;
-	public static final field GCM Lio/github/jhdcruz/kipher/aes/AesModes;
-	public final fun getMode ()Ljava/lang/String;
+public abstract class io/github/jhdcruz/kipher/aes/AesBasic : io/github/jhdcruz/kipher/encryption/symmetric/BasicEncryption {
+	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes$Basic;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getIvLength ()I
+}
+
+public final class io/github/jhdcruz/kipher/aes/AesBasicKt {
+	public static final field BASIC_IV_LENGTH I
+}
+
+public final class io/github/jhdcruz/kipher/aes/AesModes : java/lang/Enum {
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/aes/AesModes;
 	public static fun values ()[Lio/github/jhdcruz/kipher/aes/AesModes;
 }
 
-public abstract class io/github/jhdcruz/kipher/aes/AuthenticatedEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
-	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun concat (Ljava/util/Map;)[B
-	public final fun decrypt (Ljava/util/Map;)[B
-	public final fun decrypt ([B[B)[B
-	public final fun decryptBare ([B[B[B)[B
-	public final fun decryptBare ([B[B[B[B)[B
-	public static synthetic fun decryptBare$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[B[BILjava/lang/Object;)[B
-	public final fun encrypt ([B)Ljava/util/Map;
-	public final fun encrypt ([B[B)Ljava/util/Map;
-	public final fun encrypt ([B[B[B)Ljava/util/Map;
-	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[BILjava/lang/Object;)Ljava/util/Map;
-	public final fun encryptBare ([B[B[B)Ljava/util/Map;
-	public final fun encryptBare ([B[B[B[B)Ljava/util/Map;
-	public static synthetic fun encryptBare$default (Lio/github/jhdcruz/kipher/aes/AuthenticatedEncryption;[B[B[B[BILjava/lang/Object;)Ljava/util/Map;
-	public fun extract ([B)Ljava/util/Map;
-	public final fun generateIv ()[B
-	public final fun getAadSeparator ()[B
-	public final fun setAadSeparator ([B)V
+public final class io/github/jhdcruz/kipher/aes/AesModes$AEAD : java/lang/Enum {
+	public static final field CCM Lio/github/jhdcruz/kipher/aes/AesModes$AEAD;
+	public static final field GCM Lio/github/jhdcruz/kipher/aes/AesModes$AEAD;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/aes/AesModes$AEAD;
+	public static fun values ()[Lio/github/jhdcruz/kipher/aes/AesModes$AEAD;
 }
 
-public abstract class io/github/jhdcruz/kipher/aes/BasicEncryption : io/github/jhdcruz/kipher/aes/AesEncryption {
-	public synthetic fun <init> (Lio/github/jhdcruz/kipher/aes/AesModes;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
-	public fun concat (Ljava/util/Map;)[B
-	public final fun decrypt (Ljava/util/Map;)[B
-	public final fun decrypt ([B[B)[B
-	public final fun decryptBare ([B[B[B)[B
-	public final fun encrypt ([B)Ljava/util/Map;
-	public final fun encrypt ([B[B)Ljava/util/Map;
-	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/aes/BasicEncryption;[B[BILjava/lang/Object;)Ljava/util/Map;
-	public final fun encryptBare ([B[B[B)Ljava/util/Map;
-	public fun extract ([B)Ljava/util/Map;
-	public final fun generateIv ()[B
+public final class io/github/jhdcruz/kipher/aes/AesModes$Basic : java/lang/Enum {
+	public static final field CBC Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
+	public static final field CBC7 Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
+	public static final field CFB Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
+	public static final field CTR Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
+	public static fun values ()[Lio/github/jhdcruz/kipher/aes/AesModes$Basic;
 }
 
-public final class io/github/jhdcruz/kipher/aes/Cbc7Encryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
+public final class io/github/jhdcruz/kipher/aes/Cbc7Encryption : io/github/jhdcruz/kipher/aes/AesBasic {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/aes/CbcEncryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
+public final class io/github/jhdcruz/kipher/aes/CbcEncryption : io/github/jhdcruz/kipher/aes/AesBasic {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/aes/CcmEncryption : io/github/jhdcruz/kipher/aes/AuthenticatedEncryption {
+public final class io/github/jhdcruz/kipher/aes/CcmEncryption : io/github/jhdcruz/kipher/aes/AesAEAD {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/aes/CfbEncryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
+public final class io/github/jhdcruz/kipher/aes/CfbEncryption : io/github/jhdcruz/kipher/aes/AesBasic {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/aes/CtrEncryption : io/github/jhdcruz/kipher/aes/BasicEncryption {
+public final class io/github/jhdcruz/kipher/aes/CtrEncryption : io/github/jhdcruz/kipher/aes/AesBasic {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/aes/GcmEncryption : io/github/jhdcruz/kipher/aes/AuthenticatedEncryption {
+public final class io/github/jhdcruz/kipher/aes/GcmEncryption : io/github/jhdcruz/kipher/aes/AesAEAD {
 	public fun <init> ()V
 }
 
