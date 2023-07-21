@@ -3,9 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.encryption
+package io.github.jhdcruz.kipher.encryption.symmetric
 
+import io.github.jhdcruz.kipher.common.KipherException
 import org.jetbrains.annotations.NotNull
+import javax.crypto.AEADBadTagException
 import javax.crypto.Cipher
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -24,8 +26,7 @@ const val TAG_LENGTH: Int = 128
 abstract class AEAD(
     @NotNull val algorithm: String,
     @NotNull mode: String,
-) : KipherEncryption(algorithm) {
-    private val cipher: Cipher = Cipher.getInstance(mode)
+) : SymmetricEncryption(algorithm, mode) {
 
     /**
      * Encrypts the provided [data] along with [aad] (if provided) using [key].
@@ -76,18 +77,25 @@ abstract class AEAD(
         @NotNull key: ByteArray,
         @NotNull aad: ByteArray = byteArrayOf(),
     ): ByteArray {
-        val keySpec = SecretKeySpec(key, algorithm)
-        val gcmIv = GCMParameterSpec(TAG_LENGTH, iv)
+        return try {
+            val keySpec = SecretKeySpec(key, algorithm)
+            val gcmIv = GCMParameterSpec(TAG_LENGTH, iv)
 
-        return cipher.run {
-            init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
+            cipher.run {
+                init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
 
-            // check aad if not empty
-            if (aad.isNotEmpty()) {
-                updateAAD(aad)
+                // check aad if not empty
+                if (aad.isNotEmpty()) {
+                    updateAAD(aad)
+                }
+
+                doFinal(encrypted)
             }
-
-            doFinal(encrypted)
+        } catch (e: AEADBadTagException) {
+            throw KipherException(
+                "Invalid additional authenticated data (AAD), data might have been tampered.",
+                e
+            )
         }
     }
 

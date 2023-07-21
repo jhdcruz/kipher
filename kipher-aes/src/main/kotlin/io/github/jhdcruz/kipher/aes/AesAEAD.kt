@@ -5,9 +5,8 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.encryption.AEAD
+import io.github.jhdcruz.kipher.encryption.symmetric.AEAD
 
-private const val ALGORITHM: String = "AES"
 const val AUTHENTICATED_IV_LENGTH: Int = 12
 
 /**

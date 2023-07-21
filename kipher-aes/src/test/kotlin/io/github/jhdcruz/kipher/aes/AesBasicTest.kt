@@ -3,10 +3,10 @@ package io.github.jhdcruz.kipher.aes
 import io.github.jhdcruz.kipher.aes.AesTestParams.decodeToString
 import io.github.jhdcruz.kipher.aes.AesTestParams.invalidKey
 import io.github.jhdcruz.kipher.aes.AesTestParams.message
-import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.security.InvalidAlgorithmParameterException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -26,7 +26,7 @@ internal class AesBasicTest {
     fun `test basic encryption with invalid secret key`() {
         val cbcEncryption = CbcEncryption()
 
-        assertThrows<KipherException> {
+        assertThrows<InvalidAlgorithmParameterException> {
             cbcEncryption.encrypt(message, invalidKey)
         }
     }
@@ -53,7 +53,7 @@ internal class AesBasicTest {
         val cbcEncryption = CbcEncryption()
         val secretKey = cbcEncryption.generateKey(keySize)
 
-        assertThrows<KipherException> {
+        assertThrows<InvalidAlgorithmParameterException> {
             cbcEncryption.encrypt(message, secretKey)
         }
     }

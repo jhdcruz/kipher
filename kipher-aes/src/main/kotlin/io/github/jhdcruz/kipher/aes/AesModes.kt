@@ -5,6 +5,8 @@
 
 package io.github.jhdcruz.kipher.aes
 
+internal const val ALGORITHM: String = "AES"
+
 /** Available AES encryption modes. */
 enum class AesModes {
     ;

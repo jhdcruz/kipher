@@ -5,9 +5,8 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.encryption.BasicEncryption
+import io.github.jhdcruz.kipher.encryption.symmetric.BasicEncryption
 
-private const val ALGORITHM: String = "AES"
 const val BASIC_IV_LENGTH: Int = 16
 
 /**

@@ -13,6 +13,7 @@ import io.github.jhdcruz.kipher.common.KipherException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
+import java.security.InvalidAlgorithmParameterException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -78,7 +79,7 @@ internal class AesAuthenticatedTest {
     fun `test authenticated encryption using invalid secret key`() {
         val gcmEncryption = GcmEncryption()
 
-        assertThrows<KipherException> {
+        assertThrows<InvalidAlgorithmParameterException> {
             gcmEncryption.encrypt(message, invalidKey, aad)
         }
     }
@@ -107,7 +108,7 @@ internal class AesAuthenticatedTest {
 
         val secretKey = gcmEncryption.generateKey(keySize)
 
-        assertThrows<KipherException> {
+        assertThrows<InvalidAlgorithmParameterException> {
             gcmEncryption.encrypt(message, secretKey, aad)
         }
     }

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package io.github.jhdcruz.kipher.encryption
+package io.github.jhdcruz.kipher.encryption.symmetric
 
 import org.jetbrains.annotations.NotNull
 import javax.crypto.Cipher
@@ -19,8 +19,7 @@ import javax.crypto.spec.SecretKeySpec
 abstract class BasicEncryption(
     @NotNull val algorithm: String,
     @NotNull mode: String,
-) : KipherEncryption(algorithm) {
-    private val cipher: Cipher = Cipher.getInstance(mode)
+) : SymmetricEncryption(algorithm, mode) {
 
     /**
      * Encrypts the provided [data] using the provided [key].
