@@ -16,7 +16,7 @@ import javax.crypto.spec.SecretKeySpec
  * @param algorithm algorithm to use for KeyGenerator (e.g. AES, ChaCha20).
  * @param mode algorithm mode to use (e.g. AES/GCM/NoPadding, ChaCha20-Poly1305).
  */
-abstract class BasicEncryption(
+abstract class StandardEncryption(
     @NotNull val algorithm: String,
     @NotNull mode: String,
 ) : SymmetricEncryption(algorithm, mode) {

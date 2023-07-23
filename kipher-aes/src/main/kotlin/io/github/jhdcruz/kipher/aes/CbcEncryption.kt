@@ -11,4 +11,4 @@ package io.github.jhdcruz.kipher.aes
  * `PKCS5` and `PKCS7` are [interchangeable](https://stackoverflow.com/a/53139355/16171990) in
  * SunJCE Provider.
  */
-class CbcEncryption : AesBasic(AesModes.Basic.CBC)
+class CbcEncryption : AesStandard(AesModes.Basic.CBC)

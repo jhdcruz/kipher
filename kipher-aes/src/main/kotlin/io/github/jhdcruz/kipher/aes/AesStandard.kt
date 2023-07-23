@@ -5,7 +5,7 @@
 
 package io.github.jhdcruz.kipher.aes
 
-import io.github.jhdcruz.kipher.encryption.symmetric.BasicEncryption
+import io.github.jhdcruz.kipher.encryption.symmetric.StandardEncryption
 
 const val BASIC_IV_LENGTH: Int = 16
 
@@ -14,6 +14,6 @@ const val BASIC_IV_LENGTH: Int = 16
  *
  * @param aesMode Basic AES mode from [AesModes.Basic].
  */
-sealed class AesBasic(aesMode: AesModes.Basic) : BasicEncryption(ALGORITHM, aesMode.mode) {
+sealed class AesStandard(aesMode: AesModes.Basic) : StandardEncryption(ALGORITHM, aesMode.mode) {
     override val ivLength: Int = BASIC_IV_LENGTH
 }

@@ -8,4 +8,4 @@ package io.github.jhdcruz.kipher.aes
 /**
  * AES Encryption using CBC mode with PKCS7 Padding.
  */
-class Cbc7Encryption : AesBasic(AesModes.Basic.CBC7)
+class Cbc7Encryption : AesStandard(AesModes.Basic.CBC7)

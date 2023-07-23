@@ -8,4 +8,4 @@ package io.github.jhdcruz.kipher.aes
 /**
  * AES Encryption using CFB mode.
  */
-class CfbEncryption : AesBasic(AesModes.Basic.CFB)
+class CfbEncryption : AesStandard(AesModes.Basic.CFB)
