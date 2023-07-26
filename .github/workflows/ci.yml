@@ -64,10 +64,10 @@ jobs:
         uses: mikepenz/gradle-dependency-submission@main
         with:
           gradle-build-module: |-
-            :gradle-scripts
+            :build-logic
             :kipher-coverage
-            :kipher-common
-            :kipher-aes
+            :kipher-core
+            :kipher-symmetric
             :kipher-digest
             :kipher-mac
           gradle-build-configuration: |-
