@@ -6,7 +6,7 @@
 operations for JVM applications.**
 
 This library compliments with Java's JCE but does not necessarily aim for 1:1
-functionality & compatibility, this library is in some form **opinionated**
+functionality & compatibility in certain cases, this library is in some form **opinionated**
 but tries to offer customizablility as much as possible.
 
 ### Features:
@@ -14,7 +14,7 @@ but tries to offer customizablility as much as possible.
 - [Bouncy Castle](https://bouncycastle.org/) Security
   Provider <sup>([Configurable](#using-different-security-provider))</sup>
 
-- [AES](./kipher-aes/README.md) (GCM, CCM, CBC, etc.)
+- [Symmetric Encryption](./kipher-symmetric/README.md) (AES, ChaCha20, etc.)
 - [Message Digests](./kipher-digest/README.md) (MD5, SHA, SHA3, etc.)
 - [MACs](./kipher-mac/README.md) (HMAC, etc.)
 
@@ -39,12 +39,12 @@ Minimum requirements to use the library:
 
 > [API documentation](https://jhdcruz.github.io/kipher/)
 
-| Modules                                                                                                                                                                                                                                                           | Description                                          |
-|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------|
-| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-common?style=flat-square&logo=apachemaven&label=kipher-common&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-common) | Common utilities for the library. **(Internal use)** |
-| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-aes?style=flat-square&logo=apachemaven&label=kipher-aes&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-aes)          | Data encryption using AES.                           |
-| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest) | Cryptographic hash functions (SHAs, MD5s, etc.).     |
-| ![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=flat-square&logo=apachemaven&label=kipher-mac&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac)          | Data integrity and authentication using MACs.        |
+| Modules                                                                                                                                                                                                                                                                                                    | Description                                                     |
+|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-core?style=flat-square&logo=apachemaven&label=kipher-core&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-core)](./kipher-core/README.md)                     | Core utilities for the library. **(Internal use)**              |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-symmetric?style=flat-square&logo=apachemaven&label=kipher-symmetric&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-symmetric)](./kipher-symmetric/README.md) | Data encryption using symmetric ciphers. (AES, ChaCha20, etc.). |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest)](./kipher-digest/README.md)             | Cryptographic hash functions (SHAs, MD5s, etc.).                |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=flat-square&logo=apachemaven&label=kipher-mac&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac)](./kipher-mac/README.md)                         | Data integrity and authentication using MACs.                   |
 
 ### Gradle
 
@@ -90,7 +90,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jhdcruz:kipher-aes:1.0.0-SNAPSHOT")
+    implementation("io.github.jhdcruz:kipher-$module:0.1.0-SNAPSHOT")
 }
 ```
 
@@ -114,7 +114,7 @@ dependencies {
         <dependency>
             <groupId>io.github.jhdcruz</groupId>
             <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-            <version>$version</version>  <!-- Replace $version -->
+            <version>0.1.0-SNAPSHOT</version>  <!-- Replace $version -->
         </dependency>
     </dependencies>
 </project>
@@ -152,27 +152,28 @@ dependencies {
 ### Kotlin
 
 ```kotlin
-import io.github.jhdcruz.kipher.aes.GcmEncryption
+import io.github.jhdcruz.kipher.symmetric.aes.AesGcm
 
 class EncryptionTest {
 
     fun main() {
-        val encryptionUtils = GcmEncryption()
+        val encryptionUtils = AesGcm()
 
         val data = "sample data".encodeToByteArray()
         val aad = "sample aad".encodeToByteArray()
 
         // named parameters are recommended, but optional
-        val encrypted = gcmEncryption.encrypt(
+        val encrypted = AesGcm.encrypt(
             data = message,
             aad = aad,
-        ) // returns Map<String, ByteArray>
+            // optional `key` parameter
+        ) // returns Map<String, ByteArray> of [data, key]
 
-        val decrypted = gcmEncryption.decrypt(encrypted)
+        val decrypted = AesGcm.decrypt(encrypted)
 
-        // or, individually
+        // or
 
-        val decrypted = gcmEncryption.decrypt(
+        val decrypted = AesGcm.decrypt(
             encrypted = encrypted.getValue("data"),
             key = encrypted.getValue("key")
         )
@@ -185,14 +186,14 @@ class EncryptionTest {
 ### Java (Non-kotlin)
 
 ```java
-import io.github.jhdcruz.kipher.aes.GcmEncryption;
+import io.github.jhdcruz.kipher.symmetric.aes.AesGcm;
 
 import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) {
-        GcmEncryption encryptionUtils = new GcmEncryption();
+        AesGcm encryptionUtils = new AesGcm();
 
         byte[] data = "Hello World".getBytes();
 
@@ -200,7 +201,7 @@ public class Main {
 
         byte[] val = encryptionUtils.decrypt(encrypted);
 
-        // or, individually
+        // or
 
         byte[] val = encryptionUtils.decrypt(
             encrypted.get("data"),
@@ -215,23 +216,23 @@ public class Main {
 ### Using different key size
 
 ```kotlin
-import io.github.jhdcruz.kipher.aes.GcmEncryption
+import io.github.jhdcruz.kipher.symmetric.aes.AesCbc
 
 class EncryptionTest {
 
     fun main() {
-        val encryptionUtils = CbcEncryption()
+        val encryptionUtils = AesCbc()
 
         val data = "sample data".encodeToByteArray()
 
         val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
 
-        val encrypted = gcmEncryption.encrypt(
+        val encrypted = encryptionUtils.encrypt(
             data = message,
             key = secretKey
         )
 
-        val decrypted = gcmEncryption.decrypt(encrypted)
+        val decrypted = encryptionUtils.decrypt(encrypted)
 
         println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
     }
@@ -249,24 +250,21 @@ Default security provider is set to [Bouncy Castle](https://bouncycastle.org/).
 
 #### Module-specific Provider
 
+Example of changing provider for `kipher-symmetric`:
+
 ##### Kotlin
 
 ```kotlin
-import io.github.jhdcruz.kipher.aes.AesEncryption
-import io.github.jhdcruz.kipher.aes.GcmEncryption
+import io.github.jhdcruz.kipher.symmetric.SymmetricEncryption
 
 import java.security.Provider
 import java.security.Security
 
 class Main {
     fun main() {
-        // must be declared only once before using any AES methods 
-        // or at the beginning of the app's main method or such.
+        // must be declared before using any symmetric ciphers methods!
         val provider: Provider = Security.getProvider("SunJCE")
-        AesEncryption.provider = provider
-
-        val encryptionUtils = GcmEncryption()
-        // and so on, so forth
+        SymmetricEncryption.provider(provider)
     }
 }
 ```
@@ -274,8 +272,7 @@ class Main {
 ##### Java (Non-kotlin)
 
 ```java
-import io.github.jhdcruz.kipher.aes.AesEncryption;
-import io.github.jhdcruz.kipher.aes.GcmEncryption;
+import io.github.jhdcruz.kipher.symmetric.SymmetricEncryption;
 
 import java.security.Provider;
 import java.security.Security;
@@ -288,9 +285,7 @@ class Main {
         // must be declared only once before using any AES methods 
         // or at the beginning of the app's main method or such.
         Provider provider = Security.getProvider("SunJCE");
-        AesEncryption.Companion.setProvider(provider);
-
-        GcmEncryption encryptionUtils = GcmEncryption();
+        SymmetricEncryption.Companion.setProvider(provider);
         // and so on, so forth
     }
 }
@@ -305,7 +300,7 @@ modules.
 
 ```kotlin
 import io.github.jhdcruz.kipher.aes.GcmEncryption
-import io.github.jhdcruz.kipher.common.KipherProvider
+import io.github.jhdcruz.kipher.core.KipherProvider
 
 import java.security.Provider
 import java.security.Security
@@ -327,7 +322,7 @@ class Main {
 
 ```java
 import io.github.jhdcruz.kipher.aes.GcmEncryption;
-import io.github.jhdcruz.kipher.common.KipherProvider;
+import io.github.jhdcruz.kipher.core.KipherProvider;
 
 import java.security.Provider;
 import java.security.Security;

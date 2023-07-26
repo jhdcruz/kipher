@@ -8,7 +8,7 @@ plugins {
 }
 
 dependencies {
-    api(projects.kipherCommon)
+    api(projects.kipherCore)
     implementation(libs.bouncycastle.provider)
     implementation(libs.jetbrains.annotations)
 }

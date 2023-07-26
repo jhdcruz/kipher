@@ -5,9 +5,9 @@
 
 package io.github.jhdcruz.kipher.mac
 
-import io.github.jhdcruz.kipher.common.Format.toHexString
-import io.github.jhdcruz.kipher.common.KipherException
-import io.github.jhdcruz.kipher.common.KipherProvider
+import io.github.jhdcruz.kipher.core.Format.toHexString
+import io.github.jhdcruz.kipher.core.KipherException
+import io.github.jhdcruz.kipher.core.KipherProvider
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.security.InvalidKeyException

@@ -1,4 +1,4 @@
-public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/common/KipherProvider {
+public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/core/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/mac/Mac$Companion;
 	public fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;)V
 	public final fun generateHash (Ljava/util/List;[B)[B

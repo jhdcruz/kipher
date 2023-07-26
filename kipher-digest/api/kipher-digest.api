@@ -1,4 +1,4 @@
-public final class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/common/KipherProvider {
+public final class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/core/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/digest/Digest$Companion;
 	public fun <init> (Lio/github/jhdcruz/kipher/digest/DigestModes;)V
 	public final fun generateHash (Ljava/util/List;)[B

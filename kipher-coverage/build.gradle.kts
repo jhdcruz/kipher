@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    jacocoAggregation(projects.kipherAes)
+    jacocoAggregation(projects.kipherSymmetric)
     jacocoAggregation(projects.kipherDigest)
     jacocoAggregation(projects.kipherMac)
 }

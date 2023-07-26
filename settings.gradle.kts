@@ -33,10 +33,8 @@ rootProject.name = "kipher"
 
 include(
     "kipher-coverage",
-    "kipher-common",
-    "kipher-encryption",
+    "kipher-core",
+    "kipher-symmetric",
     "kipher-digest",
     "kipher-mac",
-    "kipher-aes",
-    "kipher-chacha",
 )
