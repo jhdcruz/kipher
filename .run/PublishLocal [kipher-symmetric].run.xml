@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Test [kipher-aes]" type="GradleRunConfiguration" factoryName="Gradle" folderName="kipher-aes">
+  <configuration default="false" name="PublishLocal [kipher-symmetric]" type="GradleRunConfiguration" factoryName="Gradle" folderName="symmetric">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipher-aes:test" />
+          <option value="kipher-symmetric:publishToMavenLocal" />
         </list>
       </option>
       <option name="vmOptions" />
@@ -18,7 +18,7 @@
     <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
     <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
     <DebugAllEnabled>false</DebugAllEnabled>
-    <ForceTestExec>false</ForceTestExec>
+    <RunAsTest>false</RunAsTest>
     <method v="2" />
   </configuration>
 </component>

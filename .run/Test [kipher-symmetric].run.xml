@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Build [kipher-aes]" type="GradleRunConfiguration" factoryName="Gradle" folderName="kipher-aes">
+  <configuration default="false" name="Test [kipher-symmetric]" type="GradleRunConfiguration" factoryName="Gradle" folderName="symmetric">
     <ExternalSystemSettings>
       <option name="executionName" />
       <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -10,7 +10,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="kipher-aes:build" />
+          <option value="kipher-symmetric:test" />
         </list>
       </option>
       <option name="vmOptions" />
