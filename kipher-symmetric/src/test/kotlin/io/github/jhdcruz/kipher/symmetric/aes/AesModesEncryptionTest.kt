@@ -6,8 +6,8 @@
 package io.github.jhdcruz.kipher.symmetric.aes
 
 import io.github.jhdcruz.kipher.core.KipherProvider
-import io.github.jhdcruz.kipher.encryption.EncryptionTestParams.aad
-import io.github.jhdcruz.kipher.encryption.EncryptionTestParams.message
+import io.github.jhdcruz.kipher.symmetric.EncryptionTestParams.aad
+import io.github.jhdcruz.kipher.symmetric.EncryptionTestParams.message
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -6,9 +6,9 @@
 package io.github.jhdcruz.kipher.symmetric.aes
 
 import io.github.jhdcruz.kipher.core.KipherException
-import io.github.jhdcruz.kipher.encryption.EncryptionTestParams.aad
-import io.github.jhdcruz.kipher.encryption.EncryptionTestParams.invalidKey
-import io.github.jhdcruz.kipher.encryption.EncryptionTestParams.message
+import io.github.jhdcruz.kipher.symmetric.EncryptionTestParams.aad
+import io.github.jhdcruz.kipher.symmetric.EncryptionTestParams.invalidKey
+import io.github.jhdcruz.kipher.symmetric.EncryptionTestParams.message
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
