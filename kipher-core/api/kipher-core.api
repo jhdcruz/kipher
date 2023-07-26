@@ -1,0 +1,23 @@
+public final class io/github/jhdcruz/kipher/core/Format {
+	public static final field INSTANCE Lio/github/jhdcruz/kipher/core/Format;
+	public final fun toBase64 ([B)Ljava/lang/String;
+	public final fun toHexString ([B)Ljava/lang/String;
+}
+
+public final class io/github/jhdcruz/kipher/core/KipherException : java/lang/RuntimeException {
+	public fun <init> (Ljava/lang/String;Ljava/lang/Throwable;)V
+	public fun <init> (Ljava/lang/Throwable;)V
+}
+
+public class io/github/jhdcruz/kipher/core/KipherProvider {
+	public static final field Companion Lio/github/jhdcruz/kipher/core/KipherProvider$Companion;
+	public fun <init> ()V
+	public fun <init> (Ljava/security/Provider;)V
+	public synthetic fun <init> (Ljava/security/Provider;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+}
+
+public final class io/github/jhdcruz/kipher/core/KipherProvider$Companion {
+	public final fun getProvider ()Ljava/security/Provider;
+	public final fun setProvider (Ljava/security/Provider;)V
+}
+

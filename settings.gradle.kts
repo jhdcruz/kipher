@@ -6,7 +6,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 
-    includeBuild("gradle-scripts")
+    includeBuild("build-logic")
 }
 
 dependencyResolutionManagement {
@@ -33,8 +33,8 @@ rootProject.name = "kipher"
 
 include(
     "kipher-coverage",
-    "kipher-common",
-    "kipher-aes",
+    "kipher-core",
+    "kipher-symmetric",
     "kipher-digest",
     "kipher-mac",
 )
