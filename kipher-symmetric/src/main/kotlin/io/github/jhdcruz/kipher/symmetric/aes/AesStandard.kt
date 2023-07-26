@@ -6,7 +6,6 @@
 package io.github.jhdcruz.kipher.symmetric.aes
 
 import io.github.jhdcruz.kipher.symmetric.StandardEncryption
-import sun.security.x509.CertificateAlgorithmId.ALGORITHM
 
 const val BASIC_IV_LENGTH: Int = 16
 
