@@ -53,7 +53,7 @@ Minimum requirements to use the library:
 > Currently only available in [snapshot](#snapshots) version.
 
 ```kotlin
-implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & version
+implementation("io.github.jhdcruz:kipher-$module:0.1.0-SNAPSHOT") // Replace module
 ```
 
 ### Maven
@@ -70,7 +70,7 @@ implementation("io.github.jhdcruz:kipher-$module:$version") // Replace module & 
     <dependency>
         <groupId>io.github.jhdcruz</groupId>
         <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-        <version>$version</version>  <!-- Replace $version -->
+        <version>0.1.0-SNAPSHOT</version>
     </dependency>
 </depenedencies>
 ```
@@ -163,17 +163,17 @@ class EncryptionTest {
         val aad = "sample aad".encodeToByteArray()
 
         // named parameters are recommended, but optional
-        val encrypted = AesGcm.encrypt(
+        val encrypted = encryptionUtils.encrypt(
             data = message,
             aad = aad,
             // optional `key` parameter
         ) // returns Map<String, ByteArray> of [data, key]
 
-        val decrypted = AesGcm.decrypt(encrypted)
+        val decrypted = encryptionUtils.decrypt(encrypted)
 
         // or
 
-        val decrypted = AesGcm.decrypt(
+        val decrypted = encryptionUtils.decrypt(
             encrypted = encrypted.getValue("data"),
             key = encrypted.getValue("key")
         )
@@ -383,4 +383,4 @@ details
 This library is primarily made for convenience and ease-of-use,
 while providing as much security as possible out-of-the-box.
 
-> If you found a security issue, please [report a security issue](./SECURITY.md).
+> If you found a security issue, please [report the security issue](./SECURITY.md).
