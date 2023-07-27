@@ -7,7 +7,7 @@ package io.github.jhdcruz.kipher.symmetric.chacha
 
 import io.github.jhdcruz.kipher.symmetric.StandardEncryption
 
-private const val IV_LENGTH: Int = 8
+private const val IV_LENGTH: Int = 12
 
 /**
  * Data encryption using ChaCha20.
