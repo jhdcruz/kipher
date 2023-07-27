@@ -24,10 +24,10 @@ internal class MacTest {
         val hmac = Mac(MacModes.HmacSHA256)
         val key = hmac.generateKey()
 
-        val actualBytes = hmac.generateHash(dataList, key)
+        val actualBytes = hmac.generateMac(dataList, key)
 
         assertTrue {
-            hmac.verifyHash(dataList, actualBytes, key)
+            hmac.verifyMac(dataList, actualBytes, key)
         }
     }
 
@@ -42,10 +42,10 @@ internal class MacTest {
             "test".encodeToByteArray(),
         )
 
-        val actualBytes = hmac.generateHash(dataList, key)
+        val actualBytes = hmac.generateMac(dataList, key)
 
         assertFalse {
-            hmac.verifyHash(unsortedList, actualBytes, key)
+            hmac.verifyMac(unsortedList, actualBytes, key)
         }
     }
 
@@ -55,14 +55,14 @@ internal class MacTest {
         val mac = Mac(mode)
         val key = mac.generateKey()
 
-        val actualBytes = mac.generateHashString(dataList, key)
+        val actualBytes = mac.generateMacString(dataList, key)
 
         // print output and length in json like form
         println("$mode = $actualBytes, length = ${actualBytes.length}")
         println("key size = ${key.size}")
 
         assertTrue {
-            mac.verifyHash(dataList, actualBytes, key)
+            mac.verifyMac(dataList, actualBytes, key)
         }
     }
 }
