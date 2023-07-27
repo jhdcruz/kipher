@@ -1,13 +1,13 @@
 public final class io/github/jhdcruz/kipher/digest/Digest : io/github/jhdcruz/kipher/core/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/digest/Digest$Companion;
 	public fun <init> (Lio/github/jhdcruz/kipher/digest/DigestModes;)V
-	public final fun generateHash (Ljava/util/List;)[B
+	public final fun generateHash (Ljava/lang/Iterable;)[B
 	public final fun generateHash ([B)[B
-	public final fun generateHashString (Ljava/util/List;)Ljava/lang/String;
+	public final fun generateHashString (Ljava/lang/Iterable;)Ljava/lang/String;
 	public final fun generateHashString ([B)Ljava/lang/String;
 	public final fun getDigestMode ()Lio/github/jhdcruz/kipher/digest/DigestModes;
-	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;)Z
-	public final fun verifyHash (Ljava/util/List;[B)Z
+	public final fun verifyHash (Ljava/lang/Iterable;Ljava/lang/String;)Z
+	public final fun verifyHash (Ljava/lang/Iterable;[B)Z
 	public final fun verifyHash ([BLjava/lang/String;)Z
 	public final fun verifyHash ([B[B)Z
 }

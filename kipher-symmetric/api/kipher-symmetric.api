@@ -15,6 +15,7 @@ public abstract class io/github/jhdcruz/kipher/symmetric/AEAD : io/github/jhdcru
 	public final fun encryptBare ([B[B[B[B)Ljava/util/Map;
 	public static synthetic fun encryptBare$default (Lio/github/jhdcruz/kipher/symmetric/AEAD;[B[B[B[BILjava/lang/Object;)Ljava/util/Map;
 	public final fun getAlgorithm ()Ljava/lang/String;
+	public final fun getMode ()Ljava/lang/String;
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/AEADKt {
@@ -31,6 +32,7 @@ public abstract class io/github/jhdcruz/kipher/symmetric/StandardEncryption : io
 	public static synthetic fun encrypt$default (Lio/github/jhdcruz/kipher/symmetric/StandardEncryption;[B[BILjava/lang/Object;)Ljava/util/Map;
 	public final fun encryptBare ([B[B[B)Ljava/util/Map;
 	public final fun getAlgorithm ()Ljava/lang/String;
+	public final fun getMode ()Ljava/lang/String;
 }
 
 public abstract class io/github/jhdcruz/kipher/symmetric/SymmetricEncryption : io/github/jhdcruz/kipher/core/KipherProvider {
@@ -39,9 +41,12 @@ public abstract class io/github/jhdcruz/kipher/symmetric/SymmetricEncryption : i
 	public final fun concat (Ljava/util/Map;)[B
 	public final fun extract ([B)Ljava/util/Map;
 	public final fun generateIv ()[B
-	public final fun generateKey (I)[B
-	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/symmetric/SymmetricEncryption;IILjava/lang/Object;)[B
+	public final fun generateKey ()[B
+	public final fun generateKey (Ljava/lang/Integer;)[B
+	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/symmetric/SymmetricEncryption;Ljava/lang/Integer;ILjava/lang/Object;)[B
+	public fun getDefaultKeySize ()Ljava/lang/Integer;
 	public abstract fun getIvLength ()I
+	public fun setDefaultKeySize (Ljava/lang/Integer;)V
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/SymmetricEncryption$Companion {
@@ -49,40 +54,38 @@ public final class io/github/jhdcruz/kipher/symmetric/SymmetricEncryption$Compan
 	public final fun setProvider (Ljava/security/Provider;)V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/SymmetricEncryptionKt {
-	public static final field DEFAULT_KEY_SIZE I
-}
-
 public abstract class io/github/jhdcruz/kipher/symmetric/aes/AesAEAD : io/github/jhdcruz/kipher/symmetric/AEAD {
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDefaultKeySize ()Ljava/lang/Integer;
 	public fun getIvLength ()I
+	public fun setDefaultKeySize (Ljava/lang/Integer;)V
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/aes/AesAEADKt {
 	public static final field AUTHENTICATED_IV_LENGTH I
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesCbc : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesCBC : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesCbc7 : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesCBC7 : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesCcm : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesCCM : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesCfb : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesCFB : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesCtr : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesCTR : io/github/jhdcruz/kipher/symmetric/aes/AesStandard {
 	public fun <init> ()V
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/aes/AesGcm : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesGCM : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
 	public fun <init> ()V
 }
 
@@ -111,7 +114,9 @@ public final class io/github/jhdcruz/kipher/symmetric/aes/AesModes$Standard : ja
 
 public abstract class io/github/jhdcruz/kipher/symmetric/aes/AesStandard : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
 	public synthetic fun <init> (Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$Standard;Lkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public fun getDefaultKeySize ()Ljava/lang/Integer;
 	public fun getIvLength ()I
+	public fun setDefaultKeySize (Ljava/lang/Integer;)V
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/aes/AesStandardKt {
@@ -119,12 +124,8 @@ public final class io/github/jhdcruz/kipher/symmetric/aes/AesStandardKt {
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaCha20 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
-	public static final field Companion Lio/github/jhdcruz/kipher/symmetric/chacha/ChaCha20$Companion;
 	public fun <init> ()V
 	public fun getIvLength ()I
-}
-
-public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaCha20$Companion {
 }
 
 public class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes : java/lang/Enum {
@@ -136,11 +137,49 @@ public class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes : java/lang/E
 }
 
 public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaPoly : io/github/jhdcruz/kipher/symmetric/AEAD {
-	public static final field Companion Lio/github/jhdcruz/kipher/symmetric/chacha/ChaChaPoly$Companion;
 	public fun <init> ()V
 	public fun getIvLength ()I
 }
 
-public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaPoly$Companion {
+public final class io/github/jhdcruz/kipher/symmetric/salsa/Salsa20 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
+	public fun <init> ()V
+	public fun getIvLength ()I
+}
+
+public class io/github/jhdcruz/kipher/symmetric/salsa/SalsaModes : java/lang/Enum {
+	public static final field Salsa20 Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
+	public static final field XSalsa20 Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
+	public static fun values ()[Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
+}
+
+public final class io/github/jhdcruz/kipher/symmetric/salsa/XSalsa20 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
+	public fun <init> ()V
+	public fun getIvLength ()I
+}
+
+public final class io/github/jhdcruz/kipher/symmetric/threefish/Threefish1024 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
+	public fun <init> ()V
+	public fun getIvLength ()I
+}
+
+public final class io/github/jhdcruz/kipher/symmetric/threefish/Threefish256 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
+	public fun <init> ()V
+	public fun getIvLength ()I
+}
+
+public final class io/github/jhdcruz/kipher/symmetric/threefish/Threefish512 : io/github/jhdcruz/kipher/symmetric/StandardEncryption {
+	public fun <init> ()V
+	public fun getIvLength ()I
+}
+
+public class io/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes : java/lang/Enum {
+	public static final field Threefish1024 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
+	public static final field Threefish256 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
+	public static final field Threefish512 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
+	public final fun getMode ()Ljava/lang/String;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
+	public static fun values ()[Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
 }
 

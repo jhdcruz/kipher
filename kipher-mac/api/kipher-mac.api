@@ -1,18 +1,18 @@
 public final class io/github/jhdcruz/kipher/mac/Mac : io/github/jhdcruz/kipher/core/KipherProvider {
 	public static final field Companion Lio/github/jhdcruz/kipher/mac/Mac$Companion;
 	public fun <init> (Lio/github/jhdcruz/kipher/mac/MacModes;)V
-	public final fun generateHash (Ljava/util/List;[B)[B
-	public final fun generateHash ([B[B)[B
-	public final fun generateHashString (Ljava/util/List;[B)Ljava/lang/String;
-	public final fun generateHashString ([B[B)Ljava/lang/String;
 	public final fun generateKey ()[B
 	public final fun generateKey (Ljava/lang/Integer;)[B
 	public static synthetic fun generateKey$default (Lio/github/jhdcruz/kipher/mac/Mac;Ljava/lang/Integer;ILjava/lang/Object;)[B
+	public final fun generateMac (Ljava/lang/Iterable;[B)[B
+	public final fun generateMac ([B[B)[B
+	public final fun generateMacString (Ljava/lang/Iterable;[B)Ljava/lang/String;
+	public final fun generateMacString ([B[B)Ljava/lang/String;
 	public final fun getMacMode ()Lio/github/jhdcruz/kipher/mac/MacModes;
-	public final fun verifyHash (Ljava/util/List;Ljava/lang/String;[B)Z
-	public final fun verifyHash (Ljava/util/List;[B[B)Z
-	public final fun verifyHash ([BLjava/lang/String;[B)Z
-	public final fun verifyHash ([B[B[B)Z
+	public final fun verifyMac (Ljava/lang/Iterable;Ljava/lang/String;[B)Z
+	public final fun verifyMac (Ljava/lang/Iterable;[B[B)Z
+	public final fun verifyMac ([BLjava/lang/String;[B)Z
+	public final fun verifyMac ([B[B[B)Z
 }
 
 public final class io/github/jhdcruz/kipher/mac/Mac$Companion {
@@ -21,6 +21,7 @@ public final class io/github/jhdcruz/kipher/mac/Mac$Companion {
 }
 
 public class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
+	public static final field AesCMAC Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacGOST Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacMD5 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacRIPEMD128 Lio/github/jhdcruz/kipher/mac/MacModes;
@@ -35,7 +36,12 @@ public class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
 	public static final field Kmac128 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field Kmac256 Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field Poly1305 Lio/github/jhdcruz/kipher/mac/MacModes;
-	public final fun getLength ()I
+	public static final field Poly1305_AES Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Threefish_1024CMAC Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Threefish_256CMAC Lio/github/jhdcruz/kipher/mac/MacModes;
+	public static final field Threefish_512CMAC Lio/github/jhdcruz/kipher/mac/MacModes;
+	public final fun getAlgorithm ()Ljava/lang/String;
+	public final fun getKeySize ()Ljava/lang/Integer;
 	public final fun getMode ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static fun values ()[Lio/github/jhdcruz/kipher/mac/MacModes;
