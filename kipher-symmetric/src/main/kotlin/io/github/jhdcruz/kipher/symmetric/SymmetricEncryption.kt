@@ -8,13 +8,12 @@ package io.github.jhdcruz.kipher.symmetric
 import io.github.jhdcruz.kipher.core.KipherException
 import io.github.jhdcruz.kipher.core.KipherProvider
 import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 import java.nio.ByteBuffer
 import java.security.Provider
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
-
-const val DEFAULT_KEY_SIZE: Int = 256
 
 /**
  * Base class for encryption.
@@ -25,9 +24,9 @@ sealed class SymmetricEncryption(
     @NotNull algorithm: String,
     @NotNull mode: String,
 ) : KipherProvider(provider) {
-    private val randomize = SecureRandom()
-    private val keyGenerator: KeyGenerator = KeyGenerator.getInstance(algorithm)
+    internal val randomize = SecureRandom()
 
+    internal val keyGenerator: KeyGenerator = KeyGenerator.getInstance(algorithm)
     internal val cipher = Cipher.getInstance(mode)
 
     /**
@@ -53,9 +52,17 @@ sealed class SymmetricEncryption(
      *
      * @param size Key size.
      */
-    fun generateKey(@NotNull size: Int = DEFAULT_KEY_SIZE): ByteArray {
+    @JvmOverloads
+    fun generateKey(@Nullable size: Int? = null): ByteArray {
         return keyGenerator.run {
-            init(size, randomize)
+
+            if (size != null) {
+                init(size, randomize)
+            } else {
+                // use the default
+                init(randomize)
+            }
+
             generateKey().encoded
         }
     }
