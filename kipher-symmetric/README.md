@@ -2,35 +2,35 @@
 
 Library for data encryption using symmetric encryption algorithms.
 
-## Symmetric Ciphers
+## Usage
 
 Data encryption example using AES:
 
 ### Kotlin
 
 ```kotlin
-import io.github.jhdcruz.kipher.symmetric.aes.AesGcm
+import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
 
 class EncryptionTest {
 
     fun main() {
-        val encryptionUtils = AesGcm()
+        val encryptionUtils = AesGCM()
 
         val data = "sample data".encodeToByteArray()
         val aad = "sample aad".encodeToByteArray()
 
         // named parameters are recommended, but optional
-        val encrypted = AesGcm.encrypt(
+        val encrypted = AesGCM.encrypt(
             data = message,
             aad = aad,
             // optional `key` parameter
         ) // returns Map<String, ByteArray> of [data, key]
 
-        val decrypted = AesGcm.decrypt(encrypted)
+        val decrypted = AesGCM.decrypt(encrypted)
 
         // or
 
-        val decrypted = AesGcm.decrypt(
+        val decrypted = AesGCM.decrypt(
             encrypted = encrypted.getValue("data"),
             key = encrypted.getValue("key")
         )
@@ -43,14 +43,14 @@ class EncryptionTest {
 ### Java (Non-kotlin)
 
 ```java
-import io.github.jhdcruz.kipher.symmetric.aes.AesGcm;
+import io.github.jhdcruz.kipher.symmetric.aes.AesGCM;
 
 import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) {
-        AesGcm encryptionUtils = new AesGcm();
+        AesGCM encryptionUtils = new AesGCM();
 
         byte[] data = "Hello World".getBytes();
 
@@ -73,12 +73,12 @@ public class Main {
 ### Using different key size
 
 ```kotlin
-import io.github.jhdcruz.kipher.symmetric.aes.AesCbc
+import io.github.jhdcruz.kipher.symmetric.aes.AesCBC
 
 class EncryptionTest {
 
     fun main() {
-        val encryptionUtils = AesCbc()
+        val encryptionUtils = AesCBC()
 
         val data = "sample data".encodeToByteArray()
 
