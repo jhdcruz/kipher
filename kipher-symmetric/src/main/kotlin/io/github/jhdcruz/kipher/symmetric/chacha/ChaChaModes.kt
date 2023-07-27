@@ -12,5 +12,5 @@ internal const val ALGORITHM: String = "ChaCha20"
  */
 enum class ChaChaModes(val mode: String) {
     ChaCha20("ChaCha20"),
-    ChaCha20Poly1305("ChaCha20-Poly1305")
+    ChaCha20Poly1305("ChaCha20-Poly1305"),
 }

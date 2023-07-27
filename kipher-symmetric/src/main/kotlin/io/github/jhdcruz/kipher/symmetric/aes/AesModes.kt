@@ -10,7 +10,6 @@ internal const val DEFAULT_KEY_SIZE: Int = 256
 
 /** Available AES encryption modes. */
 enum class AesModes {
-    ;
 
     /** AES Basic encryption modes. */
     enum class Standard(val mode: String) {

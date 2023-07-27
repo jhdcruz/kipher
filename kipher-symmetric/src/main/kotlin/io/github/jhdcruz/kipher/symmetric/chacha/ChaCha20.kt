@@ -15,4 +15,3 @@ private const val IV_LENGTH: Int = 12
 class ChaCha20 : StandardEncryption(ALGORITHM, ChaChaModes.ChaCha20.mode) {
     override val ivLength: Int = IV_LENGTH
 }
-

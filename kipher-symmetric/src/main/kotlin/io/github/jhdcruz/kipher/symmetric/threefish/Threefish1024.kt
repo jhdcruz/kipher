@@ -15,4 +15,3 @@ private const val ALGORITHM: String = "Threefish-1024"
 class Threefish1024 : StandardEncryption(ALGORITHM, ThreefishModes.Threefish1024.mode) {
     override val ivLength: Int = IV_LENGTH
 }
-

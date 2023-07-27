@@ -44,10 +44,10 @@ enum class MacModes(
     Poly1305(null, "Poly1305", null),
 
     /*
-    * Specialized MACs
-    *
-    * Mostly used with other ciphers.
-    */
+     * Specialized MACs
+     *
+     * Mostly used with other ciphers.
+     */
     Poly1305_AES("AES", "Poly1305", 256),
 
     AesCMAC("AES", "AESCMAC", null),

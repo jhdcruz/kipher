@@ -94,7 +94,7 @@ abstract class AEAD(
         } catch (e: AEADBadTagException) {
             throw KipherException(
                 "Invalid additional authenticated data (AAD), data might have been tampered.",
-                e
+                e,
             )
         }
     }

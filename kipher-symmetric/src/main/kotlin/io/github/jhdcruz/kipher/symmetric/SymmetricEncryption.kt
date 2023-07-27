@@ -60,7 +60,6 @@ sealed class SymmetricEncryption(
     @JvmOverloads
     fun generateKey(@Nullable size: Int? = defaultKeySize): ByteArray {
         return keyGenerator.run {
-
             if (size != null) {
                 init(size, randomize)
             } else {

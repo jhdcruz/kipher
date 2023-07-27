@@ -32,7 +32,6 @@ internal class BaseSymmetricTest {
         }
     }
 
-
     @Test
     fun `test authenticated encryption using invalid secret key`() {
         val aesGcm = AesGCM()
@@ -71,7 +70,6 @@ internal class BaseSymmetricTest {
     fun `test encryption with invalid custom key size`(keySize: Int) {
         val aesCbc = AesCBC()
         val secretKey = aesCbc.generateKey(keySize)
-
 
         assertThrows<InvalidAlgorithmParameterException> {
             aesCbc.encrypt(message, secretKey)
