@@ -30,9 +30,16 @@ sealed class SymmetricEncryption(
     internal val cipher = Cipher.getInstance(mode)
 
     /**
-     * IV/nonce length
+     * IV/nonce length.
      */
     abstract val ivLength: Int
+
+    /**
+     * Default key size to use for [KeyGenerator].
+     *
+     * Setting to `null` uses the default key size based on [KeyGenerator].
+     */
+    open var defaultKeySize: Int? = null
 
     /**
      * Generate IV based on [ivLength].
@@ -48,12 +55,10 @@ sealed class SymmetricEncryption(
     /**
      * Generate secret key based on optional key [size].
      *
-     * Default: `256`.
-     *
-     * @param size Key size.
+     * Else, use the default from [KeyGenerator].
      */
     @JvmOverloads
-    fun generateKey(@Nullable size: Int? = null): ByteArray {
+    fun generateKey(@Nullable size: Int? = defaultKeySize): ByteArray {
         return keyGenerator.run {
 
             if (size != null) {

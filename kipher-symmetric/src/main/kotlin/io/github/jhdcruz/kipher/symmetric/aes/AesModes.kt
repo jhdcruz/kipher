@@ -6,6 +6,7 @@
 package io.github.jhdcruz.kipher.symmetric.aes
 
 internal const val ALGORITHM: String = "AES"
+internal const val DEFAULT_KEY_SIZE: Int = 256
 
 /** Available AES encryption modes. */
 enum class AesModes {

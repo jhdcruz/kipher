@@ -16,4 +16,6 @@ const val AUTHENTICATED_IV_LENGTH: Int = 12
  */
 sealed class AesAEAD(aesMode: AesModes.AEAD) : AEAD(ALGORITHM, aesMode.mode) {
     override val ivLength: Int = AUTHENTICATED_IV_LENGTH
+
+    override var defaultKeySize: Int? = DEFAULT_KEY_SIZE
 }

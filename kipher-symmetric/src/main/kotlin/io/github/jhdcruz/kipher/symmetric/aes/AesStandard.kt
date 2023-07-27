@@ -16,4 +16,6 @@ const val BASIC_IV_LENGTH: Int = 16
  */
 sealed class AesStandard(aesMode: AesModes.Standard) : StandardEncryption(ALGORITHM, aesMode.mode) {
     override val ivLength: Int = BASIC_IV_LENGTH
+
+    override var defaultKeySize: Int? = DEFAULT_KEY_SIZE
 }
