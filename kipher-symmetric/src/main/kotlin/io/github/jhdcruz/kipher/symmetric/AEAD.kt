@@ -25,7 +25,7 @@ const val TAG_LENGTH: Int = 128
  */
 abstract class AEAD(
     @NotNull val algorithm: String,
-    @NotNull mode: String,
+    @NotNull val mode: String,
 ) : SymmetricEncryption(algorithm, mode) {
 
     /**

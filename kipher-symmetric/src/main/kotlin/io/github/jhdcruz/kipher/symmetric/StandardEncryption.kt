@@ -18,7 +18,7 @@ import javax.crypto.spec.SecretKeySpec
  */
 abstract class StandardEncryption(
     @NotNull val algorithm: String,
-    @NotNull mode: String,
+    @NotNull val mode: String,
 ) : SymmetricEncryption(algorithm, mode) {
 
     /**
