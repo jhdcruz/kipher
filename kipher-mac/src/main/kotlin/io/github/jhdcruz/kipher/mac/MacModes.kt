@@ -5,27 +5,54 @@
 
 package io.github.jhdcruz.kipher.mac
 
-@Suppress("unused", "MagicNumber")
-/** Available hash [mode]s. */
-enum class MacModes(val mode: String, val length: Int) {
-    HmacGOST("HmacGOST3411", 256),
+import org.jetbrains.annotations.NotNull
+import org.jetbrains.annotations.Nullable
 
-    HmacRIPEMD128("HmacRIPEMD128", 128),
-    HmacRIPEMD160("HmacRIPEMD160", 256),
+@Suppress("unused")
+/**
+ * Available hash [mode]s.
+ *
+ * Set [algorithm] to `null` if its the same as mode.
+ *
+ * Set [keySize] to `null` to use default, since some
+ * requires custom key size and the default is invalid.
+ */
+enum class MacModes(
+    @Nullable val algorithm: String?,
+    @NotNull val mode: String,
+    @Nullable val keySize: Int?,
+) {
+    HmacGOST(null, "HmacGOST3411", null),
 
-    HmacMD5("HmacMD5", 128),
+    HmacRIPEMD128(null, "HmacRIPEMD128", null),
+    HmacRIPEMD160(null, "HmacRIPEMD160", null),
 
-    HmacSHA1("HmacSHA1", 160),
-    HmacSHA224("HmacSHA224", 224),
-    HmacSHA256("HmacSHA256", 256),
-    HmacSHA384("HmacSHA384", 384),
-    HmacSHA512("HmacSHA512", 512),
+    HmacMD5(null, "HmacMD5", null),
 
-    HmacTiger("HmacTiger", 192),
-    HmacWhirlpool("HmacWhirlpool", 512),
+    HmacSHA1(null, "HmacSHA1", null),
+    HmacSHA224(null, "HmacSHA224", null),
+    HmacSHA256(null, "HmacSHA256", null),
+    HmacSHA384(null, "HmacSHA384", null),
+    HmacSHA512(null, "HmacSHA512", null),
 
-    Kmac128("KMAC128", 128),
-    Kmac256("KMAC256", 256),
+    HmacTiger(null, "HmacTiger", null),
+    HmacWhirlpool(null, "HmacWhirlpool", null),
 
-    Poly1305("Poly1305", 256),
+    Kmac128(null, "KMAC128", null),
+    Kmac256(null, "KMAC256", null),
+
+    Poly1305(null, "Poly1305", null),
+
+    /*
+    * Specialized MACs
+    *
+    * Mostly used with other ciphers.
+    */
+    Poly1305_AES("AES", "Poly1305", 256),
+
+    AesCMAC("AES", "AESCMAC", null),
+
+    Threefish_256CMAC("Threefish-256", "Threefish-256CMAC", null),
+    Threefish_512CMAC("Threefish-512", "Threefish-512CMAC", null),
+    Threefish_1024CMAC("Threefish-1024", "Threefish-1024CMAC", null),
 }

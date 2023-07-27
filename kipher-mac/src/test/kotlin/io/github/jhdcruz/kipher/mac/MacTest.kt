@@ -59,6 +59,7 @@ internal class MacTest {
 
         // print output and length in json like form
         println("$mode = $actualBytes, length = ${actualBytes.length}")
+        println("key size = ${key.size}")
 
         assertTrue {
             mac.verifyHash(dataList, actualBytes, key)

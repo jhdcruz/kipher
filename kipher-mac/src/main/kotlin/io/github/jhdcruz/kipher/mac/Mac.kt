@@ -24,17 +24,25 @@ import javax.crypto.spec.SecretKeySpec
  * @property macMode [MacModes] to be used for HMAC operations.
  */
 class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
-    private val mode = macMode.mode
     private val randomize = SecureRandom()
 
+    private val algorithm: String = macMode.algorithm ?: macMode.mode
+
     /**
-     * Generate a key based on current mode,
+     * Generate a key based on current macMode.mode,
      * or by providing a custom [keyLength].
      */
     @JvmOverloads
-    fun generateKey(@Nullable keyLength: Int? = null): ByteArray {
-        return KeyGenerator.getInstance(mode).run {
-            init(keyLength ?: mode.length, randomize)
+    fun generateKey(@Nullable keyLength: Int? = macMode.keySize): ByteArray {
+        return KeyGenerator.getInstance(algorithm).run {
+
+            if (keyLength != null) {
+                init(keyLength, randomize)
+            } else {
+                // use the default
+                init(randomize)
+            }
+
             generateKey().encoded
         }
     }
@@ -51,8 +59,8 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
         @NotNull key: ByteArray,
     ): ByteArray {
         return try {
-            val mac = Mac.getInstance(mode)
-            val secretKey = SecretKeySpec(key, mode)
+            val mac = Mac.getInstance(macMode.mode)
+            val secretKey = SecretKeySpec(key, macMode.mode)
 
             mac.init(secretKey)
 
