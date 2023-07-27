@@ -8,4 +8,4 @@ package io.github.jhdcruz.kipher.symmetric.aes
 /**
  * AES Encryption using CTR mode.
  */
-class AesCtr : AesStandard(AesModes.Standard.CTR)
+class AesCTR : AesStandard(AesModes.Standard.CTR)

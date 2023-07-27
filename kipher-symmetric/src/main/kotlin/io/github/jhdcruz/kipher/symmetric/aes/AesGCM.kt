@@ -6,6 +6,6 @@
 package io.github.jhdcruz.kipher.symmetric.aes
 
 /**
- * AES Encryption using CFB mode.
+ * AES Encryption using GCM mode.
  */
-class AesCfb : AesStandard(AesModes.Standard.CFB)
+class AesGCM : AesAEAD(AesModes.AEAD.GCM)

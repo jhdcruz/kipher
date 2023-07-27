@@ -8,4 +8,4 @@ package io.github.jhdcruz.kipher.symmetric.aes
 /**
  * AES Encryption using CCM mode.
  */
-class AesCcm : AesAEAD(AesModes.AEAD.CCM)
+class AesCCM : AesAEAD(AesModes.AEAD.CCM)
