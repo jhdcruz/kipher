@@ -25,7 +25,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      * If you want a string representation of the hash, use [generateHashString],
      * or use [toHexString] on the resulting [ByteArray] hash.
      */
-    fun generateHash(@NotNull data: List<ByteArray>): ByteArray {
+    fun generateHash(@NotNull data: Iterable<ByteArray>): ByteArray {
         val md = MessageDigest.getInstance(digestMode.mode)
 
         for (item in data) {
@@ -51,7 +51,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
     /**
      * Generate hash from multiple [data].
      */
-    fun generateHashString(@NotNull data: List<ByteArray>): String =
+    fun generateHashString(@NotNull data: Iterable<ByteArray>): String =
         generateHash(data).toHexString()
 
     /**
@@ -69,7 +69,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull expected: ByteArray,
     ): Boolean = generateHash(data).contentEquals(expected)
 
@@ -88,7 +88,7 @@ class Digest(@NotNull val digestMode: DigestModes) : KipherProvider(provider) {
      * as the original data when the hash was generated.
      */
     fun verifyHash(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull expected: String,
     ): Boolean = generateHash(data).toHexString().contentEquals(expected)
 

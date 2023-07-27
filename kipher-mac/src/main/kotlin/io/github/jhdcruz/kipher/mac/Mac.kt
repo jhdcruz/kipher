@@ -55,7 +55,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      */
     @Throws(KipherException::class)
     fun generateMac(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull key: ByteArray,
     ): ByteArray {
         return try {
@@ -103,7 +103,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      *  in string format.
      */
     fun generateMacString(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull key: ByteArray,
     ): String = generateMac(data, key).toHexString()
 
@@ -123,7 +123,7 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
      * as the original data when the hash was generated.
      */
     fun verifyMac(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull expected: ByteArray,
         @NotNull key: ByteArray,
     ): Boolean = generateMac(data, key).contentEquals(expected)
@@ -140,11 +140,11 @@ class Mac(@NotNull val macMode: MacModes) : KipherProvider(provider) {
     /**
      * Verify if multiple [data] matches [expected] hash using provided [key].
      *
-     * list of [data] to be verified should be in the same order
+     * Iterable of [data] to be verified should be in the same order
      * as the original data when the hash was generated.
      */
     fun verifyMac(
-        @NotNull data: List<ByteArray>,
+        @NotNull data: Iterable<ByteArray>,
         @NotNull expected: String,
         @NotNull key: ByteArray,
     ): Boolean = generateMac(data, key).toHexString().contentEquals(expected)
