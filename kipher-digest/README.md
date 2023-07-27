@@ -4,7 +4,7 @@ Library for cryptographic hash functions (such as SHAs, MD5s).
 
 ## Adding Dependency
 
-> **Note**
+> [!NOTE]
 >
 > Currently only available in snapshot version.
 

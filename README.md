@@ -27,7 +27,7 @@ Minimum requirements to use the library:
 - Kotlin 1.7+
 - Java 8+
 
-> **Note**
+> [!NOTE]
 >
 > If your project uses earlier JDK 8, you might need
 > [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
@@ -120,7 +120,7 @@ dependencies {
 </project>
 ```
 
-> **Warning**
+> [!WARNING]
 >
 > Snapshots should be considered unstable and contain breaking changes,
 > they are primarily for testing purposes.
@@ -143,6 +143,7 @@ dependencies {
     - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
     - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
 
+> [!IMPORTANT]
 > This method doesn't include all the necessary dependencies.
 >
 > Although, the errors will tell you the dependencies you need.
@@ -243,7 +244,7 @@ class EncryptionTest {
 
 Default security provider is set to [Bouncy Castle](https://bouncycastle.org/).
 
-> **Note**
+> [!NOTE]
 >
 > Changing provider has to be done **before** using any of the library
 > functions/methods.
@@ -343,7 +344,7 @@ class Main {
 }
 ```
 
-> **Warning**
+> [!WARNING]
 >
 > `provider` value is tied to the class itself, keep in mind when using the library
 > functions/methods in parallel with different providers.
@@ -360,7 +361,7 @@ The library will follow semantic versioning where every breaking changes bumps t
 regardless of how small the change is, this way developers know that something will not work should
 they update.
 
-> **Note**
+> [!NOTE]
 >
 > Each modules are independently versioned to avoid version bumps between unrelated module/s.
 
@@ -378,7 +379,9 @@ details
 
 ## Disclaimer
 
-**I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**.
+> [!IMPORTANT]
+>
+> **I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**.
 
 This library is primarily made for convenience and ease-of-use,
 while providing as much security as possible out-of-the-box.

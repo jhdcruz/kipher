@@ -4,7 +4,7 @@ Library for ensuring data integrity and authenticity using message authenticatio
 
 ## Adding Dependency
 
-> **Note**
+> [!NOTE]
 >
 > Currently only available in snapshot version.
 

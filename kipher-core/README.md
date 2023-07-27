@@ -2,7 +2,7 @@
 
 Core utility libraries used by kipher modules.
 
-> **Note**
+> [!NOTE]
 >
 > Already bundled in all kipher modules.
 
