@@ -6,7 +6,6 @@
 package io.github.jhdcruz.kipher.symmetric.chacha
 
 internal const val ALGORITHM: String = "ChaCha20"
-internal const val IV_LENGTH: Int = 12
 
 /**
  * ChaCha20 cipher modes.
