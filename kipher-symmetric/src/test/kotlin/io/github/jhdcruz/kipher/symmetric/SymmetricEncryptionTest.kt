@@ -38,6 +38,17 @@ internal class SymmetricEncryptionTest {
     }
 
     @ParameterizedTest
+    @MethodSource("io.github.jhdcruz.kipher.symmetric.SymmetricTestParams#getStandardClasses")
+    fun `Standard encryption test with parameters`(encryptionClass: Class<out StandardEncryption>) {
+        val encryption = encryptionClass.getDeclaredConstructor().newInstance()
+
+        val encrypted = encryption.encrypt(message)
+        val decrypted = encryption.decrypt(encrypted["data"]!!, encrypted["key"]!!)
+
+        assertEquals(message.decodeToString(), decrypted.decodeToString())
+    }
+
+    @ParameterizedTest
     @MethodSource("io.github.jhdcruz.kipher.symmetric.SymmetricTestParams#getAeadClasses")
     fun `AEAD encryption test`(encryptionClass: Class<out AEAD>) {
         val encryption = encryptionClass.getDeclaredConstructor().newInstance()
@@ -64,6 +75,18 @@ internal class SymmetricEncryptionTest {
         println("key size = ${encrypted["key"]!!.size * 8}")
         println("data = ${encrypted["data"]!!.toHexString()}")
         println("------------------------------------------------------------------------")
+
+        assertEquals(message.decodeToString(), decrypted.decodeToString())
+    }
+
+    @ParameterizedTest
+    @MethodSource("io.github.jhdcruz.kipher.symmetric.SymmetricTestParams#getAeadClasses")
+    fun `AEAD encryption test with parameters`(encryptionClass: Class<out AEAD>) {
+        val encryption = encryptionClass.getDeclaredConstructor().newInstance()
+
+        val encrypted = encryption.encrypt(message, aad)
+        val decrypted =
+            encryption.decrypt(encrypted["data"]!!, encrypted["key"]!!, encrypted["aad"]!!)
 
         assertEquals(message.decodeToString(), decrypted.decodeToString())
     }
