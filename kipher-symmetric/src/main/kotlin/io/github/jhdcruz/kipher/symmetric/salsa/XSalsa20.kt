@@ -10,7 +10,7 @@ import io.github.jhdcruz.kipher.symmetric.StandardEncryption
 private const val IV_LENGTH: Int = 24
 
 /**
- * Data encryption using ChaCha20.
+ * Data encryption using Salsa20.
  */
 class XSalsa20 : StandardEncryption(ALGORITHM, SalsaModes.XSalsa20.mode) {
     override val ivLength: Int = IV_LENGTH

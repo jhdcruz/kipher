@@ -9,6 +9,9 @@ import org.jetbrains.annotations.NotNull
 
 internal const val IV_LENGTH: Int = 16
 
+/**
+ * Supported Threefish cipher [mode]s.
+ */
 enum class ThreefishModes(@NotNull val mode: String) {
     Threefish256("Threefish-256"),
     Threefish512("Threefish-512"),

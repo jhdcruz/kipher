@@ -10,7 +10,7 @@ import io.github.jhdcruz.kipher.symmetric.StandardEncryption
 private const val ALGORITHM: String = "Threefish-256"
 
 /**
- * Data encryption using ChaCha20-Poly1305.
+ * Data encryption using Threefish (256-bit variant).
  */
 class Threefish256 : StandardEncryption(ALGORITHM, ThreefishModes.Threefish256.mode) {
     override val ivLength: Int = IV_LENGTH

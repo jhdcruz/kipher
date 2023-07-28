@@ -8,11 +8,11 @@ package io.github.jhdcruz.kipher.symmetric.aes
 internal const val ALGORITHM: String = "AES"
 internal const val DEFAULT_KEY_SIZE: Int = 256
 
-/** Available AES encryption modes. */
+/** Supported AES encryption modes. */
 enum class AesModes {
     ;
 
-    /** AES Basic encryption modes. */
+    /** Supported AES basic encryption [mode]s. */
     enum class Standard(val mode: String) {
         /** Compatibility with SunJCE's PCKS7 Padding. */
         CBC("AES/CBC/PKCS5Padding"),
@@ -22,7 +22,7 @@ enum class AesModes {
         CFB("AES/CFB/NoPadding"),
     }
 
-    /** AES Authenticated encryption modes. */
+    /** Supported AES authenticated encryption [mode]s. */
     enum class AEAD(val mode: String) {
         GCM("AES/GCM/NoPadding"),
         CCM("AES/CCM/NoPadding"),

@@ -8,7 +8,7 @@ package io.github.jhdcruz.kipher.symmetric.chacha
 internal const val ALGORITHM: String = "ChaCha20"
 
 /**
- * ChaCha20 cipher modes.
+ * ChaCha20 cipher [mode]s.
  */
 enum class ChaChaModes(val mode: String) {
     ChaCha20("ChaCha20"),
