@@ -17,7 +17,7 @@ const val TAG_LENGTH: Int = 128
 /**
  * Authenticated Encryption with Associated Data.
  *
- * It incorporates `aad` that provides a cryptographic checksum that can be used to help
+ * It incorporates `tag` that provides a cryptographic checksum that can be used to help
  * validate a decryption such as additional clear text, or associated data used for validation
  *
  * @param algorithm algorithm to use for KeyGenerator (e.g. AES, ChaCha20).
@@ -29,7 +29,7 @@ abstract class AEAD(
 ) : SymmetricEncryption(algorithm, mode) {
 
     /**
-     * Encrypts the provided [data] along with [aad] (if provided) using [key].
+     * Encrypts the provided [data] along with [tag] (if provided) using [key].
      *
      * This is useful for **advanced use cases** if you want finer control.
      *
@@ -43,7 +43,7 @@ abstract class AEAD(
         @NotNull data: ByteArray,
         @NotNull iv: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull tag: ByteArray = byteArrayOf(),
     ): Map<String, ByteArray> {
         val keySpec = SecretKeySpec(key, algorithm)
         val parameterSpec = GCMParameterSpec(TAG_LENGTH, iv)
@@ -51,9 +51,9 @@ abstract class AEAD(
         return cipher.run {
             init(Cipher.ENCRYPT_MODE, keySpec, parameterSpec)
 
-            // add aad if not empty
-            if (aad.isNotEmpty()) {
-                updateAAD(aad)
+            // add tag if not empty
+            if (tag.isNotEmpty()) {
+                updateAAD(tag)
             }
 
             doFinal(data)
@@ -66,7 +66,7 @@ abstract class AEAD(
     }
 
     /**
-     * Decrypts [encrypted] data with optional [aad] verification using [key] nad [iv].
+     * Decrypts [encrypted] data with optional [tag] verification using [key] nad [iv].
      *
      * @return Decrypted data
      */
@@ -75,7 +75,7 @@ abstract class AEAD(
         @NotNull encrypted: ByteArray,
         @NotNull iv: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull tag: ByteArray = byteArrayOf(),
     ): ByteArray {
         return try {
             val keySpec = SecretKeySpec(key, algorithm)
@@ -84,54 +84,54 @@ abstract class AEAD(
             cipher.run {
                 init(Cipher.DECRYPT_MODE, keySpec, gcmIv)
 
-                // check aad if not empty
-                if (aad.isNotEmpty()) {
-                    updateAAD(aad)
+                // check tag if not empty
+                if (tag.isNotEmpty()) {
+                    updateAAD(tag)
                 }
 
                 doFinal(encrypted)
             }
         } catch (e: AEADBadTagException) {
             throw KipherException(
-                "Invalid additional authenticated data (AAD), data might have been tampered.",
+                "Invalid additional authenticated data (tag), data might have been tampered.",
                 e,
             )
         }
     }
 
     /**
-     * Encrypts the provided [data] along with optional [aad] and [key].
+     * Encrypts the provided [data] along with optional [tag] and [key].
      *
      * This method already generates a new key for each encryption.
      * [generateKey] is optional.
      *
-     * If you want to use custom keys, and leave [aad] empty,
+     * If you want to use custom keys, and leave [tag] empty,
      * pass an empty [Byte] instead of `null`.
      *
-     * @return Concatenated encrypted data in `[iv, data]` format with `key` and `aad`.
+     * @return Concatenated encrypted data in `[iv, data]` format with `key` and `tag`.
      */
     @JvmOverloads
     fun encrypt(
         @NotNull data: ByteArray,
-        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull tag: ByteArray = byteArrayOf(),
         @NotNull key: ByteArray = generateKey(),
     ): Map<String, ByteArray> {
         val encrypted = encryptBare(
             data = data,
             iv = generateIv(),
             key = key,
-            aad = aad,
+            tag = tag,
         ).concat()
 
         return mapOf(
             "data" to encrypted,
             "key" to key,
-            "aad" to aad,
+            "tag" to tag,
         )
     }
 
     /**
-     * Decrypts [encrypted] data using [key] and [aad] if provided.
+     * Decrypts [encrypted] data using [key] and [tag] if provided.
      *
      * This method assumes that the [encrypted] data is in `[iv, data]` format,
      * presumably encrypted using [encrypt].
@@ -140,14 +140,14 @@ abstract class AEAD(
     fun decrypt(
         @NotNull encrypted: ByteArray,
         @NotNull key: ByteArray,
-        @NotNull aad: ByteArray = byteArrayOf(),
+        @NotNull tag: ByteArray = byteArrayOf(),
     ): ByteArray {
         encrypted.extract().let { data ->
             return decryptBare(
                 encrypted = data.getValue("data"),
                 iv = data.getValue("iv"),
                 key = key,
-                aad = aad,
+                tag = tag,
             )
         }
     }
@@ -157,11 +157,11 @@ abstract class AEAD(
      *
      * This method assumes that [encrypted] is a [Map] that contains
      * concatenated encrypted data in `[iv, data]` format
-     * with `key` and `aad`, presumably encrypted using [encrypt].
+     * with `key` and `tag`, presumably encrypted using [encrypt].
      */
     fun decrypt(@NotNull encrypted: Map<String, ByteArray>): ByteArray {
         val key = encrypted.getValue("key")
-        val aad = encrypted.getValue("aad")
+        val tag = encrypted.getValue("tag")
         val concatData = encrypted.getValue("data")
 
         concatData.extract().let { data ->
@@ -169,7 +169,7 @@ abstract class AEAD(
                 encrypted = data.getValue("data"),
                 iv = data.getValue("iv"),
                 key = key,
-                aad = aad,
+                tag = tag,
             )
         }
     }

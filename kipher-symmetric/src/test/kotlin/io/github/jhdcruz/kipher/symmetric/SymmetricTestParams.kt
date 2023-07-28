@@ -25,7 +25,7 @@ import java.util.stream.Stream
  */
 internal object SymmetricTestParams {
     val message = "message".encodeToByteArray()
-    val aad = "metadata".encodeToByteArray()
+    val tag = "metadata".encodeToByteArray()
     val invalidKey = "invalid-key".encodeToByteArray()
 
     /**

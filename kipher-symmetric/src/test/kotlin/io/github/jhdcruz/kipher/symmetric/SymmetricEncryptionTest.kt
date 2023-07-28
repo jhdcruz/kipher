@@ -6,8 +6,8 @@
 package io.github.jhdcruz.kipher.symmetric
 
 import io.github.jhdcruz.kipher.core.Format.toHexString
-import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.aad
 import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.message
+import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.tag
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import java.util.stream.Stream
@@ -65,10 +65,10 @@ internal class SymmetricEncryptionTest {
 
     @ParameterizedTest
     @MethodSource("io.github.jhdcruz.kipher.symmetric.SymmetricTestParams#getAeadClasses")
-    fun `AEAD encryption test with AAD`(encryptionClass: Class<out AEAD>) {
+    fun `AEAD encryption test with tag`(encryptionClass: Class<out AEAD>) {
         val encryption = encryptionClass.getDeclaredConstructor().newInstance()
 
-        val encrypted = encryption.encrypt(message, aad)
+        val encrypted = encryption.encrypt(message, tag)
         val decrypted = encryption.decrypt(encrypted)
 
         println("${encryption.mode} = ${encrypted["data"]!!.size}")
@@ -84,9 +84,9 @@ internal class SymmetricEncryptionTest {
     fun `AEAD encryption test with parameters`(encryptionClass: Class<out AEAD>) {
         val encryption = encryptionClass.getDeclaredConstructor().newInstance()
 
-        val encrypted = encryption.encrypt(message, aad)
+        val encrypted = encryption.encrypt(message, tag)
         val decrypted =
-            encryption.decrypt(encrypted["data"]!!, encrypted["key"]!!, encrypted["aad"]!!)
+            encryption.decrypt(encrypted["data"]!!, encrypted["key"]!!, encrypted["tag"]!!)
 
         assertEquals(message.decodeToString(), decrypted.decodeToString())
     }

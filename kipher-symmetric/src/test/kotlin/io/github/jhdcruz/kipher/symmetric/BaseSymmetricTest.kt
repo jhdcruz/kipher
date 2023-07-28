@@ -5,9 +5,9 @@
 
 package io.github.jhdcruz.kipher.symmetric
 
-import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.aad
 import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.invalidKey
 import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.message
+import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.tag
 import io.github.jhdcruz.kipher.symmetric.aes.AesCBC
 import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
 import org.junit.jupiter.api.RepeatedTest
@@ -39,7 +39,7 @@ internal class BaseSymmetricTest {
         val aesGcm = AesGCM()
 
         assertThrows<InvalidAlgorithmParameterException> {
-            aesGcm.encrypt(message, invalidKey, aad)
+            aesGcm.encrypt(message, invalidKey, tag)
         }
     }
 
@@ -56,10 +56,10 @@ internal class BaseSymmetricTest {
     @Test
     fun `test authenticated decryption using invalid secret key`() {
         val aesGcm = AesGCM()
-        val encrypted = aesGcm.encrypt(message, aad)
+        val encrypted = aesGcm.encrypt(message, tag)
 
         assertThrows<InvalidAlgorithmParameterException> {
-            aesGcm.decrypt(encrypted["data"]!!, invalidKey, encrypted["aad"]!!)
+            aesGcm.decrypt(encrypted["data"]!!, invalidKey, encrypted["tag"]!!)
         }
     }
 
