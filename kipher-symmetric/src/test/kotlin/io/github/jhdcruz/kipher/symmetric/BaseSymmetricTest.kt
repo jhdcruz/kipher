@@ -5,6 +5,8 @@
 
 package io.github.jhdcruz.kipher.symmetric
 
+import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.aad
+import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.invalidKey
 import io.github.jhdcruz.kipher.symmetric.SymmetricTestParams.message
 import io.github.jhdcruz.kipher.symmetric.aes.AesCBC
 import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
@@ -28,7 +30,7 @@ internal class BaseSymmetricTest {
         val aesCbc = AesCBC()
 
         assertThrows<InvalidAlgorithmParameterException> {
-            aesCbc.encrypt(message, SymmetricTestParams.invalidKey)
+            aesCbc.encrypt(message, invalidKey)
         }
     }
 
@@ -37,7 +39,27 @@ internal class BaseSymmetricTest {
         val aesGcm = AesGCM()
 
         assertThrows<InvalidAlgorithmParameterException> {
-            aesGcm.encrypt(message, SymmetricTestParams.invalidKey, SymmetricTestParams.aad)
+            aesGcm.encrypt(message, invalidKey, aad)
+        }
+    }
+
+    @Test
+    fun `test standard decryption with invalid secret key`() {
+        val aesCbc = AesCBC()
+        val encrypted = aesCbc.encrypt(message)
+
+        assertThrows<InvalidAlgorithmParameterException> {
+            aesCbc.decrypt(encrypted["data"]!!, invalidKey)
+        }
+    }
+
+    @Test
+    fun `test authenticated decryption using invalid secret key`() {
+        val aesGcm = AesGCM()
+        val encrypted = aesGcm.encrypt(message, aad)
+
+        assertThrows<InvalidAlgorithmParameterException> {
+            aesGcm.decrypt(encrypted["data"]!!, invalidKey, encrypted["aad"]!!)
         }
     }
 
