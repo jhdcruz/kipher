@@ -10,7 +10,9 @@ import io.github.jhdcruz.kipher.symmetric.aes.AesCBC7
 import io.github.jhdcruz.kipher.symmetric.aes.AesCCM
 import io.github.jhdcruz.kipher.symmetric.aes.AesCFB
 import io.github.jhdcruz.kipher.symmetric.aes.AesCTR
+import io.github.jhdcruz.kipher.symmetric.aes.AesEAX
 import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
+import io.github.jhdcruz.kipher.symmetric.aes.AesGCMSIV
 import io.github.jhdcruz.kipher.symmetric.chacha.ChaCha20
 import io.github.jhdcruz.kipher.symmetric.chacha.ChaChaPoly
 import io.github.jhdcruz.kipher.symmetric.salsa.Salsa20
@@ -50,7 +52,9 @@ internal object SymmetricTestParams {
      */
     @JvmStatic
     val aeadClasses: Iterable<Class<out AEAD>> = listOf(
+        AesEAX::class.java,
         AesGCM::class.java,
+        AesGCMSIV::class.java,
         AesCCM::class.java,
         ChaChaPoly::class.java,
     )

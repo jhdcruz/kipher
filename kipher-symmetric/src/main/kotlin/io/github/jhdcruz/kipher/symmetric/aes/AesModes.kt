@@ -10,7 +10,6 @@ internal const val DEFAULT_KEY_SIZE: Int = 256
 
 /** Supported AES encryption modes. */
 enum class AesModes {
-    ;
 
     /** Supported AES basic encryption [mode]s. */
     enum class Standard(val mode: String) {
@@ -25,6 +24,8 @@ enum class AesModes {
     /** Supported AES authenticated encryption [mode]s. */
     enum class AEAD(val mode: String) {
         GCM("AES/GCM/NoPadding"),
+        GCM_SIV("AES/GCM-SIV/NoPadding"),
+        EAX("AES/EAX/NoPadding"),
         CCM("AES/CCM/NoPadding"),
     }
 }
