@@ -85,7 +85,15 @@ public final class io/github/jhdcruz/kipher/symmetric/aes/AesCTR : io/github/jhd
 	public fun <init> ()V
 }
 
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesEAX : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
+	public fun <init> ()V
+}
+
 public final class io/github/jhdcruz/kipher/symmetric/aes/AesGCM : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
+	public fun <init> ()V
+}
+
+public final class io/github/jhdcruz/kipher/symmetric/aes/AesGCMSIV : io/github/jhdcruz/kipher/symmetric/aes/AesAEAD {
 	public fun <init> ()V
 }
 
@@ -96,7 +104,9 @@ public final class io/github/jhdcruz/kipher/symmetric/aes/AesModes : java/lang/E
 
 public final class io/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD : java/lang/Enum {
 	public static final field CCM Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
+	public static final field EAX Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
 	public static final field GCM Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
+	public static final field GCM_SIV Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
 	public final fun getMode ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
 	public static fun values ()[Lio/github/jhdcruz/kipher/symmetric/aes/AesModes$AEAD;
