@@ -57,7 +57,7 @@ jobs:
         run: ./gradlew ${{ steps.module.outputs.module_name }}:publishAllPublicationsToGitHubPackagesRepository
 
       - name: Publish ${{ steps.module.outputs.module_name }} on Sonatype
-        run: ./gradlew ${{ steps.module.outputs.module_name }}:publishToSonatype ${{ steps.module.outputs.module_name }}:closeSonatypeStagingRepository
+        run: ./gradlew ${{ steps.module.outputs.module_name }}:publishToSonatype closeSonatypeStagingRepository
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASSWORD }}
