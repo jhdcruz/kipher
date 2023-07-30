@@ -85,7 +85,8 @@ jobs:
             ${{ steps.module.outputs.module_name }}/build/libs/*
 
   docs:
+    needs: [publish]
     uses: ./.github/workflows/docs.yml
     with:
-      project: ${{ steps.module.outputs.module_name }}
+      project: ${{ needs.publish.module.outputs.module_name }}
     secrets: inherit
