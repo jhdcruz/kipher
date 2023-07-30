@@ -43,6 +43,9 @@ jobs:
           cd ${{ steps.module.outputs.module_name }}
           sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
 
+      - name: remove SNAPSHOT on root gradle.properties
+        run: sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+
       - name: Get version from gradle.properties
         id: version_name
         shell: bash
