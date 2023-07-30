@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+@file:Suppress("NoSemicolons")
+
 package io.github.jhdcruz.kipher.symmetric.aes
 
 internal const val ALGORITHM: String = "AES"
@@ -10,6 +12,7 @@ internal const val DEFAULT_KEY_SIZE: Int = 256
 
 /** Supported AES encryption modes. */
 enum class AesModes {
+    ; // intentional semicolon
 
     /** Supported AES basic encryption [mode]s. */
     enum class Standard(val mode: String) {
