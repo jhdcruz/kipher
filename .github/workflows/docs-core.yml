@@ -16,6 +16,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version_name.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -49,6 +51,11 @@ jobs:
         with:
           arguments: kipher-core:dokkaHtml
 
+      - name: Remove snapshot versions on generated docs
+        run: |
+          cd ./docs/api/kipher-core
+          rm -rf ${{ steps.version_name.outputs.version }}/older/*-SNAPSHOT
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
@@ -64,27 +71,23 @@ jobs:
         with:
           fetch-depth: 0
 
-        # remove previous versions, new version contains the old ones
-      - name: Remove current kipher-core docs
-        run: rm -rf docs/api/kipher-core
+      - name: Remove previous versions
+        run: |
+          cd ./docs/api/kipher-core
+          rm -rf *
 
       - name: Download artifact
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: ./docs/api/kipher-core
-
-      - name: Remove snapshots version
-        run: |
-          cd ./docs/api/kipher-core
-          rm -rf **/older/*-SNAPSHOT
+          path: ./docs/api/kipher-core/${{ needs.build.outputs.version }}
 
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -f docs/api/kipher-core
-          git commit -m "docs(api): generate docs for kipher-core [skip-ci]"
+          git commit -m "docs(api): kipher-core v${{ needs.build.outputs.version }} api docs [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
@@ -105,18 +108,11 @@ jobs:
           name: docs
           path: ./docs/api
 
-      - name: Get api docs output directory
-        id: docs
-        shell: bash
-        run: |
-          cd docs/api/
-          echo "api=$(ls -d */ | head -n 1)" >> $GITHUB_OUTPUT
-
       - name: Publish to cloudflare pages
         uses: cloudflare/pages-action@1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: kipher-core
-          directory: docs/api/${{ steps.docs.outputs.api }}
+          directory: docs/api/
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
