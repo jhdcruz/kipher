@@ -1,0 +1,109 @@
+name: docs
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=4g"
+  JDK_VERSION: 19
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ env.JDK_VERSION }}
+          distribution: temurin
+
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+
+      - name: Dokka build
+        uses: gradle/gradle-build-action@v2
+        with:
+          arguments: kipher-digest:dokkaHtml
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: ./docs/api/kipher-digest
+          if-no-files-found: error
+
+  push:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+        # remove previous versions, new version contains the old ones
+      - name: Remove previous versions
+        run: rm -rf docs/api/kipher-digest
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: ./docs/api
+
+      - name: Remove snapshots version
+        run: |
+          cd ./docs/api/kipher-digest
+          rm -rf **/older/*-SNAPSHOT
+
+      - name: Commit latest docs
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add -f docs/api/kipher-digest
+          git commit -m "docs(api): generate docs for kipher-digest [skip-ci]"
+
+      - name: Push to repository
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          directory: ./docs/api/kipher-digest
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      deployments: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+          path: ./docs/api
+
+      - name: Get api docs output directory
+        id: docs
+        shell: bash
+        run: |
+          cd docs/api/kipher-digest
+          echo "api=$(ls -d */ | head -n 1)" >> $GITHUB_OUTPUT
+
+      - name: Publish to cloudflare pages
+        uses: cloudflare/pages-action@1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: kipher-digest
+          directory: docs/api/kipher-digest/${{ steps.docs.outputs.api }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

@@ -23,6 +23,9 @@ dependencies {
     dokkaPlugin(libs.dokka.versioning)
 }
 
+// makes :publishToSonatype callable at root
+version = rootProject.property("VERSION")
+    ?: throw GradleException("Project version property is missing")
 group = rootProject.property("GROUP")
     ?: throw GradleException("Project group property is missing")
 

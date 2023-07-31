@@ -1,0 +1,44 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:io.github.jhdcruz.kipher.mac////PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac.Companion///PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/-companion/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac.Companion/provider/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/-companion/provider.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac///PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/Mac/#io.github.jhdcruz.kipher.mac.MacModes/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/generateKey/#kotlin.Int?/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/generate-key.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/generateMac/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/generate-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/generateMac/#kotlin.collections.Iterable[kotlin.ByteArray]#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/generate-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/generateMacString/#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/generate-mac-string.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/generateMacString/#kotlin.collections.Iterable[kotlin.ByteArray]#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/generate-mac-string.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/macMode/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/mac-mode.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/verifyMac/#kotlin.ByteArray#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/verify-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/verifyMac/#kotlin.ByteArray#kotlin.String#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/verify-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/verifyMac/#kotlin.collections.Iterable[kotlin.ByteArray]#kotlin.ByteArray#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/verify-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/Mac/verifyMac/#kotlin.collections.Iterable[kotlin.ByteArray]#kotlin.String#kotlin.ByteArray/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac/verify-mac.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.AesCMAC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-aes-c-m-a-c/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacGOST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-g-o-s-t/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacMD5///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-m-d5/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacRIPEMD128///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-r-i-p-e-m-d128/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacRIPEMD160///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-r-i-p-e-m-d160/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacSHA1///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-s-h-a1/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacSHA224///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-s-h-a224/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacSHA256///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-s-h-a256/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacSHA384///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-s-h-a384/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacSHA512///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-s-h-a512/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacTiger///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-tiger/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.HmacWhirlpool///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-hmac-whirlpool/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Kmac128///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-kmac128/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Kmac256///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-kmac256/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Poly1305///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-poly1305/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Poly1305_AES///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-poly1305_-a-e-s/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Threefish_1024CMAC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-threefish_1024-c-m-a-c/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Threefish_256CMAC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-threefish_256-c-m-a-c/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes.Threefish_512CMAC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/-threefish_512-c-m-a-c/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes///PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/index.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes/algorithm/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/algorithm.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes/keySize/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/key-size.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes/mode/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/mode.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes/valueOf/#kotlin.String/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/value-of.html
+$dokka.location:io.github.jhdcruz.kipher.mac/MacModes/values/#/PointingToDeclaration/kipher-mac/io.github.jhdcruz.kipher.mac/-mac-modes/values.html
+io.github.jhdcruz.kipher.mac
+
