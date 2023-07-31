@@ -1,4 +1,4 @@
-name: docs
+name: docs / digest
 
 on:
   workflow_dispatch:

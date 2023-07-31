@@ -66,7 +66,7 @@ subprojects {
     //       plugins are available to be used there,
     tasks.withType<DokkaTask>().configureEach {
         val docVersionsDir = rootProject.projectDir.resolve("docs/api/${project.name}")
-        val currentVersion = rootProject.version.toString()
+        val currentVersion = project.version.toString()
 
         val currentDocsDir = docVersionsDir.resolve(currentVersion)
         outputDirectory.set(currentDocsDir)
