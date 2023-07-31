@@ -38,6 +38,12 @@ jobs:
 
       - uses: gradle/gradle-build-action@v2
 
+      - name: remove SNAPSHOT suffix on kipher-core version
+        if: ${{ steps.module.outputs.module_name }} != "kipher-core"
+        run: |
+          cd kipher-core
+          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+
       - name: remove SNAPSHOT on gradle.properties version
         run: |
           cd ${{ steps.module.outputs.module_name }}
