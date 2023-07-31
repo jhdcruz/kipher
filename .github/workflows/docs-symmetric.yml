@@ -2,11 +2,7 @@ name: docs / symmetric
 
 on:
   workflow_call:
-    inputs:
-      project:
-        description: 'Project to run the command to.'
-        type: string
-        required: true
+  workflow_dispatch:
 
 permissions:
   contents: write
