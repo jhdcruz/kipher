@@ -16,7 +16,7 @@ but tries to offer customizablility as much as possible.
 
 - [Symmetric Encryption](./kipher-symmetric/README.md) (AES, ChaCha20, etc.)
 - [Message Digests](./kipher-digest/README.md) (MD5, SHA, SHA3, etc.)
-- [MACs](./kipher-mac/README.md) (HMAC, etc.)
+- [MACs](./kipher-mac/README.md) (HMAC, Poly1305 etc.)
 
 - and more to be implemented...
 
@@ -27,8 +27,7 @@ Minimum requirements to use the library:
 - Kotlin 1.7+
 - Java 8+
 
-> [!NOTE]
->
+> [!NOTE]\
 > If your project uses earlier JDK 8, you might need
 > [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
 > for the library to function properly.
@@ -39,28 +38,20 @@ Minimum requirements to use the library:
 
 > [API documentation](https://jhdcruz.github.io/kipher/)
 
-| Modules                                                                                                                                                                                                                                                                                                    | Description                                                     |
-|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|
-| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-core?style=flat-square&logo=apachemaven&label=kipher-core&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-core)](./kipher-core/README.md)                     | Core utilities for the library. **(Internal use)**              |
-| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-symmetric?style=flat-square&logo=apachemaven&label=kipher-symmetric&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-symmetric)](./kipher-symmetric/README.md) | Data encryption using symmetric ciphers. (AES, ChaCha20, etc.). |
-| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest)](./kipher-digest/README.md)             | Cryptographic hash functions (SHAs, MD5s, etc.).                |
-| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=flat-square&logo=apachemaven&label=kipher-mac&labelColor=black&color=violet&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac)](./kipher-mac/README.md)                         | Data integrity and authentication using MACs.                   |
+| Modules                                                                                                                                                                                                                                                                                                  | Description                                                     |
+|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-core?style=flat-square&logo=apachemaven&label=kipher-core&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-core)](./kipher-core/README.md)                     | Core utilities for the library. **(Internal use)**              |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-symmetric?style=flat-square&logo=apachemaven&label=kipher-symmetric&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-symmetric)](./kipher-symmetric/README.md) | Data encryption using symmetric ciphers. (AES, ChaCha20, etc.). |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest)](./kipher-digest/README.md)             | Cryptographic hash functions (SHAs, MD5s, etc.).                |
+| [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=flat-square&logo=apachemaven&label=kipher-mac&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac)](./kipher-mac/README.md)                         | Data integrity and authentication using MACs.                   |
 
 ### Gradle
 
-> **Early Preview:**
->
-> Currently only available in [snapshot](#snapshots) version.
-
 ```kotlin
-implementation("io.github.jhdcruz:kipher-$module:0.1.0-SNAPSHOT") // Replace module
+implementation("io.github.jhdcruz:kipher-$module:0.1.0") // Replace module
 ```
 
 ### Maven
-
-> **Early Preview:**
->
-> Currently only available in [snapshot](#snapshots) version.
 
 ```xml
 
@@ -70,7 +61,7 @@ implementation("io.github.jhdcruz:kipher-$module:0.1.0-SNAPSHOT") // Replace mod
     <dependency>
         <groupId>io.github.jhdcruz</groupId>
         <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-        <version>0.1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </dependency>
 </depenedencies>
 ```
@@ -90,7 +81,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.jhdcruz:kipher-$module:0.1.0-SNAPSHOT")
+    implementation("io.github.jhdcruz:kipher-$module:0.2.0-SNAPSHOT")
 }
 ```
 
@@ -114,14 +105,13 @@ dependencies {
         <dependency>
             <groupId>io.github.jhdcruz</groupId>
             <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-            <version>0.1.0-SNAPSHOT</version>  <!-- Replace $version -->
+            <version>0.2.0-SNAPSHOT</version>  <!-- Replace $version -->
         </dependency>
     </dependencies>
 </project>
 ```
 
-> [!WARNING]
->
+> [!WARNING]\
 > Snapshots should be considered unstable and contain breaking changes,
 > they are primarily for testing purposes.
 >
@@ -143,7 +133,7 @@ dependencies {
     - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
     - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
 
-> [!IMPORTANT]
+> [!IMPORTANT]\
 > This method doesn't include all the necessary dependencies.
 >
 > Although, the errors will tell you the dependencies you need.
@@ -244,8 +234,7 @@ class EncryptionTest {
 
 Default security provider is set to [Bouncy Castle](https://bouncycastle.org/).
 
-> [!NOTE]
->
+> [!NOTE]\
 > Changing provider has to be done **before** using any of the library
 > functions/methods.
 
@@ -344,8 +333,7 @@ class Main {
 }
 ```
 
-> [!WARNING]
->
+> [!WARNING]\
 > `provider` value is tied to the class itself, keep in mind when using the library
 > functions/methods in parallel with different providers.
 
@@ -361,8 +349,7 @@ The library will follow semantic versioning where every breaking changes bumps t
 regardless of how small the change is, this way developers know that something will not work should
 they update.
 
-> [!NOTE]
->
+> [!NOTE]\
 > Each modules are independently versioned to avoid version bumps between unrelated module/s.
 
 ## Contributing
@@ -379,8 +366,7 @@ details
 
 ## Disclaimer
 
-> [!IMPORTANT]
->
+> [!IMPORTANT]\
 > **I** ([@jhdcruz](https://github.com/jhdcruz)) **am not a security expert/professional**.
 
 This library is primarily made for convenience and ease-of-use,
