@@ -1,5 +1,7 @@
 # Module kipher-digest
 
+> [API Documentation](https://kipher-digest.pages.dev)
+
 Library for cryptographic hash functions (such as SHAs, MD5s).
 
 ## Adding Dependency

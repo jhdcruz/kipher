@@ -1,9 +1,10 @@
 # Module kipher-core
 
+> [API Documentation](https://kipher-core.pages.dev)
+
 Core utility libraries used by kipher modules.
 
-> [!NOTE]
->
+> [!NOTE]\
 > Already bundled in all kipher modules.
 
 ## Usage

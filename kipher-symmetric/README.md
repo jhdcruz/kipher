@@ -1,5 +1,7 @@
 # Module kipher-symmetric
 
+> [API Documentation](https://kipher-symmetric.pages.dev)
+
 Library for data encryption using symmetric encryption algorithms.
 
 ## Usage

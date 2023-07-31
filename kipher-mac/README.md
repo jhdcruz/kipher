@@ -1,5 +1,7 @@
 # Module kipher-mac
 
+> [API Documentation](https://kipher-mac.pages.dev)
+
 Library for ensuring data integrity and authenticity using message authentication codes.
 
 ## Adding Dependency
