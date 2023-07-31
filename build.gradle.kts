@@ -23,8 +23,6 @@ dependencies {
     dokkaPlugin(libs.dokka.versioning)
 }
 
-version = rootProject.property("VERSION")
-    ?: throw GradleException("Project version property is missing")
 group = rootProject.property("GROUP")
     ?: throw GradleException("Project group property is missing")
 
@@ -80,7 +78,10 @@ subprojects {
                 // get current year
                 "© ${Calendar.getInstance().get(Calendar.YEAR)}" +
                 " Kipher Author & Contributors | " +
-                "Licensed under <a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>The Apache 2.0 License</a>"
+                "Licensed under" +
+                "<a href='https://github.com/jhdcruz/kipher/blob/main/LICENSE.txt'>" +
+                "The Apache 2.0 License" +
+                "</a>"
         }
 
         dokkaSourceSets {
