@@ -76,7 +76,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: ./docs/api
+          path: ./docs/api/kipher-symmetric
 
       - name: Remove snapshots version
         run: |
@@ -113,7 +113,7 @@ jobs:
         id: docs
         shell: bash
         run: |
-          cd docs/api/kipher-symmetric
+          cd docs/api/
           echo "api=$(ls -d */ | head -n 1)" >> $GITHUB_OUTPUT
 
       - name: Publish to cloudflare pages
@@ -122,5 +122,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: kipher-symmetric
-          directory: docs/api/kipher-symmetric/${{ steps.docs.outputs.api }}
+          directory: docs/api/${{ steps.docs.outputs.api }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
