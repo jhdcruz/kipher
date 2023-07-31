@@ -82,6 +82,7 @@ jobs:
           directory: ./docs/api/${{ inputs.project }}
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -78,6 +78,7 @@ jobs:
           directory: ./docs/api/kipher-mac
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
