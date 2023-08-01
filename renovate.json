@@ -18,14 +18,14 @@
             "updateTypes": [
                 "major"
             ],
-            "stabilityDays": 7,
+            "stabilityDays": 4,
             "automerge": true
         },
         {
             "updateTypes": [
                 "minor"
             ],
-            "stabilityDays": 3,
+            "stabilityDays": 2,
             "automerge": true
         }
     ],
