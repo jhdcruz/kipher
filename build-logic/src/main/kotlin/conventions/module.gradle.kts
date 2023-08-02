@@ -17,6 +17,7 @@ kotlin {
     sourceSets.all {
         languageSettings {
             languageVersion = kipherBuild.languageTarget.get().version
+            apiVersion = kipherBuild.languageTarget.get().version
         }
     }
 }
