@@ -20,8 +20,8 @@ abstract class KipherBuildProperties @Inject constructor(
      * Version to be used for builds.
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    val compilerVersion: Provider<JavaLanguageVersion> =
-        kipherProperty("toolchain.compilerVersion", JavaLanguageVersion::of)
+    val compilerTarget: Provider<JavaLanguageVersion> =
+        kipherProperty("toolchain.compilerTarget", JavaLanguageVersion::of)
 
     /**
      * Version that should be used to run tests.
@@ -30,13 +30,13 @@ abstract class KipherBuildProperties @Inject constructor(
      */
     val testLauncher: Provider<JavaLanguageVersion> =
         kipherProperty("toolchain.testLauncher", JavaLanguageVersion::of)
-            .orElse(compilerVersion)
+            .orElse(compilerTarget)
 
     /**
-     * The Kotlin language level that artifacts are compiled to support.
+     * The Kotlin api target that artifacts are compiled to support.
      */
-    val languageLevel: Provider<KotlinVersion> =
-        kipherProperty("toolchain.languageLevel", KotlinVersion::fromVersion)
+    val languageTarget: Provider<KotlinVersion> =
+        kipherProperty("toolchain.languageTarget", KotlinVersion::fromVersion)
 
     private fun <T : Any> kipherProperty(name: String, convert: (String) -> T) =
         providers.gradleProperty("kipher.$name").map(convert)

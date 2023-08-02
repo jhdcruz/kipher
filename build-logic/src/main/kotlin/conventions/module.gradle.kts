@@ -12,12 +12,11 @@ dependencies {
 }
 
 kotlin {
-    jvmToolchain(kipherBuild.compilerVersion.get().asInt())
+    jvmToolchain(kipherBuild.compilerTarget.get().asInt())
 
     sourceSets.all {
         languageSettings {
-            languageVersion = "2.0"
-            apiVersion = kipherBuild.languageLevel.get().version
+            languageVersion = kipherBuild.languageTarget.get().version
         }
     }
 }
