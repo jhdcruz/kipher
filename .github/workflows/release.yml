@@ -20,6 +20,7 @@ jobs:
       packages: write
     outputs:
       module_name: ${{ steps.module.outputs.module_name }}
+      version: ${{ steps.tag.outputs.version }}
     steps:
       - uses: actions/checkout@v3
 
@@ -32,32 +33,31 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: Save tag prefix to github env
+      - uses: gradle/gradle-build-action@v2
+
+      - name: Save tag prefix
         id: module
         run: echo "module_name=$(echo $GITHUB_REF_NAME | cut -d'/' -f1)" >> $GITHUB_OUTPUT
 
-      - uses: gradle/gradle-build-action@v2
+      - name: Save tag version
+        id: tag
+        run: echo "version=$(echo $GITHUB_REF_NAME | cut -d'/' -f2)" >> $GITHUB_OUTPUT
 
+      # publish-plugin assumes its a snapshot without this
+      - name: remove SNAPSHOT on root gradle.properties
+        run: sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+
+      # this avoids relying on snapshot dependency on kipher-core
       - name: remove SNAPSHOT suffix on kipher-core version
         if: ${{ steps.module.outputs.module_name }} != "kipher-core"
         run: |
           cd kipher-core
           sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
 
-      - name: remove SNAPSHOT on gradle.properties version
+      - name: replace version on project gradle.properties
         run: |
           cd ${{ steps.module.outputs.module_name }}
-          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
-
-      - name: remove SNAPSHOT on root gradle.properties
-        run: sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
-
-      - name: Get version from gradle.properties
-        id: version_name
-        shell: bash
-        run: |
-          cd ${{ steps.module.outputs.module_name }}
-          echo "version=$(grep '^VERSION=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
+          sed -i "/^VERSION=/ s/=.*/=${{ steps.tag.outputs.version }}/" gradle.properties
 
       - name: Gradle build
         run: ./gradlew ${{ steps.module.outputs.module_name }}:clean ${{ steps.module.outputs.module_name }}:build --scan
@@ -71,7 +71,7 @@ jobs:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
 
-      - name: Publish module on Sonatype (Phase 2)
+      - name: Close sonatype staging repository
         run: ./gradlew findSonatypeStagingRepository closeSonatypeStagingRepository
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
@@ -100,8 +100,9 @@ jobs:
             ${{ steps.module.outputs.module_name }}/build/libs/*
 
   docs:
-    needs: [ publish ]
+    needs: publish
     uses: ./.github/workflows/docs.yml
     with:
       project: ${{ needs.publish.outputs.module_name }}
+      version: ${{ needs.publish.outputs.version }}
     secrets: inherit

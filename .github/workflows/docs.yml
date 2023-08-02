@@ -7,6 +7,10 @@ on:
         description: 'Project to run the command to.'
         type: string
         required: true
+      version:
+        description: 'Version to rewrite in gradle.properties.'
+        type: string
+        required: true
 
 permissions:
   contents: write
@@ -20,8 +24,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      version: ${{ steps.version_name.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,20 +37,13 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
-      - name: remove SNAPSHOT on gradle.properties version
+      - name: Replace version on project gradle.properties
         run: |
-          cd ${{ inputs.project }}
-          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+          cd ${{ steps.module.outputs.module_name }}
+          sed -i "/^VERSION=/ s/=.*/=${{ inputs.version }}/" gradle.properties
 
       - name: remove SNAPSHOT on root gradle.properties
         run: sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
-
-      - name: Get version from gradle.properties
-        id: version_name
-        shell: bash
-        run: |
-          cd ${{ inputs.project }}
-          echo "version=$(grep '^VERSION=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_OUTPUT
 
       - name: Dokka build
         uses: gradle/gradle-build-action@v2
@@ -58,17 +53,16 @@ jobs:
       - name: Remove snapshot versions on generated docs
         run: |
           cd ./docs/api/${{ inputs.project }}
-          rm -rf ${{ steps.version_name.outputs.version }}/older/*-SNAPSHOT
+          rm -rf ${{ inputs.version }}/older/*-SNAPSHOT
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: docs
-          path: ./docs/api/${{ inputs.project }}/${{ steps.version_name.outputs.version }}
+          path: ./docs/api/${{ inputs.project }}/${{ inputs.version }}
           if-no-files-found: error
 
   push:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -84,14 +78,14 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: docs
-          path: ./docs/api/${{ inputs.project }}/${{ needs.build.outputs.version }}
+          path: ./docs/api/${{ inputs.project }}/${{ inputs.version }}
 
       - name: Commit latest docs
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add -f docs/api/${{ inputs.project }}
-          git commit -m "docs(api): ${{ inputs.project }} v${{ needs.build.outputs.version }} api docs [skip-ci]"
+          git commit -m "docs(api): ${{ inputs.project }} v${{ inputs.version }} [skip-ci]"
 
       - name: Push to repository
         uses: ad-m/github-push-action@master
@@ -100,7 +94,6 @@ jobs:
           directory: ./docs/api/${{ inputs.project }}
 
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
