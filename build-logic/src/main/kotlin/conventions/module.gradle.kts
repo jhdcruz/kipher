@@ -14,12 +14,11 @@ dependencies {
 kotlin {
     jvmToolchain(kipherBuild.compilerTarget.get().asInt())
 
-    sourceSets.all {
-        languageSettings {
-            languageVersion = kipherBuild.languageTarget.get().version
-            apiVersion = kipherBuild.languageTarget.get().version
-        }
+    compilerOptions {
+        languageVersion.set(kipherBuild.languageTarget.get())
+        apiVersion.set(kipherBuild.languageTarget.get())
     }
+
 }
 
 tasks {

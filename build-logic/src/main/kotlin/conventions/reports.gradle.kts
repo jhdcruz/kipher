@@ -5,6 +5,7 @@ import io.gitlab.arturbosch.detekt.report.ReportMergeTask
 
 plugins {
     id("io.gitlab.arturbosch.detekt")
+    id("conventions.base")
     jacoco
     `java-library`
 }
@@ -25,7 +26,7 @@ tasks {
 
     withType<Detekt>().configureEach {
         basePath = rootProject.projectDir.absolutePath
-        jvmTarget = "1.8"
+        jvmTarget = kipherBuild.compilerTarget.get().asInt().toString()
 
         reports {
             xml.required.set(true)
