@@ -17,7 +17,7 @@ public final class io/github/jhdcruz/kipher/digest/Digest$Companion {
 	public final fun setProvider (Ljava/security/Provider;)V
 }
 
-public class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
+public final class io/github/jhdcruz/kipher/digest/DigestModes : java/lang/Enum {
 	public static final field BLAKE_2B_160 Lio/github/jhdcruz/kipher/digest/DigestModes;
 	public static final field BLAKE_2B_256 Lio/github/jhdcruz/kipher/digest/DigestModes;
 	public static final field BLAKE_2B_384 Lio/github/jhdcruz/kipher/digest/DigestModes;

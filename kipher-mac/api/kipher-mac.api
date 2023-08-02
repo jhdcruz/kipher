@@ -20,7 +20,7 @@ public final class io/github/jhdcruz/kipher/mac/Mac$Companion {
 	public final fun setProvider (Ljava/security/Provider;)V
 }
 
-public class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
+public final class io/github/jhdcruz/kipher/mac/MacModes : java/lang/Enum {
 	public static final field AesCMAC Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacGOST Lio/github/jhdcruz/kipher/mac/MacModes;
 	public static final field HmacMD5 Lio/github/jhdcruz/kipher/mac/MacModes;

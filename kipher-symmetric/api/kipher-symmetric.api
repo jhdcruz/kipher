@@ -138,7 +138,7 @@ public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaCha20 : io/githu
 	public fun getIvLength ()I
 }
 
-public class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes : java/lang/Enum {
+public final class io/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes : java/lang/Enum {
 	public static final field ChaCha20 Lio/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes;
 	public static final field ChaCha20Poly1305 Lio/github/jhdcruz/kipher/symmetric/chacha/ChaChaModes;
 	public final fun getMode ()Ljava/lang/String;
@@ -156,7 +156,7 @@ public final class io/github/jhdcruz/kipher/symmetric/salsa/Salsa20 : io/github/
 	public fun getIvLength ()I
 }
 
-public class io/github/jhdcruz/kipher/symmetric/salsa/SalsaModes : java/lang/Enum {
+public final class io/github/jhdcruz/kipher/symmetric/salsa/SalsaModes : java/lang/Enum {
 	public static final field Salsa20 Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
 	public static final field XSalsa20 Lio/github/jhdcruz/kipher/symmetric/salsa/SalsaModes;
 	public final fun getMode ()Ljava/lang/String;
@@ -184,7 +184,7 @@ public final class io/github/jhdcruz/kipher/symmetric/threefish/Threefish512 : i
 	public fun getIvLength ()I
 }
 
-public class io/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes : java/lang/Enum {
+public final class io/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes : java/lang/Enum {
 	public static final field Threefish1024 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
 	public static final field Threefish256 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
 	public static final field Threefish512 Lio/github/jhdcruz/kipher/symmetric/threefish/ThreefishModes;
