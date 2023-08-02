@@ -25,7 +25,7 @@ but tries to offer customizablility as much as possible.
 Minimum requirements to use the library:
 
 - Kotlin 1.7+
-- Java 8+
+- Java 11+
 
 > [!NOTE]\
 > If your project uses earlier JDK 8, you might need
