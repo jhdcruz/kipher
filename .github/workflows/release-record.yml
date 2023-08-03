@@ -39,7 +39,7 @@ jobs:
             echo "record=false" >> $GITHUB_OUTPUT
           fi
 
-  record:
+  push:
     needs: check
     if: needs.check.outputs.check == 'true'
     runs-on: ubuntu-latest

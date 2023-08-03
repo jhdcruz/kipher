@@ -75,7 +75,7 @@ jobs:
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
 
       - name: Close sonatype staging repository
-        run: ./gradlew findSonatypeStagingRepository closeSonatypeStagingRepository
+        run: ./gradlew findSonatypeStagingRepository closeAndReleaseSonatypeStagingRepository
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_PASS: ${{ secrets.SONATYPE_PASS }}
