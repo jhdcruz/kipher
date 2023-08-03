@@ -47,12 +47,15 @@ jobs:
       - name: remove SNAPSHOT on root gradle.properties
         run: sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
 
-      # this avoids relying on snapshot dependency on kipher-core
+      # this avoids relying on early-version snapshot dependency on kipher-core
       - name: remove SNAPSHOT suffix on kipher-core version
         if: ${{ steps.module.outputs.module_name }} != "kipher-core"
         run: |
           cd kipher-core
-          sed -i '/^VERSION=/ s/-SNAPSHOT//' gradle.properties
+          # remove VERSION from gradle.properties
+          sed -i '/VERSION/d' gradle.properties
+          # use CURRENT_RELEASE as VERSION
+          sed -i "s/CURRENT_RELEASE/VERSION/" gradle.properties
 
       - name: replace version on project gradle.properties
         run: |
@@ -82,7 +85,7 @@ jobs:
         uses: mindsers/changelog-reader-action@v2
         with:
           validation_level: warn
-          version: ${{ steps.version_name.outputs.version }}
+          version: ${{ steps.tag.outputs.version }}
           path: docs/CHANGELOG-${{ steps.module.outputs.module_name }}.md
 
       - name: Create release
@@ -98,6 +101,14 @@ jobs:
           artifactErrorsFailBuild: false
           artifacts: |
             ${{ steps.module.outputs.module_name }}/build/libs/*
+
+  record:
+    needs: publish
+    uses: ./.github/workflows/release-record.yml
+    with:
+      project: ${{ needs.publish.outputs.module_name }}
+      version: ${{ needs.publish.outputs.version }}
+    secrets: inherit
 
   docs:
     needs: publish

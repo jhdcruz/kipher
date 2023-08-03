@@ -1,0 +1,70 @@
+name: record
+
+on:
+  workflow_call:
+    inputs:
+      project:
+        description: "Project to update."
+        type: string
+        required: true
+      version:
+        description: "Version to rewrite in gradle.properties."
+        type: string
+        required: true
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=2g"
+  JDK_VERSION: 19
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      check: ${{ steps.check.outputs.record }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Check if module needs to be recorded
+        id: check
+        run: |
+          # check if CURRENT_RELEASE is present in gradle.properties
+          cd ${{ inputs.project }}
+
+          if grep -q "^CURRENT_RELEASE=" gradle.properties; then
+            echo "CURRENT_RELEASE is present"
+            echo "record=true" >> $GITHUB_OUTPUT
+          else
+            echo "CURRENT_RELEASE is not present"
+            echo "record=false" >> $GITHUB_OUTPUT
+          fi
+
+  record:
+    needs: check
+    if: needs.check.outputs.check == 'true'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Update previous release version
+        run: |
+          cd ${{ inputs.project }}
+          sed -i "/^CURRENT_RELEASE=/ s/=.*/=${{ inputs.version }}/" gradle.properties
+
+      - name: Commit latest docs
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -am "chore(gradle): record current release version [skip-ci]"
+
+      - name: Push to repository
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

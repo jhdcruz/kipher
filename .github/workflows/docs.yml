@@ -39,7 +39,7 @@ jobs:
 
       - name: Replace version on project gradle.properties
         run: |
-          cd ${{ steps.module.outputs.module_name }}
+          cd ${{ inputs.project }}
           sed -i "/^VERSION=/ s/=.*/=${{ inputs.version }}/" gradle.properties
 
       - name: remove SNAPSHOT on root gradle.properties
