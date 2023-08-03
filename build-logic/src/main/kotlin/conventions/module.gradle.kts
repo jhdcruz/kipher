@@ -18,7 +18,6 @@ kotlin {
         languageVersion.set(kipherBuild.languageTarget.get())
         apiVersion.set(kipherBuild.languageTarget.get())
     }
-
 }
 
 tasks {
