@@ -77,7 +77,6 @@ abstract class StandardEncryption(
      * [generateKey] is optional.
      *
      * @return [Map] containing the `data` and `key`
-     * @return Encrypted data
      */
     @JvmOverloads
     fun encrypt(
