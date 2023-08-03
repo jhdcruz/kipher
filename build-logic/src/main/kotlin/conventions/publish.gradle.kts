@@ -38,6 +38,7 @@ publishing {
                 developers {
                     developer {
                         id.convention(rootProject.property("POM_DEVELOPER_ID").toString())
+                        email.convention(rootProject.property("POM_DEVELOPER_EMAIL").toString())
                         name.convention(rootProject.property("POM_DEVELOPER_NAME").toString())
                         url.convention(rootProject.property("POM_DEVELOPER_URL").toString())
                     }
