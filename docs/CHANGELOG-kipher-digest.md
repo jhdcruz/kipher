@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Security
 
+## [0.1.2] - 2023-08-01
+
+### Fixed
+
+- Fixed issue on library using early-release version of kotlin (K2).
+
 ## [0.1.1] - 2023-07-31
 
 ### Fixed
