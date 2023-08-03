@@ -1,4 +1,4 @@
-# Kipher
+# Kipher Cryptography Library
 
 [![Codecov](https://img.shields.io/codecov/c/github/jhdcruz/kipher?token=bCmx2D264p&style=for-the-badge&logo=codecov&label=Coverage&labelColor=black&color=blue)](https://app.codecov.io/gh/jhdcruz/kipher)
 
@@ -24,20 +24,13 @@ but tries to offer customizablility as much as possible.
 
 Minimum requirements to use the library:
 
-- Kotlin 1.7+
+- Kotlin 1.8+
 - Java 11+
-
-> [!NOTE]\
-> If your project uses earlier JDK 8, you might need
-> [Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files](https://www.oracle.com/java/technologies/javase-jce-all-downloads.html)
-> for the library to function properly.
->
-> *See more: https://stackoverflow.com/a/3864276*
 
 ## Usage
 
 | Modules                                                                                                                                                                                                                                                                                                  | Description                                                     | Links                                     |
-|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------------------------------------------|-------------------------------------------|
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- | ----------------------------------------- |
 | [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-core?style=flat-square&logo=apachemaven&label=kipher-core&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-core)](./kipher-core/README.md)                     | Core utilities for the library. **(Internal use)**              | [API](https://kipher-core.pages.dev)      |
 | [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-symmetric?style=flat-square&logo=apachemaven&label=kipher-symmetric&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-symmetric)](./kipher-symmetric/README.md) | Data encryption using symmetric ciphers. (AES, ChaCha20, etc.). | [API](https://kipher-symmetric.pages.dev) |
 | [![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-digest?style=flat-square&logo=apachemaven&label=kipher-digest&labelColor=black&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-digest)](./kipher-digest/README.md)             | Cryptographic hash functions (SHAs, MD5s, etc.).                | [API](https://kipher-digest.pages.dev)    |
@@ -46,25 +39,29 @@ Minimum requirements to use the library:
 ### Gradle
 
 ```kotlin
-implementation("io.github.jhdcruz:kipher-$module:0.1.0") // Replace module
+implementation("io.github.jhdcruz:kipher-$module:$version")
 ```
 
 ### Maven
 
 ```xml
-
 <depenedencies>
-    <!-- ... -->
-
     <dependency>
         <groupId>io.github.jhdcruz</groupId>
-        <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-        <version>0.1.0</version>
+        <artifactId>kipher-$module</artifactId>
+        <version>$version</version>
     </dependency>
 </depenedencies>
 ```
 
+<details>
+  <summary>
+    Using Snapshots
+  </summary>
+
 ### Snapshots
+
+Look at module's `gradle.properties` to check for latest snapshot version.
 
 #### Gradle
 
@@ -86,10 +83,7 @@ dependencies {
 #### Maven
 
 ```xml
-
 <project>
-    <!-- ... -->
-
     <repositories>
         <repository>
             <id>sonatype-snapshots</id>
@@ -98,43 +92,18 @@ dependencies {
     </repositories>
 
     <dependencies>
-        <!-- ... -->
-
         <dependency>
             <groupId>io.github.jhdcruz</groupId>
-            <artifactId>kipher-$module</artifactId>  <!-- Replace $module -->
-            <version>0.2.0-SNAPSHOT</version>  <!-- Replace $version -->
+            <artifactId>kipher-$module</artifactId>
+            <version>0.2.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>
 ```
 
 > [!WARNING]\
-> Snapshots should be considered unstable and contain breaking changes,
-> they are primarily for testing purposes.
->
-> **Use at your own risk.**
-
-<details>
-<summary>Other ways to use the library</summary>
-
-- You can use [JitPack](https://jitpack.io/) to add the library in your project.
-
-- Using the package directly from GitHub
-  Packages.
-    - [Gradle](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#using-a-published-package)
-    - [Maven](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-apache-maven-registry#installing-a-package)
-
-- Download the latest `.jar` release from [here](https://github.com/jhdcruz/kipher/releases/latest),
-  and manually add it to your project.
-    - [Eclipse](https://stackoverflow.com/questions/2824515/how-to-add-external-library-properly-in-eclipse)
-    - [IntelliJ IDEA](https://www.jetbrains.com/help/idea/library.html#define-library)
-    - [Netbeans](https://stackoverflow.com/questions/4879903/how-to-add-a-jar-in-netbeans)
-
-> [!IMPORTANT]\
-> This method doesn't include all the necessary dependencies.
->
-> Although, the errors will tell you the dependencies you need.
+> Snapshots should be considered unstable and contains breaking changes,
+> they are primarily for testing purposes, and **not for production use**.
 
 </details>
 
@@ -143,32 +112,31 @@ dependencies {
 ```kotlin
 import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
 
-class EncryptionTest {
 
-    fun main() {
-        val encryptionUtils = AesGCM()
+fun main() {
+    val encryptionUtils = AesGCM()
 
-        val data = "sample data".encodeToByteArray()
-        val aad = "sample aad".encodeToByteArray()
+    val data = "sample data".encodeToByteArray()
+    val tag = "sample aad".encodeToByteArray()
 
-        // named parameters are recommended, but optional
-        val encrypted = encryptionUtils.encrypt(
-            data = message,
-            aad = aad,
-            // optional `key` parameter
-        ) // returns Map<String, ByteArray> of [data, key]
+    // named parameters are recommended, but optional
+    val encrypted = encryptionUtils.encrypt(
+        data = message,
+        tag = tag,
+        // optional `key` parameter
+    ) // returns Map of [data, key, tag]
 
-        val decrypted = encryptionUtils.decrypt(encrypted)
+    val decrypted = encryptionUtils.decrypt(encrypted)
 
-        // or
+    // or, manually:
 
-        val decrypted = encryptionUtils.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+    val decrypted = encryptionUtils.decrypt(
+        encrypted = encrypted.getValue("data"),
+        key = encrypted.getValue("key")
+        tag = encrypted.getValue("tag")
+    )
 
-        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
-    }
+    println(decryptedPass.toString())
 }
 ```
 
@@ -195,6 +163,7 @@ public class Main {
         byte[] val = encryptionUtils.decrypt(
             encrypted.get("data"),
             encrypted.get("key")
+            encrypted.get("tag")
         );
 
         System.out.println(new String(val)); // outputs "Hello World"
@@ -207,24 +176,22 @@ public class Main {
 ```kotlin
 import io.github.jhdcruz.kipher.symmetric.aes.AesCBC
 
-class EncryptionTest {
 
-    fun main() {
-        val encryptionUtils = AesCBC()
+fun main() {
+    val encryptionUtils = AesCBC()
 
-        val data = "sample data".encodeToByteArray()
+    val data = "sample data".encodeToByteArray()
 
-        val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
+    val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
 
-        val encrypted = encryptionUtils.encrypt(
-            data = message,
-            key = secretKey
-        )
+    val encrypted = encryptionUtils.encrypt(
+        data = message,
+        key = secretKey
+    )
 
-        val decrypted = encryptionUtils.decrypt(encrypted)
+    val decrypted = encryptionUtils.decrypt(encrypted)
 
-        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
-    }
+    println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
 }
 ```
 
@@ -248,12 +215,10 @@ import io.github.jhdcruz.kipher.symmetric.SymmetricEncryption
 import java.security.Provider
 import java.security.Security
 
-class Main {
-    fun main() {
-        // must be declared before using any symmetric ciphers methods!
-        val provider: Provider = Security.getProvider("SunJCE")
-        SymmetricEncryption.provider(provider)
-    }
+fun main() {
+    // must be declared before using any symmetric ciphers methods!
+    val provider: Provider = Security.getProvider("SunJCE")
+    SymmetricEncryption.provider(provider)
 }
 ```
 
@@ -270,7 +235,7 @@ import java.security.Security;
 
 class Main {
     public static void main(String[] args) {
-        // must be declared only once before using any AES methods 
+        // must be declared only once before using any AES methods
         // or at the beginning of the app's main method or such.
         Provider provider = Security.getProvider("SunJCE");
         SymmetricEncryption.Companion.setProvider(provider);
@@ -293,16 +258,14 @@ import io.github.jhdcruz.kipher.core.KipherProvider
 import java.security.Provider
 import java.security.Security
 
-class Main {
-    fun main() {
-        // must be declared only once before using any library functions
-        // or at the beginning of the app's main method or such.
-        val provider: Provider = Security.getProvider("SunJCE")
-        KipherProvider.provider = provider
+fun main() {
+    // must be declared only once before using any library functions
+    // or at the beginning of the app's main method or such.
+    val provider: Provider = Security.getProvider("SunJCE")
+    KipherProvider.provider = provider
 
-        val encryptionUtils = GcmEncryption()
-        // and so on, so forth
-    }
+    val encryptionUtils = GcmEncryption()
+    // and so on, so forth
 }
 ```
 
@@ -320,7 +283,7 @@ import java.security.Security;
 
 class Main {
     public static void main(String[] args) {
-        // must be declared only once before using any AES methods 
+        // must be declared only once before using any AES methods
         // or at the beginning of the app's main method or such.
         Provider provider = Security.getProvider("SunJCE");
         KipherProvider.Companion.setProvider(provider);

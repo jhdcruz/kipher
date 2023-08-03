@@ -6,14 +6,12 @@ Library for ensuring data integrity and authenticity using message authenticatio
 
 ## Adding Dependency
 
-> [!NOTE]
->
-> Currently only available in snapshot version.
+![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-mac?style=for-the-badge&logo=apachemaven&label=latest&labelColor=black&logoColor=blue&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.jhdcruz/kipher-mac?server=https%3A%2F%2Fs01.oss.sonatype.org&style=for-the-badge&logo=apachemaven&logoColor=green&label=snapshots&labelColor=black&color=green)
 
 ### Gradle
 
 ```kotlin
-implementation("io.github.jhdcruz:kipher-mac:0.1.0-SNAPSHOT")
+implementation("io.github.jhdcruz:kipher-mac:$version")
 ```
 
 ### Maven
@@ -23,7 +21,7 @@ implementation("io.github.jhdcruz:kipher-mac:0.1.0-SNAPSHOT")
 <dependency>
     <groupId>io.github.jhdcruz</groupId>
     <artifactId>kipher-mac</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
+    <version>$version</version>
 </dependency>
 ```
 
@@ -33,23 +31,19 @@ implementation("io.github.jhdcruz:kipher-mac:0.1.0-SNAPSHOT")
 import io.github.jhdcruz.kipher.mac.Mac
 
 // adjust syntax for other JVM languages (ex. java).
+fun main() {
+    val mac = Mac(MacModes.Poly1305) // replace with desired mode
 
-class MacTest {
+    val data = "sample data".encodeToByteArray()
 
-    fun main() {
-        val mac = Mac(MacModes.Poly1305) // replace with desired mode
+    val mac = mac.generateMac(data) // returns Map
+    // or,
+    val hashString = mac.generateMacString(data) // returns hex string
 
-        val data = "sample data".encodeToByteArray()
-
-        val mac = mac.generateMac(data) // returns Map
-        // or,
-        val hashString = mac.generateMacString(data) // returns hex string
-
-        // Verifying hashes
-        println(mac.verifyMac(data, hash)) // returns true
-        // or,
-        println(mac.verifyMac(data, hashString)) // returns true
-    }
+    // Verifying hashes
+    println(mac.verifyMac(data, hash)) // returns true
+    // or,
+    println(mac.verifyMac(data, hashString)) // returns true
 }
 ```
 

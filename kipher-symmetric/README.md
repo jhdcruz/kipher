@@ -4,6 +4,26 @@
 
 Library for data encryption using symmetric encryption algorithms.
 
+## Adding Dependency
+
+![Maven Central](https://img.shields.io/maven-central/v/io.github.jhdcruz/kipher-symmetric?style=for-the-badge&logo=apachemaven&label=latest&labelColor=black&logoColor=blue&color=blue&link=https%3A%2F%2Fmvnrepository.com%2Fartifact%2Fio.github.jhdcruz%2Fkipher-mac) ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/io.github.jhdcruz/kipher-symmetric?server=https%3A%2F%2Fs01.oss.sonatype.org&style=for-the-badge&logo=apachemaven&logoColor=green&label=snapshots&labelColor=black&color=green)
+
+### Gradle
+
+```kotlin
+implementation("io.github.jhdcruz:kipher-digest:$version")
+```
+
+### Maven
+
+```xml
+<dependency>
+    <groupId>io.github.jhdcruz</groupId>
+    <artifactId>kipher-symmetric</artifactId>
+    <version>$version</version>
+</dependency>
+```
+
 ## Usage
 
 Data encryption example using AES:
@@ -13,32 +33,31 @@ Data encryption example using AES:
 ```kotlin
 import io.github.jhdcruz.kipher.symmetric.aes.AesGCM
 
-class EncryptionTest {
 
-    fun main() {
-        val encryptionUtils = AesGCM()
+fun main() {
+    val encryptionUtils = AesGCM()
 
-        val data = "sample data".encodeToByteArray()
-        val aad = "sample aad".encodeToByteArray()
+    val data = "sample data".encodeToByteArray()
+    val tag = "sample aad".encodeToByteArray()
 
-        // named parameters are recommended, but optional
-        val encrypted = AesGCM.encrypt(
-            data = message,
-            aad = aad,
-            // optional `key` parameter
-        ) // returns Map<String, ByteArray> of [data, key]
+    // named parameters are recommended, but optional
+    val encrypted = encryptionUtils.encrypt(
+        data = message,
+        tag = tag,
+        // optional `key` parameter
+    ) // returns Map of [data, key, tag]
 
-        val decrypted = AesGCM.decrypt(encrypted)
+    val decrypted = encryptionUtils.decrypt(encrypted)
 
-        // or
+    // or, manually:
 
-        val decrypted = AesGCM.decrypt(
-            encrypted = encrypted.getValue("data"),
-            key = encrypted.getValue("key")
-        )
+    val decrypted = encryptionUtils.decrypt(
+        encrypted = encrypted.getValue("data"),
+        key = encrypted.getValue("key")
+        tag = encrypted.getValue("tag")
+    )
 
-        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
-    }
+    println(decryptedPass.toString())
 }
 ```
 
@@ -65,6 +84,7 @@ public class Main {
         byte[] val = encryptionUtils.decrypt(
             encrypted.get("data"),
             encrypted.get("key")
+            encrypted.get("tag")
         );
 
         System.out.println(new String(val)); // outputs "Hello World"
@@ -77,24 +97,22 @@ public class Main {
 ```kotlin
 import io.github.jhdcruz.kipher.symmetric.aes.AesCBC
 
-class EncryptionTest {
 
-    fun main() {
-        val encryptionUtils = AesCBC()
+fun main() {
+    val encryptionUtils = AesCBC()
 
-        val data = "sample data".encodeToByteArray()
+    val data = "sample data".encodeToByteArray()
 
-        val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
+    val secretKey: ByteArray = encryptionUtils.generateKey(128) // should be a valid one
 
-        val encrypted = encryptionUtils.encrypt(
-            data = message,
-            key = secretKey
-        )
+    val encrypted = encryptionUtils.encrypt(
+        data = message,
+        key = secretKey
+    )
 
-        val decrypted = encryptionUtils.decrypt(encrypted)
+    val decrypted = encryptionUtils.decrypt(encrypted)
 
-        println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
-    }
+    println(decryptedPass.toString(), Charsets.UTF_8) // outputs "sample data"
 }
 ```
 
@@ -140,6 +158,6 @@ encryption/decryption process.
 #### Utilities
 
 | Method    | Description                                                                 |
-|-----------|-----------------------------------------------------------------------------|
+| --------- | --------------------------------------------------------------------------- |
 | `extract` | Get the encryption details from an encrypted data encrypted using kipher.   |
 | `concat`  | Concatenates the data, iv, and aad (if applicable) into a single ByteArray. |
