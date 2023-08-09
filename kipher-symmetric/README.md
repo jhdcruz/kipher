@@ -11,7 +11,7 @@ Library for data encryption using symmetric encryption algorithms.
 ### Gradle
 
 ```kotlin
-implementation("io.github.jhdcruz:kipher-digest:$version")
+implementation("io.github.jhdcruz:kipher-symmetric:$version")
 ```
 
 ### Maven
