@@ -1,6 +1,6 @@
 version: 0.1
 cli:
-    version: 1.13.0
+    version: 1.14.0
 
 plugins:
     sources:
@@ -13,10 +13,10 @@ lint:
         - prettier
         - shellcheck
     enabled:
-        - checkov@2.3.361
+        - checkov@2.4.2
         - trivy@0.44.1
-        - trufflehog@3.47.0
-        - renovate@36.42.1
+        - trufflehog@3.48.0
+        - renovate@36.52.0
         - yamllint@1.32.0
         - shfmt@3.6.0
         - gitleaks@8.17.0
