@@ -23,7 +23,7 @@ jobs:
       check: ${{ steps.check.outputs.record }}
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Check if module needs to be recorded
         id: check
@@ -49,7 +49,7 @@ jobs:
       pull-requests: write
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

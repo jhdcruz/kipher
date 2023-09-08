@@ -22,7 +22,7 @@ jobs:
       module_name: ${{ steps.module.outputs.module_name }}
       version: ${{ steps.tag.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Set up JDK ${{ env.JDK_VERSION }}
         uses: actions/setup-java@v3
