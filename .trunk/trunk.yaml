@@ -15,8 +15,8 @@ lint:
     enabled:
         - checkov@2.4.9
         - trivy@0.45.0
-        - trufflehog@3.54.3
-        - renovate@36.88.0
+        - trufflehog@3.56.0
+        - renovate@36.93.7
         - yamllint@1.32.0
         - shfmt@3.6.0
         - gitleaks@8.18.0
