@@ -1,5 +1,5 @@
 [versions]
-annotations = "24.0.1"
+annotations = "24.1.0"
 bin-compat = "0.13.2"
 bouncycastle = "1.77"
 detekt = "1.23.3"
