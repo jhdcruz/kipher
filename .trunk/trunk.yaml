@@ -5,7 +5,7 @@ cli:
 plugins:
     sources:
         - id: trunk
-          ref: v1.2.6
+          ref: v1.3.0
           uri: https://github.com/trunk-io/plugins
 lint:
     disabled:
@@ -13,13 +13,13 @@ lint:
         - prettier
         - shellcheck
     enabled:
-        - checkov@3.0.38
+        - checkov@3.1.9
         - trivy@0.47.0
-        - trufflehog@3.62.1
+        - trufflehog@3.63.2-rc0
         - renovate@37.8.1
         - yamllint@1.33.0
         - shfmt@3.6.0
-        - gitleaks@8.18.0
+        - gitleaks@8.18.1
         - taplo@0.8.1
         - ktlint@1.0.1
         - git-diff-check
