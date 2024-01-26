@@ -1,12 +1,7 @@
-"Module | AES":
-  - kipher-aes/**/*
-  - kipher-aes-compat/**/*
+Module | Symmetric:
+  - kipher-symmetric/**/*
 
-"Module | RSA":
-  - kipher-rsa/**/*
-  - kipher-rsa-compat/**/*
-
-"Module | Gradle":
+Module | Gradle:
   - gradle-scripts/**/*
   - ./**/*.gradle.kts
 
