@@ -13,10 +13,10 @@ lint:
         - prettier
         - shellcheck
     enabled:
-        - checkov@3.1.67
+        - checkov@3.1.70
         - trivy@0.48.3
-        - trufflehog@3.63.10
-        - renovate@37.140.5
+        - trufflehog@3.64.0
+        - renovate@37.152.1
         - yamllint@1.33.0
         - shfmt@3.6.0
         - gitleaks@8.18.1
