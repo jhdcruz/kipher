@@ -1,6 +1,6 @@
 [versions]
 annotations = "24.1.0"
-bin-compat = "0.13.2"
+bin-compat = "0.14.0"
 bouncycastle = "1.77"
 detekt = "1.23.4"
 dokka = "1.9.10"
